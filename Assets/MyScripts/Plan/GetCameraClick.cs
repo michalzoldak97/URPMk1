@@ -1,0 +1,43 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace U1
+{
+    public class GetCameraClick : MonoBehaviour
+    {
+        Ray ray;
+        RaycastHit hit;
+        Camera myCamera;
+        [SerializeField] LayerMask clickableLayer;
+        void Start()
+        {
+            myCamera = Camera.main;
+        }
+
+        /*void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                CheckClick();
+            }
+        }*/
+        public Vector3 CheckClick()
+        {
+            ray = myCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, clickableLayer))
+            {
+                if (clickableLayer == (clickableLayer | (1 << (hit.transform.gameObject.layer))))
+                {
+                    Debug.Log(hit.point);
+                    return hit.point;
+                }
+                else
+                    return Vector3.zero;
+            }
+            return Vector3.zero;
+        }
+    }
+}
+
+
