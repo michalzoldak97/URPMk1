@@ -14,7 +14,6 @@ namespace U1
         {
             dmgMaster = GetComponent<DamageMaster>();
         }
-
         void Start()
         {
             SetInit();
