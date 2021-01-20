@@ -1,0 +1,9 @@
+d: //"change drive to d"
+git status
+git remote -v //"verify remote repo"
+git add <filename>
+git commit -m <"comment"> //"commit localy"
+git push -u origin master //"push to remote master branch"
+git fetch origin master //"fetch changes from remote master branch to local"
+git merge origin/master //"merge master branches"
+git pull origin master //"fetch and merge for master branches"
