@@ -346,5 +346,3 @@ healthchecksdb
 /Temp
 /UserSettings
 /.collabignore
-*.csproj
-/URPMk1.sln
