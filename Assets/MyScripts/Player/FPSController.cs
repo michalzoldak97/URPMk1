@@ -31,28 +31,16 @@ namespace U1
 
         [SerializeField] private Camera m_Camera;
         [SerializeField] float mouseSensivity = 2f;
-        private float currentAxisX;
-        private float currentAxisY;
-        private float verticalLookRotation;
-        private float horizontal;
-        private float vertical;
-        private float speed = 0;
+        private float currentAxisX, currentAxisY, verticalLookRotation;
         private float m_StepCycle;
         private float m_NextStep;
-        private float characterRadius;
-        RaycastHit hitInfo;
-        private bool m_Jump;
-        private bool m_PreviouslyGrounded;
-        private bool m_Jumping;
+        private static float characterRadius;
+        private bool m_Jump, m_Jumping, m_PreviouslyGrounded;
         private bool hasToFreeze;
         private Vector2 m_Input = Vector2.zero;
         private Vector3 m_MoveDir = Vector3.zero;
         private Vector3 m_OriginalCameraPosition;
-        private Vector3 myPosition;
-        private Vector3 desiredMove = Vector3.zero;
-        private Vector3 newCameraPosition = Vector3.zero;
-        private Transform myTransform;
-        private Transform myCameraTransform;
+        private Transform myTransform, myCameraTransform;
         private CharacterController m_CharacterController;
         private CollisionFlags m_CollisionFlags;
         private AudioSource m_AudioSource;
@@ -67,7 +55,6 @@ namespace U1
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
             myTransform = transform;
-            myPosition = myTransform.position;
             myCameraTransform = m_Camera.transform;
             characterRadius = m_CharacterController.radius;
             m_HeadBob.Setup(m_Camera, m_StepInterval);
@@ -117,19 +104,19 @@ namespace U1
 
         private void Move()
         {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxis("Vertical");
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
-            speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
+            float speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
             m_Input.x = horizontal;
             m_Input.y = vertical;
             if (m_Input.sqrMagnitude > 1)
             {
                 m_Input.Normalize();
             }
-            desiredMove = myTransform.forward * vertical + myTransform.right * horizontal;
-
-            Physics.SphereCast(myPosition, characterRadius, Vector3.down, out hitInfo,
+            Vector3 desiredMove = myTransform.forward * vertical + myTransform.right * horizontal;
+            RaycastHit hitInfo;
+            Physics.SphereCast(myTransform.position, characterRadius, Vector3.down, out hitInfo,
                                m_CharacterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
@@ -161,6 +148,7 @@ namespace U1
             {
                 return;
             }
+            Vector3 newCameraPosition;
             if (m_CharacterController.velocity.magnitude > 0 && m_CharacterController.isGrounded)
             {
                 myCameraTransform.localPosition =

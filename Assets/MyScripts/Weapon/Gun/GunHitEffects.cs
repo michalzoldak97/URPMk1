@@ -8,7 +8,6 @@ namespace U1
     {
         private GunMaster gunMaster;
         private Transform myTransform;
-        private int randomNum;
         ObjectPooler objectPooler;
         Quaternion quatAngle;
         [SerializeField] LayerMask metalLayer;
@@ -73,6 +72,7 @@ namespace U1
         }
         void PlayHitSound(int type, RaycastHit hitPosition)
         {
+            int randomNum;
             switch (type)
             {
                 case (0):

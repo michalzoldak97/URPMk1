@@ -6,20 +6,12 @@ namespace U1
 {
     public class AIShootGun : MonoBehaviour
     {
-        [SerializeField] Transform gunTransform;
+        [SerializeField] private Transform gunTransform;
         private Transform myTransform;
-        private Vector3 myPosition;
-        private Vector3 myDirection;
         private AIMaster aMaster;
         private AIEnemy_1 aSettings;
-        private float step = 0.1f;
-        private float move = 0.5f;
-        private Vector3 lookAtRotation;
+        private float step = 0.1f, move = 0.5f;
         private Vector3 rotationMaskY = new Vector3(0f, 1f, 0f);
-        private Quaternion finalRot;
-        Vector3 targetPosition;
-        Vector3 dirFromAtoB;
-        float dotProd;
         void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
@@ -52,14 +44,14 @@ namespace U1
         }
         bool CheckRotationTowards(Transform target)
         {
-            targetPosition = target.position;
-            myPosition = gunTransform.position;//myTransform.position;
-            myDirection = gunTransform.forward;//myTransform.forward;
+            Vector3 targetPosition = target.position;
+            Vector3 myPosition = gunTransform.position;//myTransform.position;
+            Vector3 myDirection = gunTransform.forward;//myTransform.forward;
             targetPosition.y = 1;
             myPosition.y = 1;
             myDirection.y = 1;
-            dirFromAtoB = (targetPosition - myPosition).normalized;
-            dotProd = Vector3.Dot(dirFromAtoB, myDirection);
+            Vector3 dirFromAtoB = (targetPosition - myPosition).normalized;
+            float dotProd = Vector3.Dot(dirFromAtoB, myDirection);
             //Debug.Log("dotProd " + dotProd);
             if (dotProd > 0.99)
             {
@@ -83,6 +75,8 @@ namespace U1
             //Debug.Log("Step: " + step);
             //lookAtRotation = Quaternion.LookRotation(target.position - gunTransform.position).eulerAngles;
             //finalRot = Quaternion.Euler(Vector3.Scale(lookAtRotation, rotationMaskY));
+            Vector3 lookAtRotation;
+            Quaternion finalRot;
             for (int i = 0; i < 15; i++)
             {
                 yield return new WaitForSecondsRealtime(step);
