@@ -339,3 +339,12 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /Assets/MyAssets
+/Assets/Standard Assets
+/Library
+/MemoryCaptures
+/ProjectSettings
+/Temp
+/UserSettings
+/.collabignore
+*.csproj
+/URPMk1.sln
