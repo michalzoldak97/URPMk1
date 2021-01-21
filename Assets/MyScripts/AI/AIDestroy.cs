@@ -13,6 +13,7 @@ namespace U1
         void SetInit()
         {
             dmgMaster = GetComponent<DamageMaster>();
+            Debug.Log("Branch 2");
         }
         void Start()
         {
