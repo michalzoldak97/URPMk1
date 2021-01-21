@@ -41,16 +41,18 @@ namespace U1
         {
             for (int i = 0; i < aSettings.myEnemyIDs.Length; i++)
             {
-                if (GEC.GetEnemyList(aSettings.myEnemyIDs[i]) != null)
+                List<Transform> enemyList = GEC.GetEnemyList(aSettings.myEnemyIDs[i]);
+                int enemyListCount = enemyList.Count;
+                if (enemyList != null)
                 {
-                    for (int j = 0; j < GEC.GetEnemyList(aSettings.myEnemyIDs[i]).Count; j++)
+                    for (int j = 0; j < enemyListCount; j++)
                     {
-                        betweenMeAndEnemy = GEC.GetEnemyList(aSettings.myEnemyIDs[i])[j].position - myTransform.position;
+                        betweenMeAndEnemy = enemyList[j].position - myTransform.position;
                         if (betweenMeAndEnemy.sqrMagnitude < aSettings.sightRange * aSettings.sightRange)
                         {
                             //Debug.Log("Is in range: " + GEC.GetEnemyList(aSettings.myEnemyIDs[i])[j].name + " at distance " + betweenMeAndEnemy.sqrMagnitude);
                             float distanceToCheck = betweenMeAndEnemy.sqrMagnitude;
-                            targetToCheck = GEC.GetEnemyList(aSettings.myEnemyIDs[i])[j];
+                            targetToCheck = enemyList[j];
                             if (distanceToCheck < minDistance)
                             {
                                 if (CheckVisibility(distanceToCheck))
@@ -113,10 +115,10 @@ namespace U1
             bool toReturn = false;
             float x, y, z;
 
-            Vector3 v3Corner = Vector3.zero;
             Vector3 v3Center;
             Vector3 v3Extents;
             Vector3 myPosition = myTransform.position;
+            Vector3 v3Corner = myPosition;
             v3Center = bounds.center;
             v3Extents = bounds.extents;
             x = v3Extents.x; y = v3Extents.y - 0.1f; z = v3Extents.z - 0.1f; 

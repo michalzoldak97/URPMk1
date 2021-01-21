@@ -41,7 +41,7 @@ namespace U1
                 weaponTransforms[i].rotation = Quaternion.Slerp(weaponTransforms[i].rotation, lookAtRotation, move);
                 baseAimPosition[a] = baseAimPosition[i * 2];
                 //weaponTransforms[i].rotation = Quaternion.Euler(weaponTransforms[i].rotation.x, 0f, weaponTransforms[i].rotation.z);
-                Debug.DrawRay(weaponTransforms[i].position, weaponTransforms[i].forward * 20, Color.red, 1);
+                //Debug.DrawRay(weaponTransforms[i].position, weaponTransforms[i].forward * 20, Color.red, 1);
             }
         }
         void AssignWeaponPositions()

@@ -72,18 +72,11 @@ namespace U1
         }
         IEnumerator RotateTowardsObj(Transform target)
         {
-            //Debug.Log("Step: " + step);
-            //lookAtRotation = Quaternion.LookRotation(target.position - gunTransform.position).eulerAngles;
-            //finalRot = Quaternion.Euler(Vector3.Scale(lookAtRotation, rotationMaskY));
-            Vector3 lookAtRotation;
-            Quaternion finalRot;
             for (int i = 0; i < 15; i++)
             {
                 yield return new WaitForSecondsRealtime(step);
                 //Debug.Log("Move: " + move + " ii " + i);
-                lookAtRotation = Quaternion.LookRotation(target.position - gunTransform.position).eulerAngles;
-                finalRot = Quaternion.Euler(Vector3.Scale(lookAtRotation, rotationMaskY));
-                myTransform.rotation = Quaternion.Slerp(gunTransform.rotation, finalRot, move);
+                myTransform.rotation = Quaternion.Slerp(gunTransform.rotation, Quaternion.Euler(Vector3.Scale(Quaternion.LookRotation(target.position - gunTransform.position).eulerAngles, rotationMaskY)), move);
             }
             move = 0.5f;
         }

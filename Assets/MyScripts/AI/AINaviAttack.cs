@@ -154,9 +154,7 @@ namespace U1
         }
         float DistanceToDestination()
         {
-            float dist = (myDestination - myTransform.position).sqrMagnitude;
-            //Debug.Log("Distance to dest: " + dist);
-            return dist;
+            return (myDestination - myTransform.position).sqrMagnitude;
         }
     }
 }
