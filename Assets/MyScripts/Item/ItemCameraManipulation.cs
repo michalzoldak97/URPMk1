@@ -9,7 +9,6 @@ namespace U1
         private ItemMaster itemMaster;
         private PlayerInventory playerInventory;
         private Collider myCollider;
-        private Rigidbody myRb;
         private bool isPickedUp;
         void SetInit()
         {
@@ -48,28 +47,15 @@ namespace U1
             yield return new WaitForEndOfFrame();
             myCollider.enabled = true;
             myCollider.isTrigger = true;
-            if(GetComponent<Rigidbody>()==null)
-                gameObject.AddComponent<Rigidbody>();
-            myRb = GetComponent<Rigidbody>();
-            myRb.isKinematic = true;
         }
         void FinishCheck()
         {
-            Destroy(myRb);
             myCollider.isTrigger = false;
             isPickedUp = false;
         }
-        /*private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.layer != 8)
-            {
-                Debug.Log("Entered other  " + other);
-                playerInventory.CameraOnOff(true, false);
-            }
-        }*/
         private void OnTriggerStay(Collider other)
         {
-            if (/*other.gameObject.layer != 8 &&*/ playerInventory.shouldCheckCamera)
+            if (playerInventory.shouldCheckCamera)
             {
                 //Debug.Log("Entered other  " + other);
                 playerInventory.CameraOnOff(true, false);
@@ -77,7 +63,7 @@ namespace U1
         }
         private void OnTriggerExit(Collider other)
         {
-            if (/*other.gameObject.layer != 8 &&*/ playerInventory.shouldCheckCamera)
+            if (playerInventory.shouldCheckCamera)
             {
                 //Debug.Log("Exit other  " + other);
                 playerInventory.CameraOnOff(false, false);

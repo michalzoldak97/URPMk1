@@ -4,19 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace U1
 {
-    public class RB
-    {
-        public bool isRbKinematic;
-        public float rbMass;
-    }
     public class ItemPickUp : MonoBehaviour
     {
         private ItemMaster itemMaster;
         private Transform myTransform;
-        private Rigidbody[] myRigidbodies;
-        private Collider[] myColliders;
-        private Collider[] childColliders;
-        private RB[] rbContainer;
         void Start()
         {
             myTransform = transform;
@@ -26,106 +17,67 @@ namespace U1
         {
             itemMaster = GetComponent<ItemMaster>();
             itemMaster.EventPickupRequested += PickupAction;
-            itemMaster.EventObjectThrow += RestoreCollidersRB;
+            itemMaster.EventObjectThrow += EnableRigidbodiesColliders;
         }
 
         private void OnDisable()
         {
             itemMaster.EventPickupRequested -= PickupAction;
-            itemMaster.EventObjectThrow -= RestoreCollidersRB;
+            itemMaster.EventObjectThrow -= EnableRigidbodiesColliders;
         }
 
         void PickupAction(Transform tran)
         {
-            GetRigidbodies();
-            DeactivateAllRigidbodies();
+            DisableRigidbodies();
             myTransform.SetParent(tran);
             tran.gameObject.GetComponentInParent<PlayerMaster>().CallEventInventoryChanged();
             if (!itemMaster.shouldStayActive)
             {
-                GetColliders();
+                DisableColliders();
                 itemMaster.CallEventObjectPickup();
                 gameObject.SetActive(false);
             }
             else
                 itemMaster.CallEventObjectPickup();
         }
-
-        void GetRigidbodies()
+        void DisableRigidbodies()
         {
-            myRigidbodies = GetComponents<Rigidbody>();
-            rbContainer = new RB[myRigidbodies.Length];
-            for (int i = 0; i < rbContainer.Length; i++)
+            foreach(Rigidbody rb in GetComponents<Rigidbody>())
             {
-                rbContainer[i] = new RB();
-            }
-            if (rbContainer != null && myRigidbodies.Length>0)
-            {
-                //Debug.Log("Not null" + rbContainer[0].rbMass);
-                for (int i = 0; i < myRigidbodies.Length; i++)
-                {
-                    rbContainer[i].rbMass = myRigidbodies[i].mass;
-                    rbContainer[i].isRbKinematic = myRigidbodies[i].isKinematic;
-                }
+                rb.isKinematic = true;
+                rb.useGravity = false;
             }
         }
-        void DeactivateAllRigidbodies()
+        void DisableColliders()
         {
-            for (int i = 0; i < myRigidbodies.Length; i++)
+            foreach (Collider col in GetComponents<Collider>())
             {
-                Destroy(myRigidbodies[i]);
+                col.enabled = false;
+            }
+            foreach (Collider childCol in GetComponentsInChildren<Collider>())
+            {
+                childCol.enabled = false;
             }
         }
-        void GetColliders()
+        void EnableRigidbodiesColliders()
         {
-            myColliders = GetComponents<Collider>();
-            childColliders = GetComponentsInChildren<Collider>();
-            for (int i = 0; i < myColliders.Length; i++)
+            foreach (Rigidbody rb in GetComponents<Rigidbody>())
             {
-                myColliders[i].enabled = false;
+                rb.isKinematic = false;
+                rb.useGravity = true;
             }
-            for (int i = 0; i < childColliders.Length; i++)
+            foreach (Collider col in GetComponents<Collider>())
             {
-                childColliders[i].enabled = false;
+                col.enabled = true;
             }
-        }
-        void RestoreCollidersRB()
-        {
-            if (myColliders != null && myColliders.Length > 0)
+            foreach (Collider childCol in GetComponentsInChildren<Collider>())
             {
-                for (int i = 0; i < myColliders.Length; i++)
-                {
-                    myColliders[i].enabled = true;
-                }
-            }
-            if (childColliders != null && childColliders.Length > 0)
-            {
-                for (int i = 0; i < childColliders.Length; i++)
-                {
-                    childColliders[i].enabled = true;
-                }
-            }
-            if(rbContainer != null && rbContainer.Length>0)
-            {
-                if (GetComponent<Rigidbody>() != null)
-                    DestroyImmediate(GetComponent<Rigidbody>());
-                for (int i = 0; i < rbContainer.Length; i++)
-                {
-                    Rigidbody toAdd = gameObject.AddComponent<Rigidbody>();
-                    toAdd.isKinematic = rbContainer[i].isRbKinematic;
-                    toAdd.mass = rbContainer[i].rbMass;
-                }
-                Array.Clear(rbContainer,0,0);
+                childCol.enabled = true;
             }
         }
         public float GetMass()
         {
-            float currMass = 0;
-            for (int i = 0; i < rbContainer.Length; i++)
-            {
-                currMass += rbContainer[i].rbMass;
-            }
-            return currMass;
+            return GetComponent<Rigidbody>().mass;
         }
     }
 }
