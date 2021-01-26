@@ -20,6 +20,7 @@ namespace U1
         [SerializeField] List<int> planScenesIndex = new List<int>();
         [SerializeField] List<int> gameScenesIndex = new List<int>();
         public int maxLevel { get; private set; }
+        public int maxAllowLevel { get; private set; }
         public int currLevel { get; private set; }
         public enum SceneType
         {
@@ -71,6 +72,7 @@ namespace U1
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
+            maxAllowLevel = 1;
             //test 
             maxLevel = 5;
         }
@@ -147,6 +149,13 @@ namespace U1
                 currLevel = toSet;
             else
                 Debug.LogError("Curr level improper value");
+        }
+        public void IncreaseAllowedLevel()
+        {
+            if(maxAllowLevel < maxLevel)
+            {
+                maxAllowLevel++;
+            }
         }
         public PlaceableObject[] GetPlaceableObjects()
         {

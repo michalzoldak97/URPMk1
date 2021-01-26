@@ -79,10 +79,11 @@ namespace U1
             {
                 tasks[sceneManager.currLevel - 1].SetCompletedTrue(currentTask);
                 taskDoneButton.GetComponent<Image>().color = Color.green;
-                if (GetNumCompleted() == tasks[sceneManager.currLevel - 1].GetArrayLength())
+                if (GetNumCompleted() == tasks[sceneManager.currLevel - 1].GetArrayLength() && sceneManager.currLevel != sceneManager.maxLevel)
                 {
                     nextLevelButton.SetActive(true);
                     nextLevelButton.GetComponentInChildren<TMP_Text>().text = "Next Level (" + (sceneManager.currLevel + 1).ToString() + ")";
+                    sceneManager.IncreaseAllowedLevel();
                 }
                 StartCoroutine(OnOffElement(goodJobButton));
                 ResetInputField();
@@ -99,6 +100,13 @@ namespace U1
                 ResetInputField();
             }
         }
-
+        public void LoadNextLevel()
+        {
+            sceneManager.ChangeScene(0);
+        }
+        public void LoadNextScene()
+        {
+            sceneManager.ChangeScene(2);
+        }
     }
 }

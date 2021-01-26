@@ -12,12 +12,10 @@ namespace U1
         [SerializeField] Transform levelButtonsTransform;
         [SerializeField] GameObject canvasLevel;
         private SceneStartManager sceneManager;
-        private int maxLevel;
 
         private void Start()
         {
             sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
-            maxLevel = sceneManager.maxLevel;
             SetupUI();
         }
         public void LoadLevelSelection()
@@ -31,7 +29,7 @@ namespace U1
         }
         void SetupUI()
         {
-            for (int i = 0; i < maxLevel; i++)
+            for (int i = 0; i < sceneManager.maxAllowLevel; i++)
             {
                 int x = i+1;
                 GameObject objUI = Instantiate(levelButton, levelButtonsTransform);
