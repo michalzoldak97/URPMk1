@@ -61,7 +61,6 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
     <Compile Include="Assets\MyScripts\AI\AIEnemy_1.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerCheckGrounded.cs" />
-    <Compile Include="Assets\MyScripts\AI\AIWeapon.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
@@ -120,7 +119,9 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\AI\AIWeaponRestricted.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeapon.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeaponRestricted.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIRotateMultipleWeapon.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
