@@ -79,6 +79,7 @@
     <Compile Include="Assets\MyScripts\Player\PlayerMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMaster.cs" />
     <Compile Include="Assets\MyScripts\Other\SoundsContainerSO.cs" />
+    <Compile Include="Assets\MyScripts\Other\TestListMaterials.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\NPCGunSO.cs" />
     <Compile Include="Assets\MyScripts\AI\TestRotation.cs" />
     <Compile Include="Assets\MyScripts\Damagable\ColorDamagable.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Other\TestListMaterials.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIWeaponRestricted.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

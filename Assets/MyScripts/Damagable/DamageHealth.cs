@@ -36,7 +36,6 @@ namespace U1
         {
             if(penetration > armor && currHealth > 0)
             {
-                //Debug.Log(transform.name + "  damg: " + damage);
                 currHealth -= damage;
                 if(currHealth<1)
                 {
@@ -56,7 +55,6 @@ namespace U1
         {
             if (penetration > armor && currHealth > 0)
             {
-                Debug.Log(transform.name + "  damg: " + damage);
                 currHealth -= damage;
                 if (currHealth < 1)
                 {
@@ -71,7 +69,6 @@ namespace U1
             else if (currHealth > 0)
             {
                 realDamage = (penetration / (armor + penetration)) * damage;
-                Debug.Log(transform.name + "  damg: " + damage);
                 currHealth -= realDamage;
                 if (currHealth < 1)
                 {

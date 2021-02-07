@@ -17,7 +17,7 @@ public class TestListMaterials : MonoBehaviour
         {
             if(obj.GetComponent<Renderer>() != null)
             {
-                Debug.Log(obj.GetComponent<Renderer>().material.name + "\n");
+                //Debug.Log(obj.GetComponent<Renderer>().material.name + "\n");
             }
         }
     }

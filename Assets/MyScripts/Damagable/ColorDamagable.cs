@@ -8,7 +8,7 @@ namespace U1
     {
         private DamageMaster dmgMaster;
         private Renderer myRenderer;
-        private float health = 100;
+        //private float health = 100;
         private void Start()
         {
             myRenderer = GetComponent<Renderer>();
@@ -25,12 +25,12 @@ namespace U1
         void ChangeColor(float a, float b)
         {
             myRenderer.material.color = Color.green;
-            health -= a;
+            /*health -= a;
             if (health < 0)
             {
                 Destroy(gameObject, Random.Range(8,12));
                 gameObject.SetActive(false);
-            }
+            }*/
         }
     }
 }
