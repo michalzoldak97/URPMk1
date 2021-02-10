@@ -40,7 +40,6 @@ namespace U1
                 canvas.SetActive(false);
             SetIsOnPlayer();
         }
-
         private void Update()
         {
             if(isOnPlayer)

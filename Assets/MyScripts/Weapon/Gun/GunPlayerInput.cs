@@ -17,9 +17,7 @@ namespace U1
         [SerializeField] float shootRate;
         [SerializeField] float aimSpeed;
         public BurstFireSetting myBurtsFire = new BurstFireSetting();
-        private float shootDelay;
-        private float nextCheck;
-        private float currFPSSpeed;
+        private float shootDelay, nextCheck, currFPSSpeed;
         private GunMaster gunMaster;
         private ItemMaster itemMaster;
         private PlayerMaster playerMaster;

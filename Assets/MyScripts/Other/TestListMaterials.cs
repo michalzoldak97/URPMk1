@@ -4,100 +4,89 @@ using UnityEngine;
 using System.Diagnostics;
 using System.Threading;
 
-public class TestListMaterials : MonoBehaviour
+namespace U1
 {
-    // Start is called before the first frame update
-
-    [SerializeField] Transform targetTransform;
-
-    // multi part
-
-    [SerializeField] Transform[] weaponTransforms;
-    private Transform myTransform;
-    private Vector3[] baseAimPosition;
-    private Quaternion lookAtRotation;
-
-    //single part
-
-    [SerializeField] protected Transform weaponTransform;
-
-    void AssignWeaponPositions()
+    public class TestListMaterials : MonoBehaviour
     {
-        baseAimPosition = new Vector3[weaponTransforms.Length * 2];
-        for (int i = 0; i < weaponTransforms.Length; i++)
+        // Start is called before the first frame update
+        [SerializeField] private Transform targetTransform;
+        private float nextCheck;
+        bool isOnPlayer = true;
+
+        Vector3 toSet;
+        // multi part
+
+        //single part
+
+        void Start()
         {
-            baseAimPosition[i * 2] = weaponTransforms[i].localPosition;
+            StartCoroutine(StartTest());
+            //multi part
+            toSet = transform.position;
         }
-    }
-    void Start()
-    {
-        StartCoroutine(StartTest());
-        //multi part
-        myTransform = transform;
-        AssignWeaponPositions();
-    }
 
-    IEnumerator StartTest()
-    {
-        yield return new WaitForSecondsRealtime(3);
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        stopwatch.Stop();
-        //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
-        double avElapsedMsM = 0;
-        double avElapsedTcsM = 0;
-        for (int i = 0; i < 5; i++)
+        IEnumerator StartTest()
         {
-            stopwatch.Reset();
-            stopwatch.Start();
-            TestSingle(targetTransform);//TestMulti(targetTransform);
+            yield return new WaitForSecondsRealtime(3);
+            Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Stop();
-            //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
-            avElapsedMsM += stopwatch.ElapsedMilliseconds;
-            avElapsedTcsM += stopwatch.ElapsedTicks;
+            //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
+            double avElapsedMsM = 0;
+            double avElapsedTcsM = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                stopwatch.Reset();
+                stopwatch.Start();
+                //if(isMulti)
+                TestMulti(targetTransform);//TestMulti(targetTransform);
+                stopwatch.Stop();
+                //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
+                avElapsedMsM += stopwatch.ElapsedMilliseconds;
+                avElapsedTcsM += stopwatch.ElapsedTicks;
+            }
+            UnityEngine.Debug.Log("AVG S :-------Time elapsed multi : " + avElapsedMsM / 5 + "\nTime elapsed multi tics: " + avElapsedTcsM / 5);
         }
-        UnityEngine.Debug.Log("AVG S :-------Time elapsed multi : " + avElapsedMsM / 5 + "\nTime elapsed multi tics: " + avElapsedTcsM / 5);
-    }
-    void TestMulti(Transform target)
-    {
-        for (int i = 0; i < 10; i++)
+        void TestMulti(Transform target)
         {
-            PerformMultiAction(target);
+            for (int i = 0; i < 10; i++)
+            {
+                PerformMultiAction(target);
+            }
+            for (int i = 0; i < 100000; i++)
+            {
+                PerformMultiAction(target);
+            }
         }
-        for (int i = 0; i < 100000; i++)
+        void TestSingle(Transform target)
         {
-            PerformMultiAction(target);
+            for (int i = 0; i < 10; i++)
+            {
+                PerformSingleAction(target);
+            }
+            for (int i = 0; i < 100000; i++)
+            {
+                PerformSingleAction(target);
+            }
         }
-    }
-    void TestSingle(Transform target)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            PerformSingleAction(target);
-        }
-        for (int i = 0; i < 100000; i++)
-        {
-            PerformSingleAction(target);
-        }
-    }
 
-    void PerformMultiAction(Transform target)
-    {
-        Vector3 targetPos = target.position;
-        for (int i = 0; i < weaponTransforms.Length; i++)
+        void PerformMultiAction(Transform target)
         {
-            int a = (i * 2) + 1;
-            baseAimPosition[a] = weaponTransforms[i].position + weaponTransforms[i].forward * (Vector3.Distance(myTransform.position, targetPos));
-            targetPos.x = baseAimPosition[a].x; targetPos.z = baseAimPosition[a].z;
-            lookAtRotation = Quaternion.LookRotation((targetPos - weaponTransforms[i].position).normalized);
-            weaponTransforms[i].rotation = Quaternion.Slerp(weaponTransforms[i].rotation, lookAtRotation, 5);
-            baseAimPosition[a] = baseAimPosition[i * 2];
+            Vector3 v3Center = Vector3.zero;
+            float x = 0.5f;
+            toSet.Set(v3Center.x + x, v3Center.y + 0.1f, v3Center.z);
+        }
+        void PerformSingleAction(Transform target)
+        {
+            Vector3 v3Center = Vector3.zero;
+            float x = 0.5f;
+            //toSet.x = v3Center.x + x; toSet.y = v3Center.y + 0.1f; toSet.z = v3Center.z;
+            toSet = SetVector3(toSet, v3Center.x + x, toSet.y = v3Center.y + 0.1f, toSet.z = v3Center.z);
+        }
+
+        private Vector3 SetVector3(Vector3 toSet, float _x, float _y, float _z)
+        {
+            toSet.x = _x; toSet.y = _y; toSet.z = _z;
+            return toSet;
         }
     }
-    void PerformSingleAction(Transform target)
-    {
-        Quaternion testRotation = Quaternion.LookRotation(targetTransform.position - weaponTransform.position, Vector3.up);
-        testRotation.y = 0; testRotation.z = 0;
-        weaponTransform.localRotation = testRotation;
-    }
-
 }

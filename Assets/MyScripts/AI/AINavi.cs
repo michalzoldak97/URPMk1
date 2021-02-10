@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace U1
 {
-    public class AINavi : MonoBehaviour
+    public class AINavi : UpdateBehaviour
     {
         private AIEnemy_1 aSettings;
         private NavMeshAgent myNevMesh;
@@ -23,7 +23,7 @@ namespace U1
             SetInit();
             myNevMesh.SetDestination(aMaster.GetWaypoints()[counter].position);
         }
-        void Update()
+        public override void GetUpdate()
         {
             if(Time.time > nextCheck)
             {

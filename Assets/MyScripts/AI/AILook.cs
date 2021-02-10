@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace U1
 {
-    public class AILook : MonoBehaviour
+    public class AILook : UpdateBehaviour
     {
         private AIEnemy_1 aSettings;
         private float nextCheck;
@@ -29,7 +29,7 @@ namespace U1
             checkRate = Random.Range(aSettings.baseCheckRate - 0.2f, aSettings.baseCheckRate + 0.2f);
         }
 
-        void Update()
+        public override void GetUpdate()
         {
             if(Time.time>nextCheck)
             {
@@ -112,7 +112,6 @@ namespace U1
         }
         bool CheckCorners(Bounds bounds, float sightRange, LayerMask sightlayers, RaycastHit hit)
         {
-            bool toReturn = false;
             float x, y, z;
 
             Vector3 v3Center;
@@ -169,7 +168,7 @@ namespace U1
                     return true;
                 }
             }
-            return toReturn;
+            return false;
         }
 
         public float GetCheckRate()

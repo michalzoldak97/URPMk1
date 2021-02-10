@@ -49,14 +49,8 @@ namespace U1
         IEnumerator AtBegin()
         {
             yield return new WaitForSecondsRealtime(0.5f);
-            if (transform.parent == null)
-            {
+            if (transform.parent == null || !transform.parent.CompareTag("Player"))
                 OffMono();
-            }
-            else if (!transform.parent.CompareTag("Player"))
-            {
-                OffMono();
-            }
         }
     }
 }
