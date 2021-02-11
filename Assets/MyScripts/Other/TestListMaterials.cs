@@ -10,19 +10,10 @@ namespace U1
     {
         // Start is called before the first frame update
         [SerializeField] private Transform targetTransform;
-        private float nextCheck;
-        bool isOnPlayer = true;
-
-        Vector3 toSet;
-        // multi part
-
-        //single part
 
         void Start()
         {
             StartCoroutine(StartTest());
-            //multi part
-            toSet = transform.position;
         }
 
         IEnumerator StartTest()
@@ -33,18 +24,18 @@ namespace U1
             //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
             double avElapsedMsM = 0;
             double avElapsedTcsM = 0;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 40; i++)
             {
                 stopwatch.Reset();
                 stopwatch.Start();
                 //if(isMulti)
-                TestMulti(targetTransform);//TestMulti(targetTransform);
+                TestSingle(targetTransform);//TestMulti(targetTransform);
                 stopwatch.Stop();
                 //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
                 avElapsedMsM += stopwatch.ElapsedMilliseconds;
                 avElapsedTcsM += stopwatch.ElapsedTicks;
             }
-            UnityEngine.Debug.Log("AVG S :-------Time elapsed multi : " + avElapsedMsM / 5 + "\nTime elapsed multi tics: " + avElapsedTcsM / 5);
+            UnityEngine.Debug.Log("AVG S :-------Time elapsed multi : " + avElapsedMsM / 40 + "\nTime elapsed multi tics: " + avElapsedTcsM / 40);
         }
         void TestMulti(Transform target)
         {
@@ -71,22 +62,19 @@ namespace U1
 
         void PerformMultiAction(Transform target)
         {
-            Vector3 v3Center = Vector3.zero;
-            float x = 0.5f;
-            toSet.Set(v3Center.x + x, v3Center.y + 0.1f, v3Center.z);
+            Vector3 v3Center = transform.position;
+
+            Vector3 v3Corner = Vector3.zero;
+
+            v3Corner.x = v3Center.x; v3Corner.y = v3Center.y + 0.1f; v3Corner.z = -v3Center.z;
         }
         void PerformSingleAction(Transform target)
         {
-            Vector3 v3Center = Vector3.zero;
-            float x = 0.5f;
-            //toSet.x = v3Center.x + x; toSet.y = v3Center.y + 0.1f; toSet.z = v3Center.z;
-            toSet = SetVector3(toSet, v3Center.x + x, toSet.y = v3Center.y + 0.1f, toSet.z = v3Center.z);
-        }
+            Vector3 v3Center = transform.position;
 
-        private Vector3 SetVector3(Vector3 toSet, float _x, float _y, float _z)
-        {
-            toSet.x = _x; toSet.y = _y; toSet.z = _z;
-            return toSet;
+            Vector3 v3Corner = Vector3.zero;
+
+            v3Corner.Set(v3Center.x, v3Center.y + 0.1f, -v3Center.z);
         }
     }
 }

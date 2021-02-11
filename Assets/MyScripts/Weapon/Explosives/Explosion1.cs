@@ -41,10 +41,6 @@ namespace U1
                     Debug.Log("Found " + hitColliders[i].name + " hit colider length: " + hitColliders.Length);
                     CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
                 }
-                /*else if (layersToDamage == (layersToDamage | (1 << (hitColliders[i].gameObject.layer))))
-                {
-
-                }*/
             }
             effectTransform.parent = null;
             effect.SetActive(true);
@@ -74,75 +70,62 @@ namespace U1
             //Debug.Log("CheckCorners");
             float x, y, z;
             Vector3 v3Corner = Vector3.zero;
-            Vector3 v3Center;
-            Vector3 v3Extents;
-
-            v3Center = bounds.center;
-            v3Extents = bounds.extents;
+            Vector3 v3Center = bounds.center;
+            Vector3 v3Extents = bounds.extents;
 
             x = v3Extents.x; y = v3Extents.y; z = v3Extents.z;
-            v3Corner.Set(v3Center.x, v3Center.y + y, v3Center.z);  // top middle 
+            v3Corner.x = v3Center.x; v3Corner.y = v3Center.y + y; v3Corner.z = v3Center.z;  // top middle 
             if (Physics.Raycast(myPosition, v3Corner - myPosition,out hit, radius*10, layersToAffect)) 
             {
-                //Debug.Log("Shootin Front top middle " + hit.transform.name + "   pos: " + hit.point);
                 if (hit.transform == targetTransform)
                 {
-                    //Debug.Log("Front top middle ");
                     ApplayForceAndDamage(targetTransform, myPosition);
                     return;
                 }
             }
-            v3Corner.Set(v3Center.x + x, v3Center.y, v3Center.z);  // right middle x
+            v3Corner.x = v3Center.x + x; v3Corner.y = v3Center.y; // right middle x
             if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, radius * 10, layersToAffect))
             {
                 //Debug.Log("Shootin right middle x " + hit.transform.name + "   pos: " + hit.point);
                 if (hit.transform == targetTransform)
                 {
-                    //Debug.Log("right middle x ");
                     ApplayForceAndDamage(targetTransform, myPosition);
                     return;
                 }
             }
-            v3Corner.Set(v3Center.x - x, v3Center.y, v3Center.z);  // left middle x
+            v3Corner.x = v3Center.x - x;  // left middle x
             if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, radius * 10, layersToAffect))
             {
                 //Debug.Log("Shootin left middle x " + hit.transform.name + "   pos: " + hit.point);
                 if (hit.transform == targetTransform)
                 {
-                    //Debug.Log("left middle x ");
                     ApplayForceAndDamage(targetTransform, myPosition);
                     return;
                 }
             }
-            v3Corner.Set(v3Center.x, v3Center.y, v3Center.z-z);  // right middle z
+            v3Corner.x = v3Center.x; v3Corner.z = v3Center.z-z;  // right middle z
             if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, radius * 10, layersToAffect))
             {
-                //Debug.Log("Shootinright middle z " + hit.transform.name + "   pos: " + hit.point);
                 if (hit.transform == targetTransform)
                 {
-                    //Debug.Log("right middle z ");
                     ApplayForceAndDamage(targetTransform, myPosition);
                     return;
                 }
             }
-            v3Corner.Set(v3Center.x, v3Center.y, v3Center.z + z);  // left middle z
+            v3Corner.z = v3Center.z + z;  // left middle z
             if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, radius * 10, layersToAffect))
             {
-                //Debug.Log("Shootin left middle z" + hit.transform.name + "   pos: " + hit.point);
                 if (hit.transform == targetTransform)
                 {
-                    //Debug.Log("left middle z ");
                     ApplayForceAndDamage(targetTransform, myPosition);
                     return;
                 }
             }
-            v3Corner.Set(v3Center.x, v3Center.y - y, v3Center.z);  // bottom middle
+            v3Corner.y = v3Center.y - y; v3Corner.z = v3Center.z;  // bottom middle
             if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, radius * 10, layersToAffect))
             {
-                //Debug.Log("Shootin Bottom middle " + hit.transform.name + "   pos: " + hit.point);
                 if (hit.transform == targetTransform)
                 {
-                    //Debug.Log("Bottom middle");
                     ApplayForceAndDamage(targetTransform, myPosition);
                     return;
                 }
