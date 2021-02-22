@@ -18,6 +18,7 @@ namespace U1
         void Start()
         {
             sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
+            LoadTaskStatuses();
             UpdateText();
             SetTask(0);
         }
@@ -77,7 +78,8 @@ namespace U1
             Task activeTask = tasks[sceneManager.currLevel - 1].GetArrayMember(currentTask);
             if (inputField.text == activeTask.taskSolution && !activeTask.isCompleted)
             {
-                tasks[sceneManager.currLevel - 1].SetCompletedTrue(currentTask);
+                tasks[sceneManager.currLevel - 1].SetCompletedValue(currentTask, true);
+                SaveTaskStatuses();
                 taskDoneButton.GetComponent<Image>().color = Color.green;
                 if (GetNumCompleted() == tasks[sceneManager.currLevel - 1].GetArrayLength() && sceneManager.currLevel != sceneManager.maxLevel)
                 {
@@ -100,13 +102,49 @@ namespace U1
                 ResetInputField();
             }
         }
-        public void LoadNextLevel()
+        public void LoadLevel(int index)
         {
-            sceneManager.ChangeScene(0);
+            sceneManager.ChangeScene(index);
         }
-        public void LoadNextScene()
+        private void LoadTaskStatuses()
         {
-            sceneManager.ChangeScene(2);
+            int tasksLenght = tasks.Length;
+            if (tasksLenght == sceneManager.GetTaskStatuses().GetLength(0))
+            {
+                for (int i = 0; i < tasksLenght; i++)
+                {
+                    int arrayLenght = tasks[i].GetArrayLength();
+                    if (arrayLenght == sceneManager.GetTaskStatuses().GetLength(1))
+                    {
+                        for (int j = 0; j < arrayLenght; j++)
+                        {
+                            tasks[i].SetCompletedValue(j, sceneManager.GetTaskStatuses()[i, j]);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Task statuses array not set porperly");
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Task statuses array not set porperly");
+            }
         }
+        private void SaveTaskStatuses()
+        {
+            int tasksLenght = tasks.Length;
+            for (int i = 0; i < tasksLenght; i++)
+            {
+                int arrayLenght = tasks[i].GetArrayLength();
+                for (int j = 0; j < arrayLenght; j++)
+                {
+                    sceneManager.SetTaskStatuses(i, j, tasks[i].GetArrayMember(j).isCompleted);
+                    //Debug.Log("Array num: " + i + " task num: " + j + " task status: " + tasks[i].GetArrayMember(j).isCompleted);
+                }
+            }
+        }
+
     }
 }

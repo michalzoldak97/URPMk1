@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Assets\MyScripts\Plan\TaskManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunChangeAmmoType.cs" />
+    <Compile Include="Assets\MyScripts\Other\UpdateManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
@@ -70,12 +71,14 @@
     <Compile Include="Assets\MyScripts\Item\ItemAmmo.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCInput.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemPickUp.cs" />
+    <Compile Include="Assets\MyScripts\Other\TestUpdateBehaviour.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunMaster.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerWeight.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemSetPositionRotation.cs" />
     <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeapon.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMaster.cs" />
+    <Compile Include="Assets\MyScripts\Other\UpdateBehaviour.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\SoundsContainerSO.cs" />
     <Compile Include="Assets\MyScripts\Other\TestListMaterials.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\NPCGunSO.cs" />
@@ -120,12 +123,12 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Other\UpdateManager.cs" />
-    <Compile Include="Assets\MyScripts\Other\UpdateBehaviour.cs" />
-    <Compile Include="Assets\MyScripts\Other\TestUpdateBehaviour.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\MainMenu.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\RegistrationMenu.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
+     <None Include="Assets\MyScripts\netConfigInstructions.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.3f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

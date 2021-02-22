@@ -22,6 +22,17 @@ namespace U1
         public int maxLevel { get; private set; }
         public int maxAllowLevel { get; private set; }
         public int currLevel { get; private set; }
+        public bool isLoggedIn;//{get; private set; }
+        private int loginAttempts, sucessfullLoginAttempts;
+        private bool[,] taskStatuses = new bool[5,5];
+        public bool[,] GetTaskStatuses()
+        {
+            return taskStatuses;
+        }
+        public void SetTaskStatuses(int indexA, int indexB, bool toSet)
+        {
+            taskStatuses[indexA, indexB] = toSet;
+        }
         public enum SceneType
         {
             menu, task, shop, plan, game

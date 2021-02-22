@@ -23,9 +23,9 @@ namespace U1
         {
             return taskArray[index];
         }
-        public void SetCompletedTrue(int index)
+        public void SetCompletedValue(int index, bool toSet)
         {
-            taskArray[index].isCompleted = true;
+            taskArray[index].isCompleted = toSet;
         }
     }
 }
