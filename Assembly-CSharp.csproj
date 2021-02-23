@@ -60,6 +60,7 @@
     <Compile Include="Assets\MyScripts\Other\UpdateManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
+    <Compile Include="Assets\MyScripts\Plan\WebSignUp.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemMass.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerDetectItem.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\UnParentObj.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\RegistrationMenu.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerInventory.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemChangeLayer.cs" />
     <Compile Include="Assets\MyScripts\Other\DeactivateForPool.cs" />
@@ -117,14 +119,14 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunShootEffects.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunHitEffects.cs" />
     <Compile Include="Assets\MyScripts\Other\Deactivate.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\MainMenu.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemCameraManipulation.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\ObjectsContainer.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunSingleShoot.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\WebTest\MainMenu.cs" />
-    <Compile Include="Assets\MyScripts\WebTest\RegistrationMenu.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\TestWeb1.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
