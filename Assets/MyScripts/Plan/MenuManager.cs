@@ -13,6 +13,10 @@ namespace U1
         [SerializeField] private GameObject canvasLevel, panelMenu, panelLogIn, panelSignUp;
         private SceneStartManager sceneManager;
 
+        public SceneStartManager GetSceneManager()
+        {
+            return sceneManager;
+        }
         private void Start()
         {
             sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();

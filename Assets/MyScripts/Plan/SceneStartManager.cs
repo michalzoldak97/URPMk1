@@ -19,12 +19,15 @@ namespace U1
         [SerializeField] PlaceableObject[] placeableObjects;
         [SerializeField] List<int> planScenesIndex = new List<int>();
         [SerializeField] List<int> gameScenesIndex = new List<int>();
+        public bool isLoggedIn { get; set; }
         public int maxLevel { get; private set; }
         public int maxAllowLevel { get; private set; }
         public int currLevel { get; private set; }
-        public bool isLoggedIn;//{get; private set; }
-        private int loginAttempts, sucessfullLoginAttempts;
-        private bool[,] taskStatuses = new bool[5,5];
+        public int signUpAttempts { get; set; }
+        public int logInAttempts { get; set; }
+        public int sucessfullLoginAttempts { get; set; }
+
+    private bool[,] taskStatuses = new bool[5,5];
         public bool[,] GetTaskStatuses()
         {
             return taskStatuses;
