@@ -25,7 +25,6 @@ namespace U1
         public int currLevel { get; private set; }
         public int signUpAttempts { get; set; }
         public int logInAttempts { get; set; }
-        public int sucessfullLoginAttempts { get; set; }
 
     private bool[,] taskStatuses = new bool[5,5];
         public bool[,] GetTaskStatuses()

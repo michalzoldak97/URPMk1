@@ -40,7 +40,6 @@ namespace U1
                 panelLogIn.SetActive(true);
                 panelMenu.SetActive(false);
                 panelSignUp.SetActive(false);
-                Debug.Log("Logging in actions");
             }
         }
         public void ActivateSignUpPanel()

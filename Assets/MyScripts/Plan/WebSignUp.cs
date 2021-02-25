@@ -13,6 +13,7 @@ namespace U1
         [SerializeField] private string signUpPHPurl;
         [SerializeField] private TMP_InputField nameInputField;
         [SerializeField] private TMP_InputField passwordInputField;
+        [SerializeField] private TMP_InputField repeatPasswordInput;
         [SerializeField] private Button submitButton;
         [SerializeField] private TMP_Text validationInfoText;
         [SerializeField] private GameObject infoImage;
@@ -30,9 +31,13 @@ namespace U1
         {
             if(!menuManager.GetSceneManager().isLoggedIn && !isSignUpInProgress && menuManager.GetSceneManager().signUpAttempts <= 3)
                 StartCoroutine(SignUp());
-            else
+            else if(menuManager.GetSceneManager().signUpAttempts > 3)
             {
                 StartCoroutine(InformCantAttempt("Can not allow sign up, please restart an application"));
+            }
+            else
+            {
+                StartCoroutine(InformCantAttempt("Sign Up error"));
             }
         }
         private IEnumerator InformCantAttempt(string infoText)
@@ -60,6 +65,7 @@ namespace U1
                 }
                 if (webRequest.downloadHandler.text == "1")
                 {
+                    submitButton.interactable = false;
                     StartCoroutine(SignUpSucces());
                     Debug.Log("User register SUCESS");
                 }
@@ -82,7 +88,6 @@ namespace U1
             passwordInputField.text = "";
             menuManager.DeactivateSignUpPanel();
         }
-
         public void VerifyInputs()
         {
             submitButton.interactable = (CheckInputFields());
@@ -94,7 +99,7 @@ namespace U1
                 validationInfoText.text = "Name should be at least " + minNameLength + " characters long and password should be at least " + minPasswordLength + " characters long";
                 return false;
             }
-            else if (!Regex.Match(nameInputField.text, "^[A-Za-z0-9]*$").Success || !Regex.Match(passwordInputField.text, "^[A-Za-z0-9_]*$").Success)
+            else if (!Regex.Match(nameInputField.text, "^[A-Za-z0-9_]*$").Success || !Regex.Match(passwordInputField.text, "^[A-Za-z0-9_]*$").Success)
             {
                 validationInfoText.text = "Name and password should contain only: lowercase and uppercase letters and/or numbers and/or dashes";
                 return false;
@@ -102,6 +107,11 @@ namespace U1
             else if (nameInputField.text.Length > minPasswordLength*2 || passwordInputField.text.Length > minPasswordLength*2)
             {
                 validationInfoText.text = "Name should be no longer than " + minPasswordLength*2 + " and password should be no longer than " + minPasswordLength*2 + " characters";
+                return false;
+            }
+            else if(repeatPasswordInput.text != passwordInputField.text)
+            {
+                validationInfoText.text = "Passowrds must be the same";
                 return false;
             }
             else
