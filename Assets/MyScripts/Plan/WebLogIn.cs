@@ -85,9 +85,11 @@ namespace U1
             wFrom.AddField("password", passwordInputField.text);
             using (UnityWebRequest webRequest = UnityWebRequest.Post(logInPHPurl, wFrom))
             {
+                logInButton.interactable = false;
                 yield return webRequest.SendWebRequest();
                 if (webRequest.isNetworkError || webRequest.isHttpError)
                 {
+                    StartCoroutine(InformCantAttempt("Error: " + webRequest.error));
                     Debug.Log(": Error: " + webRequest.error);
                 }
                 else if (webRequest.downloadHandler.text == "Incorrect password" || webRequest.downloadHandler.text == "Incorrect username")
@@ -98,7 +100,6 @@ namespace U1
                 else if (webRequest.downloadHandler.text == "1")
                 {
                     logInButton.interactable = false;
-                    menuManager.GetSceneManager().isLoggedIn = true;
                     StartCoroutine(LogInSuccesInfo());
                     Debug.Log("User Login SUCESS, dataloader stuff");
                 }
@@ -111,6 +112,8 @@ namespace U1
         }
         private IEnumerator LogInSuccesInfo()
         {
+            menuManager.GetSceneManager().CallEventLoggedIn(nameInputField.text);
+            menuManager.GetSceneManager().isLoggedIn = true;
             isLogInSuccessProgress = true;
             infoImage.SetActive(true);
             infoImage.GetComponent<Image>().color = Color.green;

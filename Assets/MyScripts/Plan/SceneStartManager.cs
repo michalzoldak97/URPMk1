@@ -26,7 +26,7 @@ namespace U1
         public int signUpAttempts { get; set; }
         public int logInAttempts { get; set; }
 
-    private bool[,] taskStatuses = new bool[5,5];
+        private bool[,] taskStatuses = new bool[5,5];
         public bool[,] GetTaskStatuses()
         {
             return taskStatuses;
@@ -39,14 +39,23 @@ namespace U1
         {
             menu, task, shop, plan, game
         }
+        public delegate void DatabaseEventHandler(string username);
+        public event DatabaseEventHandler EventLoggedIn;
 
         public delegate void SceneEventHandler();
         public event SceneEventHandler EventStartPlan;
         public event SceneEventHandler EventEndPlan;
         public event SceneEventHandler EventStartGame;
-        public event SceneEventHandler EventEndGame;
+        public event SceneEventHandler EventEndGameScene;
         public event SceneEventHandler EventQuitGame;
 
+        public void CallEventLoggedIn(string usernameToPass)
+        {
+            if (EventLoggedIn != null)
+            {
+                EventLoggedIn(usernameToPass);
+            }
+        }
         public void CallEventStartPlan()
         {
             if(EventStartPlan != null)
@@ -68,11 +77,11 @@ namespace U1
                 EventStartGame();
             }
         }
-        public void CallEventEndGame()
+        public void CallEventEndGameScene()
         {
-            if (EventEndGame != null)
+            if (EventEndGameScene != null)
             {
-                EventEndGame();
+                EventEndGameScene();
             }
         }
         public void CallEventQuitGame()
@@ -151,7 +160,7 @@ namespace U1
                     }
                 case SceneType.game:
                     {
-                        CallEventEndGame();
+                        CallEventEndGameScene();
                         break;
                     }
             }
