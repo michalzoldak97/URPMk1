@@ -144,6 +144,7 @@ namespace U1
                     //Debug.Log("Array num: " + i + " task num: " + j + " task status: " + tasks[i].GetArrayMember(j).isCompleted);
                 }
             }
+            sceneManager.CallEventTaskUpdate("");
         }
 
     }

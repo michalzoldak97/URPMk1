@@ -112,9 +112,9 @@ namespace U1
         }
         private IEnumerator LogInSuccesInfo()
         {
+            isLogInSuccessProgress = true;
             menuManager.GetSceneManager().CallEventLoggedIn(nameInputField.text);
             menuManager.GetSceneManager().isLoggedIn = true;
-            isLogInSuccessProgress = true;
             infoImage.SetActive(true);
             infoImage.GetComponent<Image>().color = Color.green;
             infoImage.GetComponentInChildren<TMP_Text>().text = "Player logged in successfully";

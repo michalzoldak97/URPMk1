@@ -35,12 +35,17 @@ namespace U1
         {
             taskStatuses[indexA, indexB] = toSet;
         }
+        public void SetTaskStatusesOnLog(int indexA, int indexB, bool toSet)
+        {
+            taskStatuses[indexA, indexB] = toSet;
+        }
         public enum SceneType
         {
             menu, task, shop, plan, game
         }
         public delegate void DatabaseEventHandler(string username);
         public event DatabaseEventHandler EventLoggedIn;
+        public event DatabaseEventHandler EventTaskUpdate;
 
         public delegate void SceneEventHandler();
         public event SceneEventHandler EventStartPlan;
@@ -54,6 +59,14 @@ namespace U1
             if (EventLoggedIn != null)
             {
                 EventLoggedIn(usernameToPass);
+            }
+        }
+        public void CallEventTaskUpdate(string dummy)
+        {
+            if (EventTaskUpdate != null)
+            {
+                Debug.Log("Event task update started");
+                EventTaskUpdate(dummy);
             }
         }
         public void CallEventStartPlan()
@@ -167,7 +180,7 @@ namespace U1
         }
         public void SetCurrentLevel(int toSet)
         {
-            if (toSet <= maxLevel)
+            if (toSet <= maxAllowLevel) // changed from maxLevel
                 currLevel = toSet;
             else
                 Debug.LogError("Curr level improper value");
@@ -175,9 +188,12 @@ namespace U1
         public void IncreaseAllowedLevel()
         {
             if(maxAllowLevel < maxLevel)
-            {
                 maxAllowLevel++;
-            }
+        }
+        public void SetMaxAllowLevel(int toSet)
+        {
+            if (maxAllowLevel < maxLevel)
+                maxAllowLevel = toSet;
         }
         public PlaceableObject[] GetPlaceableObjects()
         {
