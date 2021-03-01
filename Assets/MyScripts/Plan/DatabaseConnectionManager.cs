@@ -9,6 +9,7 @@ namespace U1
     {
         [SerializeField] string loadDataOnLogInURL;
         [SerializeField] string updateTaskStatusesURL;
+        [SerializeField] string saveMavLevelURL;
         private int myPlayerID;
         private SceneStartManager sceneStartManager;
 
@@ -17,11 +18,13 @@ namespace U1
             sceneStartManager = GetComponent<SceneStartManager>();
             sceneStartManager.EventLoggedIn += LaunchLoadDataOnLogIn;
             sceneStartManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
+            sceneStartManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
         }
         private void OnDisable()
         {
             sceneStartManager.EventLoggedIn -= LaunchLoadDataOnLogIn;
             sceneStartManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
+            sceneStartManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
         }
 
         private void LaunchLoadDataOnLogIn(string usernameToPass)
@@ -59,8 +62,12 @@ namespace U1
             {
                 int playerId = Int32.Parse(playerIDAndLevel[0]);
                 int playerMaxLevel = Int32.Parse(playerIDAndLevel[1]);
+                int playerCoins = Int32.Parse(playerIDAndLevel[2]);
+                int playerExperience = Int32.Parse(playerIDAndLevel[3]);
                 myPlayerID = playerId;
                 sceneStartManager.SetMaxAllowLevel(playerMaxLevel);
+                sceneStartManager.SetPlayerCoins(playerCoins);
+                sceneStartManager.SetPlayerExperience(playerExperience);
                 Debug.Log("Id sucessfully converted to: " + playerId);
             }
             catch
@@ -77,7 +84,7 @@ namespace U1
                     int indexOne = Int32.Parse(oneTaskInfo[0]);
                     int indexTwo = Int32.Parse(oneTaskInfo[1]);
                     bool valueToSet = (oneTaskInfo[2]=="1");
-                    sceneStartManager.SetTaskStatusesOnLog(indexOne, indexTwo, valueToSet);
+                    sceneStartManager.SetTaskStatuses(indexOne, indexTwo, valueToSet);
                 }
                 catch
                 {
@@ -144,6 +151,37 @@ namespace U1
                 return "1";
             else
                 return "0";
+        }
+
+        private void LaunchSaveMaxLevel(string maxLevelToSet)
+        {
+            StartCoroutine(SaveMaxLevel(maxLevelToSet));
+        }
+        IEnumerator SaveMaxLevel(string maxLevelToSet)
+        {
+            WWWForm wFrom = new WWWForm();
+            wFrom.AddField("player_id", myPlayerID.ToString());
+            wFrom.AddField("player_max_level", maxLevelToSet);
+            using (UnityWebRequest webRequest = UnityWebRequest.Post(saveMavLevelURL, wFrom))
+            {
+                yield return webRequest.SendWebRequest();
+                if (webRequest.isNetworkError || webRequest.isHttpError)
+                {
+                    Debug.Log(": Error: " + webRequest.error);
+                }
+                else if (webRequest.downloadHandler.text == "0")
+                {
+                    Debug.Log("Sth went wrong with php: " + webRequest.error);
+                }
+                else if (webRequest.downloadHandler.text == "1")
+                {
+                    Debug.Log("Sucessfull Level Saved");
+                }
+                else
+                {
+                    Debug.Log("Error:  " + webRequest.downloadHandler.text);
+                }
+            }
         }
     }
 }

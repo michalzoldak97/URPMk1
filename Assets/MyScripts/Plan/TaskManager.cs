@@ -6,12 +6,19 @@ using TMPro;
 
 namespace U1
 {
+    [System.Serializable]
+    public class PlayerRequirement
+    {
+        public int coinsRequired = 0;
+        public int experienceRequired = 0;
+    }
     public class TaskManager : MonoBehaviour
     {
         [SerializeField] private TaskArray[] tasks;
+        [SerializeField] private PlayerRequirement[] playerRequirements;
         [SerializeField] private Image taskImage;
-        [SerializeField] private TMP_Text currLevelText, numOfTasksComleted;
-        [SerializeField] private GameObject nextLevelButton, taskDoneButton, goodJobButton, badJobButton;
+        [SerializeField] private TMP_Text currLevelText, numOfTasksComleted, playerCoins, playerExperience;
+        [SerializeField] private GameObject nextLevelButton, taskDoneButton, goodJobButton, badJobButton, requirementInfText;
         [SerializeField] private TMP_InputField inputField;
         private SceneStartManager sceneManager;
         private int currentTask;
@@ -21,6 +28,7 @@ namespace U1
             LoadTaskStatuses();
             UpdateText();
             SetTask(0);
+            ValidateIfAllowNextLevelOnStart();
         }
         int GetNumCompleted()
         {
@@ -36,6 +44,8 @@ namespace U1
         {
             currLevelText.text = "LEVEL " + sceneManager.currLevel.ToString();
             numOfTasksComleted.text = "Completed " + GetNumCompleted().ToString() + " / " + tasks[sceneManager.currLevel-1].GetArrayLength();
+            playerCoins.text = "COINS  " + sceneManager.playerCoins.ToString();
+            playerExperience.text = "EXP  " + sceneManager.playerExperience.ToString();
         }
         void SetTask(int index)
         {
@@ -83,9 +93,7 @@ namespace U1
                 taskDoneButton.GetComponent<Image>().color = Color.green;
                 if (GetNumCompleted() == tasks[sceneManager.currLevel - 1].GetArrayLength() && sceneManager.currLevel != sceneManager.maxLevel)
                 {
-                    nextLevelButton.SetActive(true);
-                    nextLevelButton.GetComponentInChildren<TMP_Text>().text = "Next Level (" + (sceneManager.currLevel + 1).ToString() + ")";
-                    sceneManager.IncreaseAllowedLevel();
+                    ActivateNextLevelButton();
                 }
                 StartCoroutine(OnOffElement(goodJobButton));
                 ResetInputField();
@@ -101,6 +109,16 @@ namespace U1
                 StartCoroutine(OnOffElement(badJobButton));
                 ResetInputField();
             }
+        }
+        public void IncreaseAllowedLevel()
+        {
+            if(sceneManager.maxAllowLevel == sceneManager.currLevel && sceneManager.maxAllowLevel < sceneManager.maxLevel)
+            {
+                int currentMaxLevel = sceneManager.maxAllowLevel;
+                sceneManager.IncreaseAllowedLevel();
+                sceneManager.CallEventSaveMaxLevel((currentMaxLevel + 1).ToString());
+            }
+            nextLevelButton.GetComponent<Button>().interactable = false;
         }
         public void LoadLevel(int index)
         {
@@ -146,6 +164,48 @@ namespace U1
             }
             sceneManager.CallEventTaskUpdate("");
         }
+        private void ValidateIfAllowNextLevelOnStart()
+        {
+            if (GetNumCompleted() == tasks[sceneManager.currLevel - 1].GetArrayLength() && sceneManager.maxAllowLevel == sceneManager.currLevel && sceneManager.maxAllowLevel < sceneManager.maxLevel && AreRequirementsMet())
+            {
+                nextLevelButton.SetActive(true);
+                nextLevelButton.GetComponentInChildren<TMP_Text>().text = "Upgrade to the Level (" + (sceneManager.currLevel + 1).ToString() + ")";
+            }
+            else if(sceneManager.playerCoins < playerRequirements[sceneManager.currLevel - 1].coinsRequired || sceneManager.playerExperience < playerRequirements[sceneManager.currLevel - 1].experienceRequired)
+            {
+                requirementInfText.SetActive(true);
+                if (sceneManager.playerCoins < playerRequirements[sceneManager.currLevel - 1].coinsRequired && sceneManager.playerExperience < playerRequirements[sceneManager.currLevel - 1].experienceRequired)
+                {
+                    requirementInfText.GetComponentInChildren<TMP_Text>().text = "You need to gain " + (playerRequirements[sceneManager.currLevel - 1].coinsRequired - sceneManager.playerCoins) + "coins more and " +
+                        "\n" + (playerRequirements[sceneManager.currLevel - 1].experienceRequired - sceneManager.playerExperience) + " experience more to unlock next level";
+                }
+                else if (sceneManager.playerCoins < playerRequirements[sceneManager.currLevel - 1].coinsRequired)
+                {
+                    requirementInfText.GetComponentInChildren<TMP_Text>().text = "You need to gain " + (playerRequirements[sceneManager.currLevel - 1].coinsRequired - sceneManager.playerCoins) + " coins more to unlock next level";
+                }
+                else
+                {
+                    requirementInfText.GetComponentInChildren<TMP_Text>().text = "You need to gain " + (playerRequirements[sceneManager.currLevel - 1].experienceRequired - sceneManager.playerExperience) + " experience more to unlock next level";
+                }
 
+            }
+        }
+        private void ActivateNextLevelButton()
+        {
+            if (AreRequirementsMet())
+            {
+                nextLevelButton.SetActive(true);
+                nextLevelButton.GetComponentInChildren<TMP_Text>().text = "Upgrade to the Level (" + (sceneManager.currLevel + 1).ToString() + ")";
+            }
+        }
+        private bool AreRequirementsMet()
+        {
+            if (sceneManager.playerCoins >= playerRequirements[sceneManager.currLevel - 1].coinsRequired && sceneManager.playerExperience >= playerRequirements[sceneManager.currLevel - 1].experienceRequired)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

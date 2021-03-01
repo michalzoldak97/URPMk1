@@ -21,7 +21,6 @@ namespace U1
         {
             sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
             LogInAttempt();
-            SetupLevelsSelection();
         }
         public void LoadLevelSelection()
         {
@@ -34,6 +33,7 @@ namespace U1
                 panelLogIn.SetActive(false);
                 panelSignUp.SetActive(false);
                 panelMenu.SetActive(true);
+                SetupLevelsSelection("");
             }
             else
             {
@@ -59,7 +59,7 @@ namespace U1
             sceneManager.SetCurrentLevel(index);
             sceneManager.ChangeScene(1);
         }
-        void SetupLevelsSelection()
+        void SetupLevelsSelection(string dummy)
         {
             for (int i = 0; i < sceneManager.maxAllowLevel; i++)
             {
@@ -67,7 +67,7 @@ namespace U1
                 GameObject objUI = Instantiate(levelButton, levelButtonsTransform);
                 objUI.GetComponent<Button>().onClick.AddListener(delegate { LoadNextLevel(x); });
                 objUI.GetComponentInChildren<TMP_Text>().text = "Level " + x.ToString();
-                Debug.Log("level set = " + x);
+                Debug.Log("level set = " + x + " whereass level is " + sceneManager.maxAllowLevel);
             }
         }
     }

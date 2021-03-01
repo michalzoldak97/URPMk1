@@ -1,5 +1,5 @@
 <?php
-$sqlConnection = mysqli_connect('###', '###', '###', '###');
+$sqlConnection = mysqli_connect('xxx', 'xxx', 'xxx', 'xxx');
 
 if(mysqli_connect_errno()){
 echo "error in database connection";

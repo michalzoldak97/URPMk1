@@ -19,12 +19,24 @@ namespace U1
         [SerializeField] PlaceableObject[] placeableObjects;
         [SerializeField] List<int> planScenesIndex = new List<int>();
         [SerializeField] List<int> gameScenesIndex = new List<int>();
-        public bool isLoggedIn { get; set; }
+        public int playerCoins { get; private set; }
+        public void SetPlayerCoins(int toSet)
+        {
+            if (toSet >= 0)
+                playerCoins = toSet;
+        }
+        public int playerExperience { get; private set; }
+        public void SetPlayerExperience(int toSet)
+        {
+            if (toSet >= 0)
+                playerExperience = toSet;
+        }
         public int maxLevel { get; private set; }
         public int maxAllowLevel { get; private set; }
         public int currLevel { get; private set; }
         public int signUpAttempts { get; set; }
         public int logInAttempts { get; set; }
+        public bool isLoggedIn { get; set; }
 
         private bool[,] taskStatuses = new bool[5,5];
         public bool[,] GetTaskStatuses()
@@ -35,10 +47,6 @@ namespace U1
         {
             taskStatuses[indexA, indexB] = toSet;
         }
-        public void SetTaskStatusesOnLog(int indexA, int indexB, bool toSet)
-        {
-            taskStatuses[indexA, indexB] = toSet;
-        }
         public enum SceneType
         {
             menu, task, shop, plan, game
@@ -46,6 +54,7 @@ namespace U1
         public delegate void DatabaseEventHandler(string username);
         public event DatabaseEventHandler EventLoggedIn;
         public event DatabaseEventHandler EventTaskUpdate;
+        public event DatabaseEventHandler EventSaveMaxLevel;
 
         public delegate void SceneEventHandler();
         public event SceneEventHandler EventStartPlan;
@@ -65,8 +74,14 @@ namespace U1
         {
             if (EventTaskUpdate != null)
             {
-                Debug.Log("Event task update started");
                 EventTaskUpdate(dummy);
+            }
+        }
+        public void CallEventSaveMaxLevel(string dummy)
+        {
+            if (EventSaveMaxLevel != null)
+            {
+                EventSaveMaxLevel(dummy);
             }
         }
         public void CallEventStartPlan()
