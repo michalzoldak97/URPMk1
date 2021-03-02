@@ -45,7 +45,7 @@ namespace U1
         {
             for (int i = 0; i < myObjects.Length; i++)
             {
-                for (int j = 0; j < myObjects[i].objNum; j++)
+                for (int j = 0; j < myObjects[i].numOfOwnedObjects; j++)
                 {
                     GameObject objUI = Instantiate(myObjects[i].objButon, uiObjParentTransform);
                     uiObjects.Add(objUI);
@@ -102,8 +102,8 @@ namespace U1
             count = 0;
             for (int i = 0; i < myObjects.Length; i++)
             {
-            myObjects[i].worldPositions = new Vector3[myObjects[i].objNum];
-                for (int j = 0; j < myObjects[i].objNum; j++)
+            myObjects[i].worldPositions = new Vector3[myObjects[i].numOfOwnedObjects];
+                for (int j = 0; j < myObjects[i].numOfOwnedObjects; j++)
                 {
                     myObjects[i].worldPositions[j] = worldPosToPas[count];
                     count++;

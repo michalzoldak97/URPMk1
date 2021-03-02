@@ -113,6 +113,7 @@
     <Compile Include="Assets\MyScripts\Other\ObjectPooler.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageHealth.cs" />
     <Compile Include="Assets\MyScripts\AI\AIDestroy.cs" />
+    <Compile Include="Assets\MyScripts\Plan\DatabaseConnectionManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAmmo.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\Explosion1.cs" />
     <Compile Include="Assets\MyScripts\AI\AIRotateMultipleWeapon.cs" />
@@ -128,7 +129,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Plan\DatabaseConnectionManager.cs" />
+    <Compile Include="Assets\MyScripts\Plan\PlaceableObject.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

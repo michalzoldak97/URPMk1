@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace U1
 {
-    [System.Serializable]
+    /*[System.Serializable]
     public class PlaceableObject
     {
         public GameObject objToSpawn;
@@ -13,7 +13,7 @@ namespace U1
         public GameObject mapAlias;
         public int objNum;
         public Vector3[] worldPositions;
-    }
+    }*/
     public class SceneStartManager : MonoBehaviour
     {
         [SerializeField] PlaceableObject[] placeableObjects;
@@ -220,7 +220,7 @@ namespace U1
         }
         public void SetObjNum(int index, int num)
         {
-            placeableObjects[index].objNum = num;
+            placeableObjects[index].numOfOwnedObjects = num;
         }
         public void QuitGame()
         {
