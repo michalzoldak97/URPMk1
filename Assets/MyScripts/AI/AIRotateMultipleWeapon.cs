@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace U1
 {
-    public class AIWeapon : MonoBehaviour
+    public class AIRotateMultipleWeapon : MonoBehaviour
     {
         
         [SerializeField] Transform[] weaponTransforms;
@@ -30,7 +30,6 @@ namespace U1
         }
         void RotateWeaponTowards(Transform target)
         {
-            float move = 5;
             Vector3 targetPos = target.position;
             for (int i = 0; i < weaponTransforms.Length; i++)
             {
@@ -38,10 +37,8 @@ namespace U1
                 baseAimPosition[a] = weaponTransforms[i].position + weaponTransforms[i].forward*(Vector3.Distance(myTransform.position, targetPos));
                 targetPos.x = baseAimPosition[a].x; targetPos.z = baseAimPosition[a].z;
                 lookAtRotation = Quaternion.LookRotation((targetPos - weaponTransforms[i].position).normalized);
-                weaponTransforms[i].rotation = Quaternion.Slerp(weaponTransforms[i].rotation, lookAtRotation, move);
+                weaponTransforms[i].rotation = Quaternion.Slerp(weaponTransforms[i].rotation, lookAtRotation, 5);
                 baseAimPosition[a] = baseAimPosition[i * 2];
-                //weaponTransforms[i].rotation = Quaternion.Euler(weaponTransforms[i].rotation.x, 0f, weaponTransforms[i].rotation.z);
-                Debug.DrawRay(weaponTransforms[i].position, weaponTransforms[i].forward * 20, Color.red, 1);
             }
         }
         void AssignWeaponPositions()

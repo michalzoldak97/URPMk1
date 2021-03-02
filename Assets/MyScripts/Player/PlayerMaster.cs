@@ -17,7 +17,7 @@ namespace U1
         public delegate void AmmoPickUpEventHandler(string ammoName, int quantity);
         public event AmmoPickUpEventHandler EventPickedUpAmmo;
 
-        public bool isInventoryOn { get; set; }
+        public bool isInventoryOn;
         public void CallEventControllerFreeze(bool toState)
         {
             if(EventControllerFreeze!=null)

@@ -15,7 +15,7 @@ namespace U1
         private int currForce;
         private ItemMaster itemMaster;
         private float nextCheck, checkRate = 0.1f;
-        public bool isOnPlayer;
+        private bool isOnPlayer;
         void Start()
         {
             if(progressBar.transform.parent.gameObject != null)
@@ -28,8 +28,7 @@ namespace U1
         private void OnEnable()
         {
             itemMaster = GetComponent<ItemMaster>();
-            itemMaster.EventObjectPickup += SetIsOnPlayerON;
-            itemMaster.EventObjectThrow += SetIsOnPlayerOFF;
+            SetIsOnPlayer();
             if (canvas != null && isOnPlayer)
             {
                 canvas.SetActive(true);
@@ -39,10 +38,8 @@ namespace U1
         {
             if (canvas != null)
                 canvas.SetActive(false);
-            itemMaster.EventObjectPickup -= SetIsOnPlayerON;
-            itemMaster.EventObjectThrow -= SetIsOnPlayerOFF;
+            SetIsOnPlayer();
         }
-
         private void Update()
         {
             if(isOnPlayer)
@@ -102,18 +99,12 @@ namespace U1
             yield return new WaitForEndOfFrame();
             Destroy(gameObject);
         }
-
-        void SetIsOnPlayerON()
+        void SetIsOnPlayer()
         {
-            isOnPlayer = true;
-            //Debug.Log("Is On Player True");
-        }
-        void SetIsOnPlayerOFF()
-        {
-            //Debug.Log("Is On Player false");
-            isOnPlayer = false;
-            if (canvas != null)
-                canvas.SetActive(false);
+            if (gameObject.transform.root.CompareTag("Player"))
+                isOnPlayer = true;
+            else
+                isOnPlayer = false;
         }
     }
 }

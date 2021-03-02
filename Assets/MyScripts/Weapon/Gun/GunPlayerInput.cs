@@ -17,15 +17,13 @@ namespace U1
         [SerializeField] float shootRate;
         [SerializeField] float aimSpeed;
         public BurstFireSetting myBurtsFire = new BurstFireSetting();
-        private float shootDelay;
-        private float nextCheck;
-        private float currFPSSpeed;
+        private float shootDelay, nextCheck, currFPSSpeed;
         private GunMaster gunMaster;
         private ItemMaster itemMaster;
         private PlayerMaster playerMaster;
         private FPSController fpsController;
         private bool shouldChangeSpeed;
-        public bool isOnPlayer { get; set; }
+        private bool isOnPlayer;
         void SetInitials()
         {
             gunMaster = GetComponent<GunMaster>();
@@ -42,13 +40,15 @@ namespace U1
         private void OnEnable()
         {
             SetInitials();
-            itemMaster.EventObjectPickup += SetIsOnPlayer;
-            itemMaster.EventObjectThrow += SetIsOnPlayer;
+            SetIsOnPlayer();
+            //itemMaster.EventObjectPickup += SetIsOnPlayer;
+            //itemMaster.EventObjectThrow += SetIsOnPlayer;
         }
         private void OnDisable()
         {
-            itemMaster.EventObjectPickup -= SetIsOnPlayer;
-            itemMaster.EventObjectThrow -= SetIsOnPlayer;
+            SetIsOnPlayer();
+            //itemMaster.EventObjectPickup -= SetIsOnPlayer;
+            //itemMaster.EventObjectThrow -= SetIsOnPlayer;
         }
 
         private void Update()
@@ -69,13 +69,11 @@ namespace U1
                 {
                     nextCheck = Time.time + shootDelay;
                     gunMaster.CallEventShootRequest();
-                    //Debug.Log("Shoot requested");
                 }
                 else if (Input.GetKeyDown(KeyCode.Mouse0) && !isAutomatic && Time.timeScale > 0 && Time.time > nextCheck && !myBurtsFire.hasABurstMode)
                 {
                     nextCheck = Time.time + shootDelay;
                     gunMaster.CallEventShootRequest();
-                    //Debug.Log("Shoot requested");
                 }
                 else if(Input.GetKeyDown(KeyCode.Mouse0) && Time.timeScale > 0 && Time.time > nextCheck && myBurtsFire.hasABurstMode && !myBurtsFire.isShootingBurst)
                 {
@@ -121,15 +119,9 @@ namespace U1
         void SetIsOnPlayer()
         {
             if (gameObject.transform.root.CompareTag("Player"))
-            {
                 isOnPlayer = true;
-                //Debug.Log("Is on player: " + isOnPlayer);
-            }
             else
-            {
                 isOnPlayer = false;
-                //Debug.Log("Is on player: " + isOnPlayer);
-            }
         }
 
         IEnumerator ShootBurstFire()

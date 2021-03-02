@@ -6,9 +6,29 @@ namespace U1
     [System.Serializable]
     public class AmmoType
     {
-        public string ammoName;
-        public int currentQuantity;
-        public int maxQuantity;
+        [SerializeField] private string ammoName;
+        [SerializeField] private int currentQuantity;
+        [SerializeField] private int maxQuantity;
+        public void AddQuantity(int toAdd)
+        {
+            currentQuantity += toAdd;
+        }
+        public void SetQuantity(int toSet)
+        {
+            currentQuantity = toSet;
+        }
+        public int GetQuantity()
+        {
+            return currentQuantity;
+        }
+        public int GetMaxQuantity()
+        {
+            return maxQuantity;
+        }
+        public string GetName()
+        {
+            return ammoName;
+        }
     }
     public class PlayerAmmo : MonoBehaviour
     {
@@ -23,7 +43,7 @@ namespace U1
             }
             for (int i = 0; i < ammoTypes.Length; i++)
             {
-                ammoDictionary.Add(ammoTypes[i].ammoName, ammoTypes[i]);
+                ammoDictionary.Add(ammoTypes[i].GetName(), ammoTypes[i]);
             }
         }
         private void OnEnable()
@@ -38,31 +58,28 @@ namespace U1
 
         public void AddAmmo(string ammoType, int quantity)
         {
-            //Debug.Log(ammoDictionary[ammoType].ammoName + " to add " + quantity);
-            if (ammoDictionary[ammoType].currentQuantity + quantity > ammoDictionary[ammoType].maxQuantity)
-                ammoDictionary[ammoType].currentQuantity = ammoDictionary[ammoType].maxQuantity;
+            if (ammoDictionary[ammoType].GetQuantity() + quantity > ammoDictionary[ammoType].GetMaxQuantity())
+                ammoDictionary[ammoType].SetQuantity(ammoDictionary[ammoType].GetMaxQuantity()); 
             else
-                ammoDictionary[ammoType].currentQuantity += quantity;
-
-            //Debug.Log(ammoDictionary[ammoType].ammoName + " " + ammoDictionary[ammoType].currentQuantity);
+                ammoDictionary[ammoType].AddQuantity(quantity); 
         }
         public int TakeAmmo(string ammoType, int quantityRequested)
         {
-            if(quantityRequested> ammoDictionary[ammoType].currentQuantity)
+            if(quantityRequested> ammoDictionary[ammoType].GetQuantity())
             {
-                int quantityAvailable = ammoDictionary[ammoType].currentQuantity;
-                ammoDictionary[ammoType].currentQuantity = 0;
+                int quantityAvailable = ammoDictionary[ammoType].GetQuantity();
+                ammoDictionary[ammoType].SetQuantity(0);
                 return quantityAvailable;
             }
             else
             {
-                ammoDictionary[ammoType].currentQuantity -= quantityRequested;
+                ammoDictionary[ammoType].AddQuantity(-quantityRequested); 
                 return quantityRequested;
             }
         }
         public int GetAmmoNum(string ammoType)
         {
-            return ammoDictionary[ammoType].currentQuantity;
+            return ammoDictionary[ammoType].GetQuantity();
         }
     }
 }

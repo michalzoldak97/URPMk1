@@ -40,6 +40,7 @@ namespace U1
         private Vector2 m_Input = Vector2.zero;
         private Vector3 m_MoveDir = Vector3.zero;
         private Vector3 m_OriginalCameraPosition;
+        private Vector3 up = Vector3.up;
         private Transform myTransform, myCameraTransform;
         private CharacterController m_CharacterController;
         private CollisionFlags m_CollisionFlags;
@@ -116,7 +117,7 @@ namespace U1
             }
             Vector3 desiredMove = myTransform.forward * vertical + myTransform.right * horizontal;
             RaycastHit hitInfo;
-            Physics.SphereCast(myTransform.position, characterRadius, Vector3.down, out hitInfo,
+            Physics.SphereCast(myTransform.position, characterRadius, -up, out hitInfo,
                                m_CharacterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
             desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
@@ -212,7 +213,7 @@ namespace U1
             if (Input.GetAxisRaw("Mouse X") != currentAxisX)
             {
                 currentAxisX = Input.GetAxisRaw("Mouse X");
-                myTransform.Rotate(Vector3.up * currentAxisX * mouseSensivity);
+                myTransform.Rotate(up * currentAxisX * mouseSensivity);
             }
             if (Input.GetAxisRaw("Mouse Y") != currentAxisY)
             {

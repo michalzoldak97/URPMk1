@@ -21,16 +21,16 @@ namespace U1
         private void OnEnable()
         {
             SetInit();
-            itemMaster.EventPickupRequested += OnMono;
+            itemMaster.EventObjectPickup += OnMono;
             itemMaster.EventObjectThrow += OffMono;
         }
         private void OnDisable()
         {
-            itemMaster.EventPickupRequested -= OnMono;
+            itemMaster.EventObjectPickup -= OnMono;
             itemMaster.EventObjectThrow -= OffMono;
         }
 
-        void OnMono(Transform dummy)
+        void OnMono()
         {
             //Debug.Log("On Update");
             for (int i = 0; i < myScripts.Length; i++)
@@ -49,14 +49,8 @@ namespace U1
         IEnumerator AtBegin()
         {
             yield return new WaitForSecondsRealtime(0.5f);
-            if (transform.parent == null)
-            {
+            if (transform.parent == null || !transform.parent.CompareTag("Player"))
                 OffMono();
-            }
-            else if (!transform.parent.CompareTag("Player"))
-            {
-                OffMono();
-            }
         }
     }
 }

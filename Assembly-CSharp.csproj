@@ -55,32 +55,40 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\MyScripts\Plan\TaskManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunChangeAmmoType.cs" />
-    <Compile Include="Assets\MyScripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\MyScripts\Other\UpdateManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
-    <Compile Include="Assets\MyScripts\AI\AIEnemy_1.cs" />
-    <Compile Include="Assets\MyScripts\Player\PlayerCheckGrounded.cs" />
-    <Compile Include="Assets\MyScripts\AI\AIWeapon.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
+    <Compile Include="Assets\MyScripts\Plan\WebSignUp.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\TestWeb1.cs" />
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
     <Compile Include="Assets\MyScripts\AI\AINavi.cs" />
+    <Compile Include="Assets\MyScripts\Plan\WebLogIn.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerCursorManager.cs" />
+    <Compile Include="Assets\MyScripts\Plan\Task.cs" />
     <Compile Include="Assets\MyScripts\AI\AIMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemAmmo.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCInput.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemPickUp.cs" />
+    <Compile Include="Assets\MyScripts\Other\TestUpdateBehaviour.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunMaster.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerWeight.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemSetPositionRotation.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeapon.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMaster.cs" />
-    <Compile Include="Assets\MyScripts\Other\SoundsContainerSO.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\NPC\NPCGunSO.cs" />
+    <Compile Include="Assets\MyScripts\Other\UpdateBehaviour.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\SoundsContainerSO.cs" />
+    <Compile Include="Assets\MyScripts\Other\TestListMaterials.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\NPCGunSO.cs" />
     <Compile Include="Assets\MyScripts\AI\TestRotation.cs" />
     <Compile Include="Assets\MyScripts\Damagable\ColorDamagable.cs" />
     <Compile Include="Assets\MyScripts\Plan\GetCameraClick.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeaponRestricted.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemThrow.cs" />
     <Compile Include="Assets\MyScripts\Other\OnOffUpdate.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCShoot.cs" />
@@ -95,6 +103,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemMass.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerDetectItem.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\UnParentObj.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\RegistrationMenu.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerInventory.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemChangeLayer.cs" />
     <Compile Include="Assets\MyScripts\Other\DeactivateForPool.cs" />
@@ -104,22 +113,27 @@
     <Compile Include="Assets\MyScripts\Other\ObjectPooler.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageHealth.cs" />
     <Compile Include="Assets\MyScripts\AI\AIDestroy.cs" />
+    <Compile Include="Assets\MyScripts\Plan\DatabaseConnectionManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAmmo.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\Explosion1.cs" />
+    <Compile Include="Assets\MyScripts\AI\AIRotateMultipleWeapon.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerAmmo.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemSounds.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunShootEffects.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunHitEffects.cs" />
     <Compile Include="Assets\MyScripts\Other\Deactivate.cs" />
+    <Compile Include="Assets\MyScripts\WebTest\MainMenu.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemCameraManipulation.cs" />
-    <Compile Include="Assets\MyScripts\Other\ObjectsContainer.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\ObjectsContainer.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunSingleShoot.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
+    <Compile Include="Assets\MyScripts\Plan\PlaceableObject.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
+     <None Include="Assets\MyScripts\netConfigInstructions.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.3f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

@@ -37,7 +37,7 @@ using TMPro;
             playerMaster.EventInventoryChanged -= UpdateInventoryUI;
             playerMaster.EventInventoryChanged -= ClearInventoryUI;
         }
-        void Update()
+        private void Update()
         {
             if(Input.GetKeyDown(KeyCode.I))
             {

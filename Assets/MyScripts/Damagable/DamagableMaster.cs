@@ -10,7 +10,7 @@ namespace U1
         public void AddToDictionary(Transform objTransform, DamageMaster objDmgMaster)
         {
             damagableDict.Add(objTransform, objDmgMaster);
-            Debug.Log(objTransform.name + " registered in dict");
+            //Debug.Log(objTransform.name + " registered in dict");
         }
         public void RemoveFromDictionary(Transform objTransform)
         {

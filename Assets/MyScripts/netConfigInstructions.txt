@@ -1,0 +1,10 @@
+9D14E164A3FDD543FAFF952AAF
+
+Router:
+	server as static IP
+	server added to NTP
+	No-ip. DDNS service configured for device
+Server:
+	firewall enabled
+	port 80 3306 allowed
+	static ip
