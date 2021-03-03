@@ -14,6 +14,7 @@ namespace U1
         public int maxNumOfOwnedObjects;
         public int coinsPrice;
         public int experiencePrice;
+        public bool isAvailable;
         public bool isAddedToStack;
         public Vector3[] worldPositions;
     }

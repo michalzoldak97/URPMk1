@@ -44,7 +44,7 @@ namespace U1
             //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
             double avElapsedMsM = 0;
             double avElapsedTcsM = 0;
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 1; i++)
             {
                 stopwatch.Reset();
                 stopwatch.Start();
@@ -70,14 +70,15 @@ namespace U1
         }
         void TestSingle(Transform target)
         {
-            for (int i = 0; i < 10; i++)
+            /*for (int i = 0; i < 10; i++)
             {
                 PerformSingleAction(target);
             }
             for (int i = 0; i < 1000000; i++)
             {
                 PerformSingleAction(target);
-            }
+            }*/
+            PerformSingleAction(target);
         }
 
         void PerformMultiAction(Transform target)
@@ -93,11 +94,21 @@ namespace U1
         }
         void PerformSingleAction(Transform target)
         {
-            int count = 0;// toUpdate.Count;
-            for (int i = 0; i < count; i++)
+            int counter = 0;
+            for (int i = 0; i < 5; i++)
             {
-                toUpdate[i].GetUpdate();
+                for (int j = 0; j < 5; j++)
+                {
+                    counter++;
+                    if (i < 2)
+                    {
+                        UnityEngine.Debug.Log(counter);
+                    }
+                    else
+                        break;
+                }
             }
+            UnityEngine.Debug.Log("Final" + counter);
         }
     }
 }

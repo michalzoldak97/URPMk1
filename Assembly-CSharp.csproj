@@ -108,6 +108,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemChangeLayer.cs" />
     <Compile Include="Assets\MyScripts\Other\DeactivateForPool.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageMaster.cs" />
+    <Compile Include="Assets\MyScripts\Plan\PlaceableObject.cs" />
     <Compile Include="Assets\MyScripts\Plan\SceneStartManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AINaviAttack.cs" />
     <Compile Include="Assets\MyScripts\Other\ObjectPooler.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Plan\PlaceableObject.cs" />
+    <Compile Include="Assets\MyScripts\Other\SpawnPOOnStart.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

@@ -75,7 +75,8 @@ namespace U1
                 Debug.Log("Id failed to parse");
             }
             string[] allTasksInfo = firstDataSplit[1].Split('|');
-            for (int i = 0; i < allTasksInfo.Length; i++)
+            int tasksInfoLength = allTasksInfo.Length;
+            for (int i = 0; i < tasksInfoLength; i++)
             {
                 string[] oneTaskInfo = allTasksInfo[i].Split('/');
                 Debug.Log("Index I  = " + oneTaskInfo[0] + " index J = " + oneTaskInfo[1] + " value = " + oneTaskInfo[2]);
@@ -89,8 +90,40 @@ namespace U1
                 catch
                 {
                     Debug.Log("Failed to parse to int");
+                }               
+            }
+            try//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            {
+                if (firstDataSplit.Length > 2)
+                {
+                    string[] placeableObjInfo = firstDataSplit[2].Split('|');
+                    PlaceableObject[] myPlaceableObjects = sceneStartManager.GetPlaceableObjects();
+                    int objInfoLength = placeableObjInfo.Length;
+                    int placeableObjLength = myPlaceableObjects.Length;
+                    for (int i = 0; i < objInfoLength; i++)
+                    {
+                        string[] singleObjectInfo = placeableObjInfo[i].Split('/');
+                        int objIndex = Int32.Parse(singleObjectInfo[0]);
+                        for (int j = 0; j < placeableObjLength; j++)
+                        {
+                            Debug.Log("Looping po");
+                            if (objIndex == j)
+                            {
+                                Debug.Log("matchnig data for given index: " + objIndex + " po: " + j);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("no objects data");
                 }
             }
+            catch
+            {
+                Debug.Log("Placeable process messed up");
+            }///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
 
         private void LaunchUpdateTaskStatuses(string dummy)
