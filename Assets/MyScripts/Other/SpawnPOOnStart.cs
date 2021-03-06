@@ -21,6 +21,7 @@ namespace U1
                 Vector3 spawnPosition = myTransform.position + Random.insideUnitSphere * maxSpawnRadius;
                 GameObject obj = Instantiate(objectToSpawn, spawnPosition, Quaternion.Euler(0f, 0f, 0f));
             }
+            Destroy(gameObject, 0.5f);
         }
     }
 }

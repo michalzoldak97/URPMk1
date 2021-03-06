@@ -83,6 +83,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemMaster.cs" />
     <Compile Include="Assets\MyScripts\Other\UpdateBehaviour.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\SoundsContainerSO.cs" />
+    <Compile Include="Assets\MyScripts\Other\SpawnPOOnStart.cs" />
     <Compile Include="Assets\MyScripts\Other\TestListMaterials.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\NPCGunSO.cs" />
     <Compile Include="Assets\MyScripts\AI\TestRotation.cs" />
@@ -130,7 +131,10 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Other\SpawnPOOnStart.cs" />
+    <Compile Include="Assets\MyScripts\Other\POShopButton.cs" />
+    <Compile Include="Assets\MyScripts\Plan\ShopManager.cs" />
+    <Compile Include="Assets\MyScripts\Other\POInfoButton.cs" />
+    <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

@@ -10,6 +10,7 @@ namespace U1
         [SerializeField] string loadDataOnLogInURL;
         [SerializeField] string updateTaskStatusesURL;
         [SerializeField] string saveMavLevelURL;
+        [SerializeField] string updatePOURL;
         private int myPlayerID;
         private SceneStartManager sceneStartManager;
 
@@ -19,12 +20,14 @@ namespace U1
             sceneStartManager.EventLoggedIn += LaunchLoadDataOnLogIn;
             sceneStartManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
             sceneStartManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
+            sceneStartManager.EventPOUpdate += LaunchPOUpdate;
         }
         private void OnDisable()
         {
             sceneStartManager.EventLoggedIn -= LaunchLoadDataOnLogIn;
             sceneStartManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
             sceneStartManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
+            sceneStartManager.EventPOUpdate -= LaunchPOUpdate;
         }
 
         private void LaunchLoadDataOnLogIn(string usernameToPass)
@@ -55,6 +58,7 @@ namespace U1
         }
         private void UpdateDataOnLogIn(string webData)
         {
+            Debug.Log(webData);
             string[] firstDataSplit = webData.Split('^');
 
             string[] playerIDAndLevel = firstDataSplit[0].Split('/');
@@ -64,10 +68,12 @@ namespace U1
                 int playerMaxLevel = Int32.Parse(playerIDAndLevel[1]);
                 int playerCoins = Int32.Parse(playerIDAndLevel[2]);
                 int playerExperience = Int32.Parse(playerIDAndLevel[3]);
+                int playerMaxSlots = Int32.Parse(playerIDAndLevel[4]);
                 myPlayerID = playerId;
                 sceneStartManager.SetMaxAllowLevel(playerMaxLevel);
                 sceneStartManager.SetPlayerCoins(playerCoins);
                 sceneStartManager.SetPlayerExperience(playerExperience);
+                sceneStartManager.SetPlayerMaxSlots(playerMaxSlots);
                 Debug.Log("Id sucessfully converted to: " + playerId);
             }
             catch
@@ -110,10 +116,19 @@ namespace U1
                             if (objIndex == j)
                             {
                                 Debug.Log("matchnig data for given index: " + objIndex + " po: " + j);
+                                myPlaceableObjects[j].numOfOwnedObjects = Int32.Parse(singleObjectInfo[1]);
+                                myPlaceableObjects[j].maxNumOfOwnedObjects = Int32.Parse(singleObjectInfo[2]);
+                                myPlaceableObjects[j].coinsPrice = Int32.Parse(singleObjectInfo[3]);
+                                myPlaceableObjects[j].experiencePrice = Int32.Parse(singleObjectInfo[4]);
+                                if (Int32.Parse(singleObjectInfo[5]) == 1)
+                                    myPlaceableObjects[j].isAddedToStack = true;
+                                else if((Int32.Parse(singleObjectInfo[5]) == 0))
+                                    myPlaceableObjects[j].isAddedToStack = false;
                                 break;
                             }
                         }
                     }
+                    sceneStartManager.SetPlaceableObjects(myPlaceableObjects);
                 }
                 else
                 {
@@ -215,6 +230,52 @@ namespace U1
                     Debug.Log("Error:  " + webRequest.downloadHandler.text);
                 }
             }
+        }
+        private void LaunchPOUpdate(string dummy)
+        {
+            StartCoroutine(POUpdate());
+        }
+        IEnumerator POUpdate()
+        {
+            WWWForm wFrom = new WWWForm();
+            wFrom.AddField("player_id", myPlayerID.ToString());
+            wFrom.AddField("player_placeable_object", CreatePlaceableObjects());
+            using (UnityWebRequest webRequest = UnityWebRequest.Post(updatePOURL, wFrom))
+            {
+                yield return webRequest.SendWebRequest();
+                if (webRequest.isNetworkError || webRequest.isHttpError)
+                {
+                    Debug.Log(": Error: " + webRequest.error);
+                }
+                else if (webRequest.downloadHandler.text == "0")
+                {
+                    Debug.Log("Sth went wrong with php: " + webRequest.error);
+                }
+                else if (webRequest.downloadHandler.text == "1")
+                {
+                    Debug.Log("Sucessfull PO Update  ");
+                }
+                else
+                {
+                    Debug.Log("Error:  " + webRequest.downloadHandler.text);
+                }
+            }
+        }
+        private string CreatePlaceableObjects()
+        {
+            string placeableObjInfoToPass = "";
+            PlaceableObject[] myPlaceableObjects = sceneStartManager.GetPlaceableObjects();
+            int placeableObjectsLength = myPlaceableObjects.Length;
+            for (int i = 0; i < placeableObjectsLength; i++)
+            {
+                placeableObjInfoToPass += (i.ToString() + '/' + myPlaceableObjects[i].numOfOwnedObjects.ToString() + '/' + myPlaceableObjects[i].maxNumOfOwnedObjects.ToString()
+                    + '/' + myPlaceableObjects[i].coinsPrice.ToString() + '/' + myPlaceableObjects[i].experiencePrice.ToString() + '/' + BoolToString(myPlaceableObjects[i].isAddedToStack));
+                if(i < placeableObjectsLength - 1)
+                {
+                    placeableObjInfoToPass += '|';
+                }
+            }
+            return placeableObjInfoToPass;
         }
     }
 }

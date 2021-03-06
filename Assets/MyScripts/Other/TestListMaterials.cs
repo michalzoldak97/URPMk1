@@ -10,46 +10,28 @@ namespace U1
     {
         // Start is called before the first frame update
         [SerializeField] private Transform targetTransform;
-        private List<UpdateBehaviour> toUpdate = new List<UpdateBehaviour>();
-        UpdateBehaviour u1 = new UpdateBehaviour();
-        UpdateBehaviour u2 = new UpdateBehaviour();
-        UpdateBehaviour u3 = new UpdateBehaviour();
-        UpdateBehaviour u4 = new UpdateBehaviour();
-        UpdateBehaviour u5 = new UpdateBehaviour();
-        UpdateBehaviour u6 = new UpdateBehaviour();
-        UpdateBehaviour u7 = new UpdateBehaviour();
-        UpdateBehaviour u8 = new UpdateBehaviour();
-        UpdateBehaviour u9 = new UpdateBehaviour();
+        private SceneStartManager sceneStartManager;
 
         void Start()
         {
-            UpdateBehaviour u1 = new UpdateBehaviour();
-            UpdateBehaviour u2 = new UpdateBehaviour();
-            UpdateBehaviour u3 = new UpdateBehaviour();
-            UpdateBehaviour u4 = new UpdateBehaviour();
-            UpdateBehaviour u5 = new UpdateBehaviour();
-            UpdateBehaviour u6 = new UpdateBehaviour();
-            UpdateBehaviour u7 = new UpdateBehaviour();
-            UpdateBehaviour u8 = new UpdateBehaviour();
-            UpdateBehaviour u9 = new UpdateBehaviour();
-            toUpdate.Add(u1); toUpdate.Add(u2); toUpdate.Add(u3); toUpdate.Add(u4); toUpdate.Add(u5); toUpdate.Add(u6); toUpdate.Add(u7); toUpdate.Add(u8); toUpdate.Add(u9);
+            sceneStartManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
             StartCoroutine(StartTest());
         }
 
         IEnumerator StartTest()
         {
-            yield return new WaitForSecondsRealtime(3);
+            yield return new WaitForSecondsRealtime(1);
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Stop();
             //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
             double avElapsedMsM = 0;
             double avElapsedTcsM = 0;
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 40; i++)
             {
                 stopwatch.Reset();
                 stopwatch.Start();
                 //if(isMulti)
-                TestSingle(targetTransform);//TestMulti(targetTransform);
+                TestMulti(targetTransform);//TestMulti(targetTransform);
                 stopwatch.Stop();
                 //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
                 avElapsedMsM += stopwatch.ElapsedMilliseconds;
@@ -63,52 +45,38 @@ namespace U1
             {
                 PerformMultiAction(target);
             }
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 PerformMultiAction(target);
             }
         }
         void TestSingle(Transform target)
         {
-            /*for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 PerformSingleAction(target);
             }
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 PerformSingleAction(target);
-            }*/
-            PerformSingleAction(target);
+            }
         }
 
         void PerformMultiAction(Transform target)
         {
-            int count = toUpdate.Count;
-            if (count > 0)
+            for (int i = 0; i < sceneStartManager.GetPlaceableObjects().Length; i++)
             {
-                for (int i = 0; i < count; i++)
-                {
-                    toUpdate[i].GetUpdate();
-                }
+                sceneStartManager.GetPlaceableObjects()[i].objectName = "test name" + i.ToString();
             }
         }
         void PerformSingleAction(Transform target)
         {
-            int counter = 0;
-            for (int i = 0; i < 5; i++)
+            PlaceableObject[] myPO = sceneStartManager.GetPlaceableObjects();
+            int POLength = myPO.Length;
+            for (int i = 0; i < POLength; i++)
             {
-                for (int j = 0; j < 5; j++)
-                {
-                    counter++;
-                    if (i < 2)
-                    {
-                        UnityEngine.Debug.Log(counter);
-                    }
-                    else
-                        break;
-                }
+                myPO[i].objectName = "test name" + i.ToString();
             }
-            UnityEngine.Debug.Log("Final" + counter);
         }
     }
 }

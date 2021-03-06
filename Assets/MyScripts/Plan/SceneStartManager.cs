@@ -31,6 +31,12 @@ namespace U1
             if (toSet >= 0)
                 playerExperience = toSet;
         }
+        public int playerMaxSlots { get; private set; }
+        public void SetPlayerMaxSlots(int toSet)
+        {
+            if (toSet >= 3)
+                playerMaxSlots = toSet;
+        }
         public int maxLevel { get; private set; }
         public int maxAllowLevel { get; private set; }
         public int currLevel { get; private set; }
@@ -55,6 +61,7 @@ namespace U1
         public event DatabaseEventHandler EventLoggedIn;
         public event DatabaseEventHandler EventTaskUpdate;
         public event DatabaseEventHandler EventSaveMaxLevel;
+        public event DatabaseEventHandler EventPOUpdate;
 
         public delegate void SceneEventHandler();
         public event SceneEventHandler EventStartPlan;
@@ -82,6 +89,13 @@ namespace U1
             if (EventSaveMaxLevel != null)
             {
                 EventSaveMaxLevel(dummy);
+            }
+        }
+        public void CallEventPOUpdate(string dummy)
+        {
+            if (EventPOUpdate != null)
+            {
+                EventPOUpdate(dummy);
             }
         }
         public void CallEventStartPlan()
@@ -214,7 +228,7 @@ namespace U1
         {
             return placeableObjects;
         }
-        public void SetPlaceablePositions(PlaceableObject[] passedObjs)
+        public void SetPlaceableObjects(PlaceableObject[] passedObjs)
         {
             placeableObjects = passedObjs;
         }

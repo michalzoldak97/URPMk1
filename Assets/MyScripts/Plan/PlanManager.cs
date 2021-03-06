@@ -47,8 +47,8 @@ namespace U1
             {
                 for (int j = 0; j < myObjects[i].numOfOwnedObjects; j++)
                 {
-                    GameObject objUI = Instantiate(myObjects[i].objButon, uiObjParentTransform);
-                    uiObjects.Add(objUI);
+                    /*GameObject objUI = Instantiate(myObjects[i].objButon, uiObjParentTransform);
+                    uiObjects.Add(objUI);*/
                     GameObject alias = Instantiate(myObjects[i].mapAlias, Vector3.zero, Quaternion.Euler(0,0,0));
                     mapAliases.Add(alias);
                     worldPosToPas.Add(alias.transform.position);
@@ -113,7 +113,7 @@ namespace U1
             {
                 Debug.Log(" pass" + myObjects[i].worldPositions[i]);
             }*/
-            sceneManager.SetPlaceablePositions(myObjects);
+            sceneManager.SetPlaceableObjects(myObjects);
         }
     }
 }
