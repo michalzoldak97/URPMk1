@@ -11,6 +11,7 @@ namespace U1
         [SerializeField] string updateTaskStatusesURL;
         [SerializeField] string saveMavLevelURL;
         [SerializeField] string updatePOURL;
+        [SerializeField] string buyPOURL;
         private int myPlayerID;
         private SceneStartManager sceneStartManager;
 
@@ -21,6 +22,7 @@ namespace U1
             sceneStartManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
             sceneStartManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
             sceneStartManager.EventPOUpdate += LaunchPOUpdate;
+            sceneStartManager.EventPOUBuy += LaunchPOBuy;
         }
         private void OnDisable()
         {
@@ -28,6 +30,7 @@ namespace U1
             sceneStartManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
             sceneStartManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
             sceneStartManager.EventPOUpdate -= LaunchPOUpdate;
+            sceneStartManager.EventPOUBuy += LaunchPOBuy;
         }
 
         private void LaunchLoadDataOnLogIn(string usernameToPass)
@@ -118,12 +121,9 @@ namespace U1
                                 Debug.Log("matchnig data for given index: " + objIndex + " po: " + j);
                                 myPlaceableObjects[j].numOfOwnedObjects = Int32.Parse(singleObjectInfo[1]);
                                 myPlaceableObjects[j].maxNumOfOwnedObjects = Int32.Parse(singleObjectInfo[2]);
-                                myPlaceableObjects[j].coinsPrice = Int32.Parse(singleObjectInfo[3]);
-                                myPlaceableObjects[j].experiencePrice = Int32.Parse(singleObjectInfo[4]);
-                                if (Int32.Parse(singleObjectInfo[5]) == 1)
-                                    myPlaceableObjects[j].isAddedToStack = true;
-                                else if((Int32.Parse(singleObjectInfo[5]) == 0))
-                                    myPlaceableObjects[j].isAddedToStack = false;
+                                myPlaceableObjects[j].numOfObjOnStack = Int32.Parse(singleObjectInfo[3]);
+                                myPlaceableObjects[j].isAvailable = StringToBool(singleObjectInfo[4]);
+                                myPlaceableObjects[j].isAddedToStack = StringToBool(singleObjectInfo[5]);
                                 break;
                             }
                         }
@@ -200,6 +200,13 @@ namespace U1
             else
                 return "0";
         }
+        private bool StringToBool(string toConvert)
+        {
+            if (toConvert == "1")
+                return true;
+            else
+                return false;
+        }
 
         private void LaunchSaveMaxLevel(string maxLevelToSet)
         {
@@ -269,13 +276,46 @@ namespace U1
             for (int i = 0; i < placeableObjectsLength; i++)
             {
                 placeableObjInfoToPass += (i.ToString() + '/' + myPlaceableObjects[i].numOfOwnedObjects.ToString() + '/' + myPlaceableObjects[i].maxNumOfOwnedObjects.ToString()
-                    + '/' + myPlaceableObjects[i].coinsPrice.ToString() + '/' + myPlaceableObjects[i].experiencePrice.ToString() + '/' + BoolToString(myPlaceableObjects[i].isAddedToStack));
+                    + '/' + myPlaceableObjects[i].numOfObjOnStack.ToString() + '/' +    BoolToString(myPlaceableObjects[i].isAvailable) + '/' + BoolToString(myPlaceableObjects[i].isAddedToStack));
                 if(i < placeableObjectsLength - 1)
                 {
                     placeableObjInfoToPass += '|';
                 }
             }
             return placeableObjInfoToPass;
+        }
+        private void LaunchPOBuy(string dummy)
+        {
+            StartCoroutine(POBuy());
+        }
+        IEnumerator POBuy()
+        {
+            WWWForm wFrom = new WWWForm();
+            string dataToSend = sceneStartManager.playerCoins.ToString() + '^' + CreatePlaceableObjects();
+            Debug.Log(dataToSend);
+            wFrom.AddField("player_id", myPlayerID.ToString());
+            wFrom.AddField("data_to_send", dataToSend);
+            using (UnityWebRequest webRequest = UnityWebRequest.Post(buyPOURL, wFrom))
+            {
+                yield return webRequest.SendWebRequest();
+                if (webRequest.isNetworkError || webRequest.isHttpError)
+                {
+                    Debug.Log(": Error: " + webRequest.error);
+                }
+                else if (webRequest.downloadHandler.text == "0")
+                {
+                    Debug.Log("Sth went wrong with php: " + webRequest.error);
+                }
+                else if (webRequest.downloadHandler.text == "1")
+                {
+                    Debug.Log("PO bought");
+                    sceneStartManager.CallEventPOUTransactionResult("1");
+                }
+                else
+                {
+                    Debug.Log("Error:  " + webRequest.downloadHandler.text);
+                }
+            }
         }
     }
 }

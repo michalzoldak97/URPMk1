@@ -62,6 +62,8 @@ namespace U1
         public event DatabaseEventHandler EventTaskUpdate;
         public event DatabaseEventHandler EventSaveMaxLevel;
         public event DatabaseEventHandler EventPOUpdate;
+        public event DatabaseEventHandler EventPOUBuy;
+        public event DatabaseEventHandler EventPOUTransactionResult;
 
         public delegate void SceneEventHandler();
         public event SceneEventHandler EventStartPlan;
@@ -96,6 +98,20 @@ namespace U1
             if (EventPOUpdate != null)
             {
                 EventPOUpdate(dummy);
+            }
+        }
+        public void CallEventPOUBuy(string dummy)
+        {
+            if (EventPOUBuy != null)
+            {
+                EventPOUBuy(dummy);
+            }
+        }
+        public void CallEventPOUTransactionResult(string dummy)
+        {
+            if (EventPOUTransactionResult != null)
+            {
+                EventPOUTransactionResult(dummy);
             }
         }
         public void CallEventStartPlan()

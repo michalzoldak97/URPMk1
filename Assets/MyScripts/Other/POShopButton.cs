@@ -10,7 +10,7 @@ namespace U1
     {
         private int myPOIndex;
         [SerializeField] private TMP_Text objectName, objOwned, objAvailable, objPrice;
-        private Button addToSelected, objBuy;
+        [SerializeReference] private GameObject imageAvailability;
         private ShopManager shopManager;
 
         public void SetUpPOButton(int index, PlaceableObject myPO, ShopManager myShopManager)
@@ -22,6 +22,10 @@ namespace U1
             objAvailable.text = myPO.maxNumOfOwnedObjects.ToString();
             objPrice.text = myPO.coinsPrice.ToString();
         }
+        public void SetAvailabilityImage(bool imageStateToSet)
+        {
+            imageAvailability.SetActive(imageStateToSet);
+        }
         public void InformOnInfoEnter(Transform toPass)
         {
             shopManager.OnInfoButtonEnter(myPOIndex, toPass);
@@ -29,6 +33,10 @@ namespace U1
         public void InformOnInfoExit()
         {
             shopManager.OnInfoButtonExit(myPOIndex);
+        }
+        public void BuyObject()
+        {
+            shopManager.BuyPO(myPOIndex);
         }
     }
 }
