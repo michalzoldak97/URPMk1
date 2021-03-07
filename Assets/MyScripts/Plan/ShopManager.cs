@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 namespace U1
 {
@@ -51,14 +52,23 @@ namespace U1
                 {
                     if (placeableObjects[j].isAvailable && placeableObjects[j].objType == i)
                     {
-                        GameObject POPanel = Instantiate(poShopPanel, PObuttonsTransform);
-                        POPanel.GetComponent<POShopButton>().SetUpPOButton(j, placeableObjects[j], this);
-                        if(sceneStartManager.playerExperience < placeableObjects[j].experiencePrice || sceneStartManager.currLevel < placeableObjects[j].levelFromAvailable)
+                        if (placeableObjects[j].numOfOwnedObjects > 0 && placeableObjects[j].objectName == "Slot Extension")
                         {
-                            POPanel.GetComponent<POShopButton>().SetAvailabilityImage(true);
+                            string[] extensionInfo = placeableObjects[j].objectInfo.Split(' ');
+                            sceneStartManager.SetPlayerMaxSlots(sceneStartManager.playerMaxSlots + Int32.Parse(extensionInfo[1]));
+                            placeableObjects[j].isAvailable = false;
                         }
                         else
-                            POPanel.GetComponent<POShopButton>().SetAvailabilityImage(false);
+                        {
+                            GameObject POPanel = Instantiate(poShopPanel, PObuttonsTransform);
+                            POPanel.GetComponent<POShopButton>().SetUpPOButton(j, placeableObjects[j], this);
+                            if (sceneStartManager.playerExperience < placeableObjects[j].experiencePrice || sceneStartManager.currLevel < placeableObjects[j].levelFromAvailable)
+                            {
+                                POPanel.GetComponent<POShopButton>().SetAvailabilityImage(true);
+                            }
+                            else
+                                POPanel.GetComponent<POShopButton>().SetAvailabilityImage(false);
+                        }
                     }
                 }
             }
