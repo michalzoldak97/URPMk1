@@ -9,8 +9,8 @@ namespace U1
 {
     public class ShopManager : MonoBehaviour
     {
-        [SerializeField] private Transform PObuttonsTransform;
-        [SerializeField] private GameObject infoPanel, poShopPanel, transactionInfoPanel;
+        [SerializeField] private Transform PObuttonsTransform, selectedPOTransform;
+        [SerializeField] private GameObject infoPanel, poShopPanel, selectedPOpanel, transactionInfoPanel;
         [SerializeField] private TMP_Text slotsAvailable, playerCoins, playerExperience;
         private int coinsBeforeTransaction, numOwnedBeforeTransaction;
         private bool isBuyingInProgress;
@@ -30,6 +30,7 @@ namespace U1
         {
             SetUpPOButtons();
             SetUpSlotUI();
+            SetUpSelectedPanel();
             infoPanel.SetActive(false);
         }
         private void SetUpSlotUI()
@@ -68,6 +69,31 @@ namespace U1
                             }
                             else
                                 POPanel.GetComponent<POShopButton>().SetAvailabilityImage(false);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SetUpSelectedPanel()
+        {
+            foreach (Transform child in selectedPOTransform)
+            {
+                Destroy(child.gameObject);
+            }
+            PlaceableObject[] placeableObjects = sceneStartManager.GetPlaceableObjects();
+            int POlength = placeableObjects.Length;
+            for (int i = 0; i < PlaceableObject.numOfObjTypes; i++)
+            {
+                for (int j = 0; j < POlength; j++)
+                {
+                    if (placeableObjects[j].isAvailable && placeableObjects[j].objType == i 
+                        && placeableObjects[j].isAddedToStack && placeableObjects[j].numOfObjOnStack > 0)
+                    {
+                        for (int k = 0; k < placeableObjects[j].numOfObjOnStack; k++)
+                        {
+                            GameObject SOPanel = Instantiate(selectedPOpanel, selectedPOTransform);
+                            SOPanel.GetComponent<POSelectedButton>().SetUpButton(placeableObjects[j].objIcon, placeableObjects[j].objectName);
                         }
                     }
                 }

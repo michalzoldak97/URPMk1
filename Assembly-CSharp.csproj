@@ -66,6 +66,7 @@
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
+    <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
     <Compile Include="Assets\MyScripts\AI\AINavi.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebLogIn.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerCursorManager.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemAmmo.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCInput.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemPickUp.cs" />
+    <Compile Include="Assets\MyScripts\Plan\ShopManager.cs" />
     <Compile Include="Assets\MyScripts\Other\TestUpdateBehaviour.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunMaster.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerWeight.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCShoot.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamagableMaster.cs" />
     <Compile Include="Assets\MyScripts\AI\TeamID.cs" />
+    <Compile Include="Assets\MyScripts\Other\POInfoButton.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageDestroy.cs" />
     <Compile Include="Assets\MyScripts\Player\FPSController.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAnimation.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemMass.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerDetectItem.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\UnParentObj.cs" />
+    <Compile Include="Assets\MyScripts\Other\POShopButton.cs" />
     <Compile Include="Assets\MyScripts\WebTest\RegistrationMenu.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerInventory.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemChangeLayer.cs" />
@@ -131,10 +135,8 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Other\POShopButton.cs" />
-    <Compile Include="Assets\MyScripts\Plan\ShopManager.cs" />
-    <Compile Include="Assets\MyScripts\Other\POInfoButton.cs" />
-    <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
+    <Compile Include="Assets\MyScripts\QualityManagement\SetQualityOnStart.cs" />
+    <Compile Include="Assets\MyScripts\Other\POSelectedButton.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

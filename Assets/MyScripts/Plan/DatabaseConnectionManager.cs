@@ -115,10 +115,10 @@ namespace U1
                         int objIndex = Int32.Parse(singleObjectInfo[0]);
                         for (int j = 0; j < placeableObjLength; j++)
                         {
-                            Debug.Log("Looping po");
+                            //Debug.Log("Looping po");
                             if (objIndex == j)
                             {
-                                Debug.Log("matchnig data for given index: " + objIndex + " po: " + j);
+                                //Debug.Log("matchnig data for given index: " + objIndex + " po: " + j);
                                 myPlaceableObjects[j].numOfOwnedObjects = Int32.Parse(singleObjectInfo[1]);
                                 myPlaceableObjects[j].maxNumOfOwnedObjects = Int32.Parse(singleObjectInfo[2]);
                                 myPlaceableObjects[j].numOfObjOnStack = Int32.Parse(singleObjectInfo[3]);

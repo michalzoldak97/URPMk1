@@ -67,7 +67,6 @@ namespace U1
                 GameObject objUI = Instantiate(levelButton, levelButtonsTransform);
                 objUI.GetComponent<Button>().onClick.AddListener(delegate { LoadNextLevel(x); });
                 objUI.GetComponentInChildren<TMP_Text>().text = "Level " + x.ToString();
-                Debug.Log("level set = " + x + " whereass level is " + sceneManager.maxAllowLevel);
             }
         }
     }
