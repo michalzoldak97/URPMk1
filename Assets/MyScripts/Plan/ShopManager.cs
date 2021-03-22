@@ -35,7 +35,7 @@ namespace U1
         }
         private void SetUpSlotUI()
         {
-            slotsAvailable.text = "Slots available: " + sceneStartManager.playerMaxSlots.ToString();
+            slotsAvailable.text = "Slots available: " + CountFreeSlots().ToString();
             playerCoins.text = "Coins: " + sceneStartManager.playerCoins.ToString();
             playerExperience.text = "EXP: " + sceneStartManager.playerExperience.ToString();
         }
@@ -98,6 +98,33 @@ namespace U1
                     }
                 }
             }
+        }
+        public void AddButtonToStack(int idx)
+        {
+            PlaceableObject objToValid = sceneStartManager.GetPlaceableObjects()[idx];
+            Debug.Log("Add called for idx: " + idx + " there are " + CountFreeSlots() + " free and numOfOwned is > 0: " + objToValid.numOfOwnedObjects + " and on stack: " + objToValid.numOfObjOnStack);
+            if (CountFreeSlots() > 0 && objToValid.numOfOwnedObjects > 0 && objToValid.numOfObjOnStack < objToValid.numOfOwnedObjects)
+            {
+                sceneStartManager.GetPlaceableObjects()[idx].isAddedToStack = true;
+                sceneStartManager.GetPlaceableObjects()[idx].numOfObjOnStack++;
+                SetUpPOButtons();
+                SetUpSlotUI();
+                SetUpSelectedPanel();
+            }
+        }
+
+        private int CountFreeSlots()
+        {
+            int numOfPO = sceneStartManager.GetPlaceableObjects().Length;
+            int slotsTaken = 0;
+            for (int i = 0; i < numOfPO; i++)
+            {
+                if (sceneStartManager.GetPlaceableObjects()[i].isAddedToStack)
+                {
+                    slotsTaken += sceneStartManager.GetPlaceableObjects()[i].numOfObjOnStack;
+                }
+            }
+            return (sceneStartManager.playerMaxSlots - slotsTaken);
         }
 
         public void BuyPO(int index)

@@ -9,7 +9,8 @@ namespace U1
 
         void Start()
         {
-            QualitySettings.vSyncCount = 1;
+            //QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = 30;
         }
     }
 }

@@ -179,6 +179,8 @@ namespace U1
             {
                 OnSceneLoad(SceneType.game);
             }
+            if (!gameScenesIndex.Contains(SceneManager.GetActiveScene().buildIndex))
+                Application.targetFrameRate = 30;
         }
         void OnEnd()
         {

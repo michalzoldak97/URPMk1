@@ -38,5 +38,9 @@ namespace U1
         {
             shopManager.BuyPO(myPOIndex);
         }
+        public void AddButtonToStack()
+        {
+            shopManager.AddButtonToStack(myPOIndex);
+        }
     }
 }
