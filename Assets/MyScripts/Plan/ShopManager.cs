@@ -10,11 +10,12 @@ namespace U1
     public class ShopManager : MonoBehaviour
     {
         [SerializeField] private Transform PObuttonsTransform, selectedPOTransform;
-        [SerializeField] private GameObject infoPanel, poShopPanel, selectedPOpanel, transactionInfoPanel;
+        [SerializeField] private GameObject infoPanel, poShopPanel, selectedPOpanel, transactionInfoPanel, buyConfirmCanvas;
         [SerializeField] private TMP_Text slotsAvailable, playerCoins, playerExperience;
         private int coinsBeforeTransaction, numOwnedBeforeTransaction;
         private bool isBuyingInProgress;
         private string transactionStatus = "waiting";
+        private string errorText;
         private SceneStartManager sceneStartManager;
 
         private void OnEnable()
@@ -93,7 +94,7 @@ namespace U1
                         for (int k = 0; k < placeableObjects[j].numOfObjOnStack; k++)
                         {
                             GameObject SOPanel = Instantiate(selectedPOpanel, selectedPOTransform);
-                            SOPanel.GetComponent<POSelectedButton>().SetUpButton(placeableObjects[j].objIcon, placeableObjects[j].objectName);
+                            SOPanel.GetComponent<POSelectedButton>().SetUpButton(placeableObjects[j].objIcon, placeableObjects[j].objectName, j, this);
                         }
                     }
                 }
@@ -126,7 +127,21 @@ namespace U1
             }
             return (sceneStartManager.playerMaxSlots - slotsTaken);
         }
-
+        public void RemoveButtonFromStack(int idx)
+        {
+            sceneStartManager.GetPlaceableObjects()[idx].numOfObjOnStack--;
+            if(sceneStartManager.GetPlaceableObjects()[idx].numOfObjOnStack < 1)
+                sceneStartManager.GetPlaceableObjects()[idx].isAddedToStack = false;
+            SetUpPOButtons();
+            SetUpSlotUI();
+            SetUpSelectedPanel();
+        }
+        
+        public void AttemptBuyPO(int index)
+        {
+            buyConfirmCanvas.SetActive(true);
+            buyConfirmCanvas.GetComponent<ConfirmBuy>().SetPOIndex(index);
+        }
         public void BuyPO(int index)
         {
             if (!isBuyingInProgress)
@@ -138,10 +153,13 @@ namespace U1
                 if (AttemptToBuyPO(index))
                 {
                     StartCoroutine(WaitForServerOnBuyResponse(index));
+                    buyConfirmCanvas.SetActive(false);
                 }
                 else
                 {
-                    Debug.Log("STH went wronk");
+                    Debug.Log("Sth wet wronk");
+                    errorText = "Can't perform transaction";
+                    buyConfirmCanvas.GetComponent<ConfirmBuy>().StartDisplayErrorMessage(errorText);
                     sceneStartManager.SetPlayerCoins(coinsBeforeTransaction);
                     sceneStartManager.GetPlaceableObjects()[index].numOfOwnedObjects = numOwnedBeforeTransaction;
                     OnOffCursor(true);
@@ -243,6 +261,14 @@ namespace U1
         public void OnInfoButtonExit(int POindex)
         {
             infoPanel.SetActive(false);
+        }
+        public void NextLevel()
+        {
+            sceneStartManager.ChangeScene(3);
+        }
+        public void PreviousLevel()
+        {
+            sceneStartManager.ChangeScene(1);
         }
     }
 }

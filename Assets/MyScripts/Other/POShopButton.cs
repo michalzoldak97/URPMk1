@@ -9,7 +9,7 @@ namespace U1
     public class POShopButton : MonoBehaviour
     {
         private int myPOIndex;
-        [SerializeField] private TMP_Text objectName, objOwned, objAvailable, objPrice;
+        [SerializeField] private TMP_Text objectName, objOwned, objAvailable, objPrice, objSel;
         [SerializeReference] private GameObject imageAvailability;
         private ShopManager shopManager;
 
@@ -21,6 +21,7 @@ namespace U1
             objOwned.text = myPO.numOfOwnedObjects.ToString();
             objAvailable.text = myPO.maxNumOfOwnedObjects.ToString();
             objPrice.text = myPO.coinsPrice.ToString();
+            objSel.text = myPO.numOfObjOnStack.ToString();
         }
         public void SetAvailabilityImage(bool imageStateToSet)
         {
@@ -36,7 +37,7 @@ namespace U1
         }
         public void BuyObject()
         {
-            shopManager.BuyPO(myPOIndex);
+            shopManager.AttemptBuyPO(myPOIndex);
         }
         public void AddButtonToStack()
         {

@@ -77,7 +77,7 @@ namespace U1
                 sceneStartManager.SetPlayerCoins(playerCoins);
                 sceneStartManager.SetPlayerExperience(playerExperience);
                 sceneStartManager.SetPlayerMaxSlots(playerMaxSlots);
-                Debug.Log("Id sucessfully converted to: " + playerId);
+                //Debug.Log("Id sucessfully converted to: " + playerId);
             }
             catch
             {
@@ -88,7 +88,7 @@ namespace U1
             for (int i = 0; i < tasksInfoLength; i++)
             {
                 string[] oneTaskInfo = allTasksInfo[i].Split('/');
-                Debug.Log("Index I  = " + oneTaskInfo[0] + " index J = " + oneTaskInfo[1] + " value = " + oneTaskInfo[2]);
+                //Debug.Log("Index I  = " + oneTaskInfo[0] + " index J = " + oneTaskInfo[1] + " value = " + oneTaskInfo[2]);
                 try
                 {
                     int indexOne = Int32.Parse(oneTaskInfo[0]);
@@ -276,7 +276,7 @@ namespace U1
             for (int i = 0; i < placeableObjectsLength; i++)
             {
                 placeableObjInfoToPass += (i.ToString() + '/' + myPlaceableObjects[i].numOfOwnedObjects.ToString() + '/' + myPlaceableObjects[i].maxNumOfOwnedObjects.ToString()
-                    + '/' + myPlaceableObjects[i].numOfObjOnStack.ToString() + '/' +    BoolToString(myPlaceableObjects[i].isAvailable) + '/' + BoolToString(myPlaceableObjects[i].isAddedToStack));
+                    + '/' + ReturnObjOnStack(myPlaceableObjects[i].numOfObjOnStack) + '/' +    BoolToString(myPlaceableObjects[i].isAvailable) + '/' + BoolToString(myPlaceableObjects[i].isAddedToStack));
                 if(i < placeableObjectsLength - 1)
                 {
                     placeableObjInfoToPass += '|';
@@ -316,6 +316,13 @@ namespace U1
                     Debug.Log("Error:  " + webRequest.downloadHandler.text);
                 }
             }
+        }
+        private string ReturnObjOnStack(int objOnStack)
+        {
+            if (objOnStack > 1)
+                return "1";
+            else
+                return objOnStack.ToString();
         }
     }
 }

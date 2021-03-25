@@ -10,11 +10,19 @@ namespace U1
     {
         [SerializeField] Image myPOImage;
         [SerializeField] TMP_Text myPOText;
+        int myIndex;
+        private ShopManager shopManager;
 
-        public void SetUpButton(Sprite imageToSet, string textToSet)
+        public void SetUpButton(Sprite imageToSet, string textToSet, int indexToSet, ShopManager myManager)
         {
             myPOImage.sprite = imageToSet;
             myPOText.text = textToSet;
+            myIndex = indexToSet;
+            shopManager = myManager;
+        }
+        public void RemoveMe()
+        {
+            shopManager.RemoveButtonFromStack(myIndex);
         }
     }
 }
