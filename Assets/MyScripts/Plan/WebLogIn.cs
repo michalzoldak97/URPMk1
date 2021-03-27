@@ -95,7 +95,7 @@ namespace U1
                 else if (webRequest.downloadHandler.text == "Incorrect password" || webRequest.downloadHandler.text == "Incorrect username")
                 {
                     logInButton.interactable = false;
-                    StartCoroutine(InformCantAttempt("Error: " + "Incorrect credentials supplied"));
+                    StartCoroutine(InformCantAttempt("Error: " + "Incorrect credentials provided"));
                 }
                 else if (webRequest.downloadHandler.text == "1")
                 {

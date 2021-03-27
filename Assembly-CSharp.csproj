@@ -62,6 +62,7 @@
     <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebSignUp.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
+    <Compile Include="Assets\MyScripts\Other\PlanPOButton.cs" />
     <Compile Include="Assets\MyScripts\WebTest\TestWeb1.cs" />
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
@@ -97,13 +98,13 @@
     <Compile Include="Assets\MyScripts\Item\ItemThrow.cs" />
     <Compile Include="Assets\MyScripts\Other\OnOffUpdate.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCShoot.cs" />
+    <Compile Include="Assets\MyScripts\Other\ConfirmBuy.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamagableMaster.cs" />
     <Compile Include="Assets\MyScripts\AI\TeamID.cs" />
     <Compile Include="Assets\MyScripts\Other\POInfoButton.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageDestroy.cs" />
     <Compile Include="Assets\MyScripts\Player\FPSController.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAnimation.cs" />
-    <Compile Include="Assets\MyScripts\Plan\PlanManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeController.cs" />
     <Compile Include="Assets\MyScripts\AI\AIStopOnDamage.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMass.cs" />
@@ -131,13 +132,14 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunHitEffects.cs" />
     <Compile Include="Assets\MyScripts\Other\Deactivate.cs" />
     <Compile Include="Assets\MyScripts\WebTest\MainMenu.cs" />
+    <Compile Include="Assets\MyScripts\Plan\PlanManager.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemCameraManipulation.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\ObjectsContainer.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunSingleShoot.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Other\ConfirmBuy.cs" />
+    <Compile Include="Assets\MyScripts\Plan\Plan_Manager.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
