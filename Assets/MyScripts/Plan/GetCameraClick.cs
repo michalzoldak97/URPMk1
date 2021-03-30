@@ -28,12 +28,10 @@ namespace U1
                 }
                 else
                 {
-                    Debug.Log("layer not gut Click");
                     return emptySpace;
                 }
             }
             {
-                Debug.Log("no collider");
                 return emptySpace;
             }
         }

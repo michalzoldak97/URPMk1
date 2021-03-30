@@ -90,7 +90,7 @@ namespace U1
                 if (webRequest.isNetworkError || webRequest.isHttpError)
                 {
                     StartCoroutine(InformCantAttempt("Error: " + webRequest.error));
-                    Debug.Log(": Error: " + webRequest.error);
+                    //Debug.Log(": Error: " + webRequest.error);
                 }
                 else if (webRequest.downloadHandler.text == "Incorrect password" || webRequest.downloadHandler.text == "Incorrect username")
                 {
@@ -101,7 +101,7 @@ namespace U1
                 {
                     logInButton.interactable = false;
                     StartCoroutine(LogInSuccesInfo());
-                    Debug.Log("User Login SUCESS, dataloader stuff");
+                    //Debug.Log("User Login SUCESS, dataloader stuff");
                 }
                 else
                 {

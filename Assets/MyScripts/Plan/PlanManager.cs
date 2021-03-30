@@ -11,14 +11,15 @@ namespace U1
         private Vector3 startPosition = new Vector3(-100, -100, -100);
         private int[] currSelectedID = new int[2];
         private PlaceableObject[] myPlaceableObj;
-        private List<Vector3[]> listOfPositions = new List<Vector3[]>();
         private List<PlanPOButton> planButtons = new List<PlanPOButton>();
         private GetCameraClick cameraClick;
-        private SceneStartManager sceneStartManager;
+        private SceneStartManager startManager;
+        private SceneLoadQualityManager sceneLoadManager;
         private void Start()
         {
-            sceneStartManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
-            myPlaceableObj = sceneStartManager.GetPlaceableObjects();
+            startManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
+            sceneLoadManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneLoadQualityManager>();
+            myPlaceableObj = startManager.GetPlaceableObjects();
             cameraClick = GetComponent<GetCameraClick>();
             ClearPOPositions();
             SetUpUi();
@@ -34,10 +35,6 @@ namespace U1
             if (Input.GetMouseButtonDown(0))
             {
                 CheckForClick();
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                SetNewPOToManager();
             }
         }
         void CheckForClick()
@@ -105,20 +102,25 @@ namespace U1
         public void LoadPreviousLevel()
         {
             SetNewPOToManager();
-            sceneStartManager.ChangeScene(2);
+            startManager.ChangeScene(2);
+        }
+        public void LoadNextLevel()
+        {
+            SetNewPOToManager();
+            sceneLoadManager.LoadGameScene();
         }
         private void SetNewPOToManager()//call on level change
         {
-            sceneStartManager.SetPlaceableObjects(myPlaceableObj);
-            for (int i = 0; i < sceneStartManager.GetPlaceableObjects().Length; i++)
+            startManager.SetPlaceableObjects(myPlaceableObj);
+            for (int i = 0; i < startManager.GetPlaceableObjects().Length; i++)
             {
-                if (sceneStartManager.GetPlaceableObjects()[i].isAddedToStack)
+                if (startManager.GetPlaceableObjects()[i].isAddedToStack)
                 {
-                    Debug.Log("Is added: " + sceneStartManager.GetPlaceableObjects()[i].isAddedToStack);
-                    Debug.Log("Num added: " + sceneStartManager.GetPlaceableObjects()[i].numOfObjOnStack);
-                    for (int j = 0; j < sceneStartManager.GetPlaceableObjects()[i].worldPositions.Length; j++)
+                    Debug.Log("Is added: " + startManager.GetPlaceableObjects()[i].isAddedToStack);
+                    Debug.Log("Num added: " + startManager.GetPlaceableObjects()[i].numOfObjOnStack);
+                    for (int j = 0; j < startManager.GetPlaceableObjects()[i].worldPositions.Length; j++)
                     {
-                        Debug.Log("Coords: " + sceneStartManager.GetPlaceableObjects()[i].worldPositions[j]);
+                        Debug.Log("Coords: " + startManager.GetPlaceableObjects()[i].worldPositions[j]);
                     }
                 }
             }

@@ -13,24 +13,24 @@ namespace U1
         [SerializeField] string updatePOURL;
         [SerializeField] string buyPOURL;
         private int myPlayerID;
-        private SceneStartManager sceneStartManager;
+        private SceneStartManager startManager;
 
         private void OnEnable()
         {
-            sceneStartManager = GetComponent<SceneStartManager>();
-            sceneStartManager.EventLoggedIn += LaunchLoadDataOnLogIn;
-            sceneStartManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
-            sceneStartManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
-            sceneStartManager.EventPOUpdate += LaunchPOUpdate;
-            sceneStartManager.EventPOUBuy += LaunchPOBuy;
+            startManager = GetComponent<SceneStartManager>();
+            startManager.EventLoggedIn += LaunchLoadDataOnLogIn;
+            startManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
+            startManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
+            startManager.EventPOUpdate += LaunchPOUpdate;
+            startManager.EventPOUBuy += LaunchPOBuy;
         }
         private void OnDisable()
         {
-            sceneStartManager.EventLoggedIn -= LaunchLoadDataOnLogIn;
-            sceneStartManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
-            sceneStartManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
-            sceneStartManager.EventPOUpdate -= LaunchPOUpdate;
-            sceneStartManager.EventPOUBuy += LaunchPOBuy;
+            startManager.EventLoggedIn -= LaunchLoadDataOnLogIn;
+            startManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
+            startManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
+            startManager.EventPOUpdate -= LaunchPOUpdate;
+            startManager.EventPOUBuy += LaunchPOBuy;
         }
 
         private void LaunchLoadDataOnLogIn(string usernameToPass)
@@ -61,7 +61,7 @@ namespace U1
         }
         private void UpdateDataOnLogIn(string webData)
         {
-            Debug.Log(webData);
+            //Debug.Log(webData);
             string[] firstDataSplit = webData.Split('^');
 
             string[] playerIDAndLevel = firstDataSplit[0].Split('/');
@@ -73,10 +73,10 @@ namespace U1
                 int playerExperience = Int32.Parse(playerIDAndLevel[3]);
                 int playerMaxSlots = Int32.Parse(playerIDAndLevel[4]);
                 myPlayerID = playerId;
-                sceneStartManager.SetMaxAllowLevel(playerMaxLevel);
-                sceneStartManager.SetPlayerCoins(playerCoins);
-                sceneStartManager.SetPlayerExperience(playerExperience);
-                sceneStartManager.SetPlayerMaxSlots(playerMaxSlots);
+                startManager.SetMaxAllowLevel(playerMaxLevel);
+                startManager.SetPlayerCoins(playerCoins);
+                startManager.SetPlayerExperience(playerExperience);
+                startManager.SetPlayerMaxSlots(playerMaxSlots);
                 //Debug.Log("Id sucessfully converted to: " + playerId);
             }
             catch
@@ -94,7 +94,7 @@ namespace U1
                     int indexOne = Int32.Parse(oneTaskInfo[0]);
                     int indexTwo = Int32.Parse(oneTaskInfo[1]);
                     bool valueToSet = (oneTaskInfo[2]=="1");
-                    sceneStartManager.SetTaskStatuses(indexOne, indexTwo, valueToSet);
+                    startManager.SetTaskStatuses(indexOne, indexTwo, valueToSet);
                 }
                 catch
                 {
@@ -106,7 +106,7 @@ namespace U1
                 if (firstDataSplit.Length > 2)
                 {
                     string[] placeableObjInfo = firstDataSplit[2].Split('|');
-                    PlaceableObject[] myPlaceableObjects = sceneStartManager.GetPlaceableObjects();
+                    PlaceableObject[] myPlaceableObjects = startManager.GetPlaceableObjects();
                     int objInfoLength = placeableObjInfo.Length;
                     int placeableObjLength = myPlaceableObjects.Length;
                     for (int i = 0; i < objInfoLength; i++)
@@ -128,7 +128,7 @@ namespace U1
                             }
                         }
                     }
-                    sceneStartManager.SetPlaceableObjects(myPlaceableObjects);
+                    startManager.SetPlaceableObjects(myPlaceableObjects);
                 }
                 else
                 {
@@ -174,13 +174,13 @@ namespace U1
         private string CreateNewTaskStatuses()
         {
             string taskInfoToPass = "";
-            int firstDimmLength = sceneStartManager.GetTaskStatuses().GetLength(0);
-            int secondDimmLength = sceneStartManager.GetTaskStatuses().GetLength(1);
+            int firstDimmLength = startManager.GetTaskStatuses().GetLength(0);
+            int secondDimmLength = startManager.GetTaskStatuses().GetLength(1);
             for (int i = 0; i < firstDimmLength; i++)
             {
                 for (int j = 0; j < secondDimmLength; j++)
                 {
-                    taskInfoToPass += (i.ToString() + '/' + j.ToString() + '/' + BoolToString(sceneStartManager.GetTaskStatuses()[i, j]));
+                    taskInfoToPass += (i.ToString() + '/' + j.ToString() + '/' + BoolToString(startManager.GetTaskStatuses()[i, j]));
                     if (j == secondDimmLength - 1 && i == firstDimmLength - 1)
                     {
                         
@@ -271,7 +271,7 @@ namespace U1
         private string CreatePlaceableObjects()
         {
             string placeableObjInfoToPass = "";
-            PlaceableObject[] myPlaceableObjects = sceneStartManager.GetPlaceableObjects();
+            PlaceableObject[] myPlaceableObjects = startManager.GetPlaceableObjects();
             int placeableObjectsLength = myPlaceableObjects.Length;
             for (int i = 0; i < placeableObjectsLength; i++)
             {
@@ -291,7 +291,7 @@ namespace U1
         IEnumerator POBuy()
         {
             WWWForm wFrom = new WWWForm();
-            string dataToSend = sceneStartManager.playerCoins.ToString() + '^' + CreatePlaceableObjects();
+            string dataToSend = startManager.playerCoins.ToString() + '^' + CreatePlaceableObjects();
             Debug.Log(dataToSend);
             wFrom.AddField("player_id", myPlayerID.ToString());
             wFrom.AddField("data_to_send", dataToSend);
@@ -309,7 +309,7 @@ namespace U1
                 else if (webRequest.downloadHandler.text == "1")
                 {
                     Debug.Log("PO bought");
-                    sceneStartManager.CallEventPOUTransactionResult("1");
+                    startManager.CallEventPOUTransactionResult("1");
                 }
                 else
                 {

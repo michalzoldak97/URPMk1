@@ -14,7 +14,6 @@ namespace U1
 
         public int currentAmmo { get; set; }
         private int amuontToRequest;
-        private bool isReloading;
         private PlayerMaster playerMaster;
         private PlayerAmmo playerAmmo;
         private GunMaster gunMaster;
@@ -69,7 +68,7 @@ namespace U1
 
         void Reload()
         {
-            if(currentAmmo<ammoCapacity && !isReloading)
+            if(currentAmmo<ammoCapacity && !gunMaster.isReloading)
             {
                 //Debug.Log("Coroutine started:");// set is reloading value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 StartCoroutine(Reloading());
@@ -78,14 +77,14 @@ namespace U1
 
         IEnumerator Reloading()
         {
-            isReloading = true;
+            gunMaster.isReloading = true;
             SetCanShoot(false);
             gunMaster.CallEventReload();
             yield return new WaitForSecondsRealtime(reloadTime);
             amuontToRequest = ammoCapacity - currentAmmo;
             ChangeAmmo(playerAmmo.TakeAmmo(ammoName, amuontToRequest));
             //Debug.Log("Coroutine finished:");
-            isReloading = false;
+            gunMaster.isReloading = false;
             if(currentAmmo>0)
                 SetCanShoot(true);
         }
@@ -122,7 +121,7 @@ namespace U1
             StopAllCoroutines();
             myAudio.Stop();
             //Debug.Log("Reload Stopped");
-            isReloading = false;
+            gunMaster.isReloading = false;
             if(currentAmmo>0)
                 SetCanShoot(true);
         }

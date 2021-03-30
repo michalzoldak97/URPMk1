@@ -16,16 +16,16 @@ namespace U1
         private bool isBuyingInProgress;
         private string transactionStatus = "waiting";
         private string errorText;
-        private SceneStartManager sceneStartManager;
+        private SceneStartManager startManager;
 
         private void OnEnable()
         {
-            sceneStartManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
-            sceneStartManager.EventPOUTransactionResult += UpdateTransactionStatus;
+            startManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
+            startManager.EventPOUTransactionResult += UpdateTransactionStatus;
         }
         private void OnDisable()
         {
-            sceneStartManager.EventPOUTransactionResult -= UpdateTransactionStatus;
+            startManager.EventPOUTransactionResult -= UpdateTransactionStatus;
         }
         private void Start()
         {
@@ -37,8 +37,8 @@ namespace U1
         private void SetUpSlotUI()
         {
             slotsAvailable.text = "Slots available: " + CountFreeSlots().ToString();
-            playerCoins.text = "Coins: " + sceneStartManager.playerCoins.ToString();
-            playerExperience.text = "EXP: " + sceneStartManager.playerExperience.ToString();
+            playerCoins.text = "Coins: " + startManager.playerCoins.ToString();
+            playerExperience.text = "EXP: " + startManager.playerExperience.ToString();
         }
         private void SetUpPOButtons()
         {
@@ -46,7 +46,7 @@ namespace U1
             {
                 Destroy(child.gameObject);
             }
-            PlaceableObject[] placeableObjects = sceneStartManager.GetPlaceableObjects();
+            PlaceableObject[] placeableObjects = startManager.GetPlaceableObjects();
             int POlength = placeableObjects.Length;
             for (int i = 0; i < PlaceableObject.numOfObjTypes; i++)
             {
@@ -57,14 +57,14 @@ namespace U1
                         if (placeableObjects[j].numOfOwnedObjects > 0 && placeableObjects[j].objectName == "Slot Extension")
                         {
                             string[] extensionInfo = placeableObjects[j].objectInfo.Split(' ');
-                            sceneStartManager.SetPlayerMaxSlots(sceneStartManager.playerMaxSlots + Int32.Parse(extensionInfo[1]));
+                            startManager.SetPlayerMaxSlots(startManager.playerMaxSlots + Int32.Parse(extensionInfo[1]));
                             placeableObjects[j].isAvailable = false;
                         }
                         else
                         {
                             GameObject POPanel = Instantiate(poShopPanel, PObuttonsTransform);
                             POPanel.GetComponent<POShopButton>().SetUpPOButton(j, placeableObjects[j], this);
-                            if (sceneStartManager.playerExperience < placeableObjects[j].experiencePrice || sceneStartManager.currLevel < placeableObjects[j].levelFromAvailable)
+                            if (startManager.playerExperience < placeableObjects[j].experiencePrice || startManager.currLevel < placeableObjects[j].levelFromAvailable)
                             {
                                 POPanel.GetComponent<POShopButton>().SetAvailabilityImage(true);
                             }
@@ -82,7 +82,7 @@ namespace U1
             {
                 Destroy(child.gameObject);
             }
-            PlaceableObject[] placeableObjects = sceneStartManager.GetPlaceableObjects();
+            PlaceableObject[] placeableObjects = startManager.GetPlaceableObjects();
             int POlength = placeableObjects.Length;
             for (int i = 0; i < PlaceableObject.numOfObjTypes; i++)
             {
@@ -102,12 +102,11 @@ namespace U1
         }
         public void AddButtonToStack(int idx)
         {
-            PlaceableObject objToValid = sceneStartManager.GetPlaceableObjects()[idx];
-            Debug.Log("Add called for idx: " + idx + " there are " + CountFreeSlots() + " free and numOfOwned is > 0: " + objToValid.numOfOwnedObjects + " and on stack: " + objToValid.numOfObjOnStack);
+            PlaceableObject objToValid = startManager.GetPlaceableObjects()[idx];
             if (CountFreeSlots() > 0 && objToValid.numOfOwnedObjects > 0 && objToValid.numOfObjOnStack < objToValid.numOfOwnedObjects)
             {
-                sceneStartManager.GetPlaceableObjects()[idx].isAddedToStack = true;
-                sceneStartManager.GetPlaceableObjects()[idx].numOfObjOnStack++;
+                startManager.GetPlaceableObjects()[idx].isAddedToStack = true;
+                startManager.GetPlaceableObjects()[idx].numOfObjOnStack++;
                 SetUpPOButtons();
                 SetUpSlotUI();
                 SetUpSelectedPanel();
@@ -116,22 +115,22 @@ namespace U1
 
         private int CountFreeSlots()
         {
-            int numOfPO = sceneStartManager.GetPlaceableObjects().Length;
+            int numOfPO = startManager.GetPlaceableObjects().Length;
             int slotsTaken = 0;
             for (int i = 0; i < numOfPO; i++)
             {
-                if (sceneStartManager.GetPlaceableObjects()[i].isAddedToStack)
+                if (startManager.GetPlaceableObjects()[i].isAddedToStack)
                 {
-                    slotsTaken += sceneStartManager.GetPlaceableObjects()[i].numOfObjOnStack;
+                    slotsTaken += startManager.GetPlaceableObjects()[i].numOfObjOnStack;
                 }
             }
-            return (sceneStartManager.playerMaxSlots - slotsTaken);
+            return (startManager.playerMaxSlots - slotsTaken);
         }
         public void RemoveButtonFromStack(int idx)
         {
-            sceneStartManager.GetPlaceableObjects()[idx].numOfObjOnStack--;
-            if(sceneStartManager.GetPlaceableObjects()[idx].numOfObjOnStack < 1)
-                sceneStartManager.GetPlaceableObjects()[idx].isAddedToStack = false;
+            startManager.GetPlaceableObjects()[idx].numOfObjOnStack--;
+            if(startManager.GetPlaceableObjects()[idx].numOfObjOnStack < 1)
+                startManager.GetPlaceableObjects()[idx].isAddedToStack = false;
             SetUpPOButtons();
             SetUpSlotUI();
             SetUpSelectedPanel();
@@ -148,8 +147,8 @@ namespace U1
             {
                 isBuyingInProgress = true;
                 OnOffCursor(false);
-                coinsBeforeTransaction = sceneStartManager.playerCoins;
-                numOwnedBeforeTransaction = sceneStartManager.GetPlaceableObjects()[index].numOfOwnedObjects;
+                coinsBeforeTransaction = startManager.playerCoins;
+                numOwnedBeforeTransaction = startManager.GetPlaceableObjects()[index].numOfOwnedObjects;
                 if (AttemptToBuyPO(index))
                 {
                     StartCoroutine(WaitForServerOnBuyResponse(index));
@@ -160,8 +159,8 @@ namespace U1
                     Debug.Log("Sth wet wronk");
                     errorText = "Can't perform transaction";
                     buyConfirmCanvas.GetComponent<ConfirmBuy>().StartDisplayErrorMessage(errorText);
-                    sceneStartManager.SetPlayerCoins(coinsBeforeTransaction);
-                    sceneStartManager.GetPlaceableObjects()[index].numOfOwnedObjects = numOwnedBeforeTransaction;
+                    startManager.SetPlayerCoins(coinsBeforeTransaction);
+                    startManager.GetPlaceableObjects()[index].numOfOwnedObjects = numOwnedBeforeTransaction;
                     OnOffCursor(true);
                     isBuyingInProgress = false;
                 }
@@ -169,13 +168,13 @@ namespace U1
         }
         private bool AttemptToBuyPO(int index)
         {
-            PlaceableObject objToValidate = sceneStartManager.GetPlaceableObjects()[index];
-            if (sceneStartManager.playerCoins >= objToValidate.coinsPrice && sceneStartManager.playerExperience >= objToValidate.experiencePrice 
-                && objToValidate.isAvailable && objToValidate.numOfOwnedObjects < objToValidate.maxNumOfOwnedObjects && sceneStartManager.currLevel >= objToValidate.levelFromAvailable)
+            PlaceableObject objToValidate = startManager.GetPlaceableObjects()[index];
+            if (startManager.playerCoins >= objToValidate.coinsPrice && startManager.playerExperience >= objToValidate.experiencePrice 
+                && objToValidate.isAvailable && objToValidate.numOfOwnedObjects < objToValidate.maxNumOfOwnedObjects && startManager.currLevel >= objToValidate.levelFromAvailable)
             {
-                sceneStartManager.SetPlayerCoins(sceneStartManager.playerCoins - objToValidate.coinsPrice);
-                sceneStartManager.GetPlaceableObjects()[index].numOfOwnedObjects++;
-                sceneStartManager.CallEventPOUBuy("");
+                startManager.SetPlayerCoins(startManager.playerCoins - objToValidate.coinsPrice);
+                startManager.GetPlaceableObjects()[index].numOfOwnedObjects++;
+                startManager.CallEventPOUBuy("");
                 return true;
             }
             else
@@ -202,8 +201,8 @@ namespace U1
                 transactionInfoPanel.GetComponentInChildren<TMP_Text>().text = "Transaction failed";
                 transactionInfoPanel.GetComponent<Image>().color = Color.red;
                 yield return new WaitForSecondsRealtime(1f);
-                sceneStartManager.SetPlayerCoins(coinsBeforeTransaction);
-                sceneStartManager.GetPlaceableObjects()[index].numOfOwnedObjects = numOwnedBeforeTransaction;
+                startManager.SetPlayerCoins(coinsBeforeTransaction);
+                startManager.GetPlaceableObjects()[index].numOfOwnedObjects = numOwnedBeforeTransaction;
             }
             else
             {
@@ -256,7 +255,7 @@ namespace U1
             Vector3 infoPosition = infoPanel.transform.position;
             infoPosition.x = x; infoPosition.y = y;
             infoPanel.transform.position = infoPosition;
-            infoPanel.GetComponent<ShopInfoPanel>().SetInfoPanel(sceneStartManager.GetPlaceableObjects()[POindex].objImage, sceneStartManager.GetPlaceableObjects()[POindex].objectInfo);
+            infoPanel.GetComponent<ShopInfoPanel>().SetInfoPanel(startManager.GetPlaceableObjects()[POindex].objImage, startManager.GetPlaceableObjects()[POindex].objectInfo);
         }
         public void OnInfoButtonExit(int POindex)
         {
@@ -264,11 +263,11 @@ namespace U1
         }
         public void NextLevel()
         {
-            sceneStartManager.ChangeScene(3);
+            startManager.ChangeScene(3);
         }
         public void PreviousLevel()
         {
-            sceneStartManager.ChangeScene(1);
+            startManager.ChangeScene(1);
         }
     }
 }

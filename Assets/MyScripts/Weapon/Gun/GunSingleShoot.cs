@@ -41,8 +41,6 @@ namespace U1
         {
             gunMaster.EventShootRequest -= Shoot;
         }
-
-
         void Shoot()
         {
             if (gunMaster.canShoot)
@@ -61,7 +59,6 @@ namespace U1
                         gunMaster.CallEventHit(hit, hit.transform, hit.transform.gameObject.layer);
                         Debug.Log("Shooted was: " + hit.transform.name + " Damage: " + realDamage.ToString() +" penetration: " + penetration + 
                         " at distance: " + distance.ToString());
-                        //hit.transform.SendMessage("CallEventShootByGun", 10, SendMessageOptions.DontRequireReceiver);
                     }
                     else
                     {
@@ -77,7 +74,8 @@ namespace U1
             if(penetrationCoeff[0] != 0)
             {
                 penetration = realDamage * penetrationCoeff[0];
-                penetration = Random.Range(penetration*(1- penetrationCoeff[1]), penetration * (1 + penetrationCoeff[1]));
+                //penetration = Random.Range(penetration*(1- penetrationCoeff[1]), penetration * (1 + penetrationCoeff[1]));
+                penetration = Random.Range(penetration - penetrationCoeff[1], penetration + penetrationCoeff[1]);
             }
             else
             {

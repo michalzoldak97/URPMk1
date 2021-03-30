@@ -9,17 +9,12 @@ namespace U1
         [SerializeField] private GameObject objectToSpawn;
         [SerializeField] private int numToSpawn;
         [SerializeField] private float maxSpawnRadius;
-        void Start()
+        public void SpawnObject()
         {
-            SpawnObject();
-        }
-        private void SpawnObject()
-        {
-            Transform myTransform = transform;
             for (int i = 0; i < numToSpawn; i++)
             {
-                Vector3 spawnPosition = myTransform.position + Random.insideUnitSphere * maxSpawnRadius;
-                GameObject obj = Instantiate(objectToSpawn, spawnPosition, Quaternion.Euler(0f, 0f, 0f));
+                Vector3 spawnPosition = transform.position + Random.insideUnitSphere * maxSpawnRadius;
+                Instantiate(objectToSpawn, spawnPosition, Quaternion.Euler(0f, 0f, 0f));
             }
             Destroy(gameObject, 0.5f);
         }

@@ -12,16 +12,13 @@ namespace U1
         private Vector3 startPosition;
         private Transform myTransform;
         [SerializeField] Vector3 aimPosition;
-        private void Start()
-        {
-            SetInitials();
-        }
-        void SetInitials()
+        private void SetInitials()
         {
             gunMaster = GetComponent<GunMaster>();
             //gunPlayerInput = GetComponent<GunPlayerInput>();
             myTransform = transform;
             playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
+            startPosition = myTransform.localPosition;
         }
         private void OnEnable()
         {
@@ -36,10 +33,12 @@ namespace U1
         }
         void AimOn()
         {
-            startPosition = myTransform.localPosition;
-            myTransform.localPosition = aimPosition;
-            playerInventory.shouldCheckCamera = false;
-            playerInventory.CameraOnOff(true, false);
+            if (!gunMaster.isReloading)
+            {
+                myTransform.localPosition = aimPosition;
+                playerInventory.shouldCheckCamera = false;
+                playerInventory.CameraOnOff(true, false);
+            }
         }
         void UnAim()
         {

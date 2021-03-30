@@ -9,15 +9,15 @@ namespace U1
         [SerializeField] private float maxUp, maxDown;
         public override void RotateWeaponTowards(Transform targetTransform)
         {
-            Quaternion testRotation = Quaternion.LookRotation(targetTransform.position - weaponTransform.position, Vector3.up);
-            testRotation.y = 0; testRotation.z = 0;
-            float maxUpTransformed = -maxUp / 180;
-            float maxDownTransformed = -maxDown / 180;
-            if (testRotation.x < maxUpTransformed)
-                testRotation.x = maxUpTransformed;
-            else if (testRotation.x > maxDownTransformed)
-                testRotation.x = maxDownTransformed;
-            weaponTransform.localRotation = testRotation;
+            Vector3 vRotation = Quaternion.LookRotation(targetTransform.position - weaponTransform.position, Vector3.up).eulerAngles;
+            if (vRotation.x < -maxUp)
+                vRotation.x = -maxUp;
+            else if (vRotation.x > -maxDown)
+            {
+                vRotation.x = -maxDown;
+            }
+            weaponTransform.rotation = Quaternion.Euler(vRotation.x, vRotation.y, vRotation.z);
+            Debug.Log("TestRotationX: " + weaponTransform.eulerAngles.x + " max down: " + -maxDown + " max up: " + -maxUp);
         }
     }
 }

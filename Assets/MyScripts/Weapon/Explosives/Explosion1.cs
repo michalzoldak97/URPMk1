@@ -38,7 +38,7 @@ namespace U1
                 //add damage
                 if (hitColliders[i].gameObject.GetComponent<Rigidbody>() != null)
                 {
-                    Debug.Log("Found " + hitColliders[i].name + " hit colider length: " + hitColliders.Length);
+                    //Debug.Log("Found " + hitColliders[i].name + " hit colider length: " + hitColliders.Length);
                     CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
                 }
             }

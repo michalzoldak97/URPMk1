@@ -69,7 +69,6 @@
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
     <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
     <Compile Include="Assets\MyScripts\AI\AINavi.cs" />
-    <Compile Include="Assets\MyScripts\QualityManagement\SetQualityOnStart.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebLogIn.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerCursorManager.cs" />
     <Compile Include="Assets\MyScripts\Plan\Task.cs" />
@@ -95,6 +94,7 @@
     <Compile Include="Assets\MyScripts\Damagable\ColorDamagable.cs" />
     <Compile Include="Assets\MyScripts\Plan\GetCameraClick.cs" />
     <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeaponRestricted.cs" />
+    <Compile Include="Assets\MyScripts\Plan\Plan_Manager.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemThrow.cs" />
     <Compile Include="Assets\MyScripts\Other\OnOffUpdate.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCShoot.cs" />
@@ -104,6 +104,7 @@
     <Compile Include="Assets\MyScripts\Other\POInfoButton.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageDestroy.cs" />
     <Compile Include="Assets\MyScripts\Player\FPSController.cs" />
+    <Compile Include="Assets\MyScripts\QualityManagement\SceneLoadQualityManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAnimation.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeController.cs" />
     <Compile Include="Assets\MyScripts\AI\AIStopOnDamage.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Plan\Plan_Manager.cs" />
+    <Compile Include="Assets\MyScripts\Plan\POSpawner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

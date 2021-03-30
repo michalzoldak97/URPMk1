@@ -11,15 +11,15 @@ namespace U1
         [SerializeField] private GameObject levelButton;
         [SerializeField] private Transform levelButtonsTransform;
         [SerializeField] private GameObject canvasLevel, panelMenu, panelLogIn, panelSignUp;
-        private SceneStartManager sceneManager;
+        private SceneStartManager startManager;
 
         public SceneStartManager GetSceneManager()
         {
-            return sceneManager;
+            return startManager;
         }
         private void Start()
         {
-            sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
+            startManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
             LogInAttempt();
         }
         public void LoadLevelSelection()
@@ -28,7 +28,7 @@ namespace U1
         }
         public void LogInAttempt()
         {
-            if(sceneManager.isLoggedIn)
+            if(startManager.isLoggedIn)
             {
                 panelLogIn.SetActive(false);
                 panelSignUp.SetActive(false);
@@ -56,12 +56,12 @@ namespace U1
         }
         void LoadNextLevel(int index)
         {
-            sceneManager.SetCurrentLevel(index);
-            sceneManager.ChangeScene(1);
+            startManager.SetCurrentLevel(index);
+            startManager.ChangeScene(1);
         }
         void SetupLevelsSelection(string dummy)
         {
-            for (int i = 0; i < sceneManager.maxAllowLevel; i++)
+            for (int i = 0; i < startManager.maxAllowLevel; i++)
             {
                 int x = i+1;
                 GameObject objUI = Instantiate(levelButton, levelButtonsTransform);

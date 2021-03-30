@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics;
 
 namespace U1
 {
@@ -33,7 +32,14 @@ namespace U1
         }
         private void Update()
         {
-            UpdateList();
+            try
+            {
+                UpdateList();
+            }
+            catch
+            {
+                Debug.Log("Sth wrong with update");
+            }
         }
     }
 }

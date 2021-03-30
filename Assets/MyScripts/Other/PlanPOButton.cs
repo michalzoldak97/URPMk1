@@ -9,7 +9,7 @@ namespace U1
     {
         [SerializeField] Image myIcon;
         [SerializeField] TMP_Text myText;
-        [SerializeField] GameObject iconToSpawn;
+        [SerializeField] GameObject iconToSpawn, warning;
         private GameObject myMapIcon;
         private Image backGroundImage;
         private Color32 initialColor;
@@ -34,6 +34,9 @@ namespace U1
             myMapIcon = Instantiate(iconToSpawn);
             myMapIcon.GetComponentInChildren<Image>().sprite = myIcon.sprite;
             myMapIcon.transform.position = pos;
+            Debug.Log(pos);
+            if(pos.x > -100 && pos.y > -100 && pos.z > -100)
+                warning.SetActive(false);
         }
         public void SelectButton()
         {

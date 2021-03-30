@@ -16,9 +16,10 @@ namespace U1
     }*/
     public class SceneStartManager : MonoBehaviour
     {
-        [SerializeField] PlaceableObject[] placeableObjects;
-        [SerializeField] List<int> planScenesIndex = new List<int>();
-        [SerializeField] List<int> gameScenesIndex = new List<int>();
+        [SerializeField] private PlaceableObject[] placeableObjects;
+        [SerializeField] private List<int> planScenesIndex = new List<int>();
+        [SerializeField] private List<int> gameScenesIndex = new List<int>();
+        [SerializeField] private GameObject sceneLoadScreen;
         public int playerCoins { get; private set; }
         public void SetPlayerCoins(int toSet)
         {
@@ -167,7 +168,32 @@ namespace U1
         public void ChangeScene(int index)
         {
             OnEnd();
-            SceneManager.LoadScene(index);
+            if(!gameScenesIndex.Contains(index))
+                SceneManager.LoadScene(index);
+            else
+            {
+                LoadGameScene(index);
+            }
+        }
+        private AsyncOperation loadingOperation;
+        private void LoadGameScene(int index)
+        {
+            sceneLoadScreen.SetActive(true);
+            Time.timeScale = 0;
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            loadingOperation = SceneManager.LoadSceneAsync(index);
+            StartCoroutine(GetGameSceneLoadProgress());
+        }
+        IEnumerator GetGameSceneLoadProgress()
+        {
+            while(!loadingOperation.isDone)
+            {
+                yield return null;
+            }
+            //yield return new WaitForSeconds(3);
+            Time.timeScale = 1;
+            sceneLoadScreen.SetActive(false);
+            Debug.Log("Finished loading");
         }
         void OnStart(Scene dummy, LoadSceneMode dummyMode)
         {
@@ -179,8 +205,6 @@ namespace U1
             {
                 OnSceneLoad(SceneType.game);
             }
-            if (!gameScenesIndex.Contains(SceneManager.GetActiveScene().buildIndex))
-                Application.targetFrameRate = 30;
         }
         void OnEnd()
         {

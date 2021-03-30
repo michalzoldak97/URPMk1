@@ -9,7 +9,7 @@ namespace U1
     public class TestListMaterials : MonoBehaviour
     {
         // Start is called before the first frame update
-        [SerializeField] private Transform targetTransform;
+        [SerializeField] private Transform targetTransform, weaponTransform;
         private SceneStartManager sceneStartManager;
 
         void Start()
@@ -31,7 +31,7 @@ namespace U1
                 stopwatch.Reset();
                 stopwatch.Start();
                 //if(isMulti)
-                TestMulti(targetTransform);//TestMulti(targetTransform);
+                TestSingle(targetTransform);//TestMulti(targetTransform);
                 stopwatch.Stop();
                 //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
                 avElapsedMsM += stopwatch.ElapsedMilliseconds;
@@ -45,7 +45,7 @@ namespace U1
             {
                 PerformMultiAction(target);
             }
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 PerformMultiAction(target);
             }
@@ -56,27 +56,39 @@ namespace U1
             {
                 PerformSingleAction(target);
             }
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 PerformSingleAction(target);
             }
         }
 
+        float maxUp = 80;
+        float maxDown = 5;
         void PerformMultiAction(Transform target)
         {
-            for (int i = 0; i < sceneStartManager.GetPlaceableObjects().Length; i++)
-            {
-                sceneStartManager.GetPlaceableObjects()[i].objectName = "test name" + i.ToString();
-            }
+            Quaternion testRotation = Quaternion.LookRotation(targetTransform.position - weaponTransform.position, Vector3.up);
+            testRotation.y = 0; testRotation.z = 0;
+            float maxUpTransformed = -maxUp / 180;
+            float maxDownTransformed = -maxDown / 180;
+            if (testRotation.x < maxUpTransformed)
+                testRotation.x = maxUpTransformed;
+            else if (testRotation.x > maxDownTransformed)
+                testRotation.x = maxDownTransformed;
+            weaponTransform.localRotation = testRotation;
         }
         void PerformSingleAction(Transform target)
         {
-            PlaceableObject[] myPO = sceneStartManager.GetPlaceableObjects();
-            int POLength = myPO.Length;
-            for (int i = 0; i < POLength; i++)
+            /*Quaternion testRotation = Quaternion.LookRotation(targetTransform.position - weaponTransform.position, Vector3.up);
+            Vector3 vRotation = testRotation.eulerAngles;
+            weaponTransform.rotation = Quaternion.Euler(Mathf.Clamp(vRotation.x, -maxDown, -maxUp), vRotation.y, vRotation.z);*/
+            Vector3 vRotation = Quaternion.LookRotation(targetTransform.position - weaponTransform.position, Vector3.up).eulerAngles;
+            if (vRotation.x < -maxUp)
+                vRotation.x = -maxUp;
+            else if (vRotation.x > -maxDown)
             {
-                myPO[i].objectName = "test name" + i.ToString();
+                vRotation.x = -maxDown;
             }
+            weaponTransform.rotation = Quaternion.Euler(vRotation.x, vRotation.y, vRotation.z);
         }
     }
 }
