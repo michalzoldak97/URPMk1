@@ -10,7 +10,6 @@ namespace U1
     {
         public static int numOfObjTypes = 3;
         public GameObject objToSpawn;
-        public GameObject mapAlias;
         public Sprite objIcon;
         public Sprite objImage;
         public string objectName;

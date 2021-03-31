@@ -26,7 +26,7 @@ public class POSpawner : MonoBehaviour
                         {
                             if (objTovalid[i].worldPositions[j] != zeroVector)
                             {
-                                GameObject spawnedPO = Instantiate(objTovalid[i].objToSpawn, objTovalid[i].worldPositions[j], Quaternion.Euler(0f, 0f, 0f));
+                                GameObject spawnedPO = Instantiate(objTovalid[i].objToSpawn, objTovalid[i].worldPositions[j], Quaternion.Euler(90f, 0f, 0f));
                                 spawnedPO.GetComponent<SpawnPOOnStart>().SpawnObject();
                             }
                         }

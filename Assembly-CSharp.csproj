@@ -135,12 +135,13 @@
     <Compile Include="Assets\MyScripts\WebTest\MainMenu.cs" />
     <Compile Include="Assets\MyScripts\Plan\PlanManager.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemCameraManipulation.cs" />
+    <Compile Include="Assets\MyScripts\Plan\POSpawner.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\ObjectsContainer.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunSingleShoot.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Plan\POSpawner.cs" />
+    <Compile Include="Assets\MyScripts\Plan\PlanCameraMover.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
