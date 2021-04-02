@@ -73,6 +73,7 @@
     <Compile Include="Assets\MyScripts\Player\PlayerCursorManager.cs" />
     <Compile Include="Assets\MyScripts\Plan\Task.cs" />
     <Compile Include="Assets\MyScripts\Other\POSelectedButton.cs" />
+    <Compile Include="Assets\MyScripts\Plan\PlanCameraMover.cs" />
     <Compile Include="Assets\MyScripts\AI\AIMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemAmmo.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCInput.cs" />
@@ -141,7 +142,8 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Plan\PlanCameraMover.cs" />
+    <Compile Include="Assets\MyScripts\GameSceneManagement\PauseMenuManager.cs" />
+    <Compile Include="Assets\MyScripts\Other\PlanButtonBlock.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

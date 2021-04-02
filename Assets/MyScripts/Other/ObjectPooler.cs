@@ -92,7 +92,7 @@ namespace U1
 
         IEnumerator Deactivatevoi(GameObject obj)
         {
-            yield return new WaitForSecondsRealtime(5);
+            yield return new WaitForSeconds(5);
             obj.SetActive(true);
             yield return new WaitForFixedUpdate();
             obj.transform.SetParent(null);

@@ -23,7 +23,7 @@ namespace U1
             {
                 if (clickableLayer == (clickableLayer | (1 << (hit.transform.gameObject.layer))))
                 {
-                    Debug.Log(hit.point);
+                    //Debug.Log(hit.point);
                     return hit.point;
                 }
                 else

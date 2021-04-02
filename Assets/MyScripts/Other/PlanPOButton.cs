@@ -34,7 +34,7 @@ namespace U1
             myMapIcon = Instantiate(iconToSpawn);
             myMapIcon.GetComponentInChildren<Image>().sprite = myIcon.sprite;
             myMapIcon.transform.position = pos;
-            Debug.Log(pos);
+            //Debug.Log(pos);
             if(pos.x > -100 && pos.y > -100 && pos.z > -100)
                 warning.SetActive(false);
         }

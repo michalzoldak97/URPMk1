@@ -29,6 +29,10 @@ public class POSpawner : MonoBehaviour
                                 GameObject spawnedPO = Instantiate(objTovalid[i].objToSpawn, objTovalid[i].worldPositions[j], Quaternion.Euler(90f, 0f, 0f));
                                 spawnedPO.GetComponent<SpawnPOOnStart>().SpawnObject();
                             }
+                            else
+                            {
+                                Debug.Log("Is zero vector for " + objTovalid[i].objectName);
+                            }
                         }
                         catch
                         {

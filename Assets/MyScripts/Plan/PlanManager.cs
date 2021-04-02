@@ -10,12 +10,17 @@ namespace U1
         [SerializeField] GameObject planButton;
         private Vector3 startPosition = new Vector3(-100, -100, -100);
         private int[] currSelectedID = new int[2];
+        private bool canGetClick = true;
+        public void SetCanGetClick(bool toSet)
+        {
+            canGetClick = toSet;
+        }
         private PlaceableObject[] myPlaceableObj;
         private List<PlanPOButton> planButtons = new List<PlanPOButton>();
         private GetCameraClick cameraClick;
         private SceneStartManager startManager;
         private SceneLoadQualityManager sceneLoadManager;
-        private void Start()
+        private void SetInitials()
         {
             startManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
             sceneLoadManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneLoadQualityManager>();
@@ -37,10 +42,19 @@ namespace U1
                 CheckForClick();
             }
         }
+        private void OnEnable()
+        {
+            SetInitials();
+            startManager.EventEndPlan += SetNewPOToManager;
+        }
+        private void OnDisable()
+        {
+            startManager.EventEndPlan -= SetNewPOToManager;
+        }
         void CheckForClick()
         {
             Vector3 tempClick = cameraClick.CheckClick();
-            if (tempClick != startPosition && currSelectedID[0] != 999999)
+            if (tempClick != startPosition && currSelectedID[0] != 999999 && canGetClick)
             {
                 myPlaceableObj[currSelectedID[0]].worldPositions[currSelectedID[1]] = tempClick;
                 for (int i = 0; i < planButtons.Count; i++)
@@ -101,12 +115,10 @@ namespace U1
         }
         public void LoadPreviousLevel()
         {
-            SetNewPOToManager();
             startManager.ChangeScene(2);
         }
         public void LoadNextLevel()
         {
-            SetNewPOToManager();
             sceneLoadManager.LoadGameScene();
         }
         private void SetNewPOToManager()//call on level change
@@ -116,11 +128,9 @@ namespace U1
             {
                 if (startManager.GetPlaceableObjects()[i].isAddedToStack)
                 {
-                    Debug.Log("Is added: " + startManager.GetPlaceableObjects()[i].isAddedToStack);
-                    Debug.Log("Num added: " + startManager.GetPlaceableObjects()[i].numOfObjOnStack);
                     for (int j = 0; j < startManager.GetPlaceableObjects()[i].worldPositions.Length; j++)
                     {
-                        Debug.Log("Coords: " + startManager.GetPlaceableObjects()[i].worldPositions[j]);
+                        Debug.Log("Coords: " + startManager.GetPlaceableObjects()[i].worldPositions[j] + "obj name: " + startManager.GetPlaceableObjects()[i].objectName);
                     }
                 }
             }

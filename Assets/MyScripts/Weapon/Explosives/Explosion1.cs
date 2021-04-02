@@ -30,7 +30,7 @@ namespace U1
         }
         IEnumerator Explode()
         {
-            yield return new WaitForSecondsRealtime(timeToExplode);
+            yield return new WaitForSeconds(timeToExplode);
             Vector3 myPosition = myTransform.position;
             Collider[] hitColliders = Physics.OverlapSphere(myPosition, radius, layersToAffect);
             for (int i = 0; i < hitColliders.Length; i++)

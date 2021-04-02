@@ -92,21 +92,21 @@ namespace U1
                 if (playerWalkSpeed[0] > (playerWalkSpeed[1] - (aimSpeed * playerWalkSpeed[1])))
                 {
                     //Debug.Log("Aim requested");
-                    shouldChangeSpeed = true;
+                    //shouldChangeSpeed = true;
                     currFPSSpeed = fpsController.GetWalkSpeed()[0];
                     fpsController.SetMotionParams(aimSpeed, aimSpeed, aimSpeed);
                 }
-                else
-                    shouldChangeSpeed = false;
+                //else
+                    //shouldChangeSpeed = false;
             }
             else if(Input.GetKeyUp(KeyCode.Mouse1) && Time.timeScale > 0)
             {
                 gunMaster.CallEventUnAim();
-                if (shouldChangeSpeed)
-                {
+                //if (shouldChangeSpeed)
+                //{
                     currFPSSpeed = (1 - (currFPSSpeed / fpsController.GetWalkSpeed()[1]));
                     fpsController.SetMotionParams(currFPSSpeed, currFPSSpeed, currFPSSpeed);
-                }
+                //}
                 //Debug.Log("Aim not requested");
             }
         }
