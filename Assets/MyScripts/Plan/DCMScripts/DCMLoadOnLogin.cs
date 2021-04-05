@@ -10,11 +10,11 @@ namespace U1
     {
         private DatabaseConnectionManager connectionManager;
         private SceneStartManager startManager;
-        public DCMLoadOnLogin(MonoBehaviour mono, DatabaseConnectionManager connectionManager, SceneStartManager startManager, string[] dataToPass)
+        public DCMLoadOnLogin(DatabaseConnectionManager connectionManager, SceneStartManager startManager, string[] dataToPass)
         {
             this.connectionManager = connectionManager;
             this.startManager = startManager;
-            mono.StartCoroutine(LoadDataOnLogIn(dataToPass[0], dataToPass[1]));
+            connectionManager.StartCoroutine(LoadDataOnLogIn(dataToPass[0], dataToPass[1]));
         }
         private IEnumerator LoadDataOnLogIn(string usernameToPass, string loadDataOnLogInURL)
         {
@@ -24,18 +24,11 @@ namespace U1
             {
                 yield return webRequest.SendWebRequest();
                 if (webRequest.isNetworkError || webRequest.isHttpError)
-                {
                     Debug.Log(": Error: " + webRequest.error);
-                }
                 else if (webRequest.downloadHandler.text == "0")
-                {
                     Debug.Log("Sth went wrong with php: " + webRequest.error);
-                }
                 else
-                {
-                    //Debug.Log("Data recieved: " + webRequest.downloadHandler.text);
                     UpdateDataOnLogIn(webRequest.downloadHandler.text);
-                }
             }
         }
         private void UpdateDataOnLogIn(string webData)
@@ -93,7 +86,6 @@ namespace U1
                         {
                             if (objIndex == j)
                             {
-                                //Debug.Log("matchnig data for given index: " + objIndex + " po: " + j);
                                 myPlaceableObjects[j].numOfOwnedObjects = Int32.Parse(singleObjectInfo[1]);
                                 myPlaceableObjects[j].maxNumOfOwnedObjects = Int32.Parse(singleObjectInfo[2]);
                                 myPlaceableObjects[j].numOfObjOnStack = Int32.Parse(singleObjectInfo[3]);
@@ -106,9 +98,7 @@ namespace U1
                     startManager.SetPlaceableObjects(myPlaceableObjects);
                 }
                 else
-                {
                     Debug.Log("no objects data");
-                }
             }
             catch
             {

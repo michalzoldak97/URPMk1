@@ -8,8 +8,7 @@ namespace U1
     {
         [SerializeField] private int numOfFramesMenu;
         [SerializeField] private int numOfFramesGame;
-        [SerializeField] private int[] gameScenesInsexes;
-        private int currentGameIndex = 4;
+        private SceneIndex choosenGameIndex = SceneIndex.GAME_BEST;
         public bool isVSync { get; set; }
         private SceneStartManager startManager;
         private void OnEnable()
@@ -39,7 +38,7 @@ namespace U1
         }
         public void LoadGameScene()
         {
-            startManager.ChangeScene(currentGameIndex);
+            startManager.ChangeScene(choosenGameIndex);
         }
     }
 }

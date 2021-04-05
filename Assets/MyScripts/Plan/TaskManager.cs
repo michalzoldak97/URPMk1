@@ -115,14 +115,14 @@ namespace U1
             if(startManager.maxAllowLevel == startManager.currLevel && startManager.maxAllowLevel < startManager.maxLevel)
             {
                 int currentMaxLevel = startManager.maxAllowLevel;
-                startManager.IncreaseAllowedLevel();
+                startManager.SetMaxAllowLevel(currentMaxLevel + 1);
                 startManager.CallEventSaveMaxLevel((currentMaxLevel + 1).ToString());
             }
             nextLevelButton.GetComponent<Button>().interactable = false;
         }
         public void LoadLevel(int index)
         {
-            startManager.ChangeScene(index);
+            startManager.ChangeScene((SceneIndex)index);
         }
         private void LoadTaskStatuses()
         {

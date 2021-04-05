@@ -6,15 +6,15 @@ using UnityEngine.Networking;
 namespace U1
 {
 
-    public class DCMUpdateTaskStatuses : MonoBehaviour
+    public class DCMUpdateTaskStatuses
     {
         private DatabaseConnectionManager connectionManager;
         private SceneStartManager startManager;
-        public DCMUpdateTaskStatuses(MonoBehaviour mono, DatabaseConnectionManager connectionManager, SceneStartManager startManager, string updateTaskStatusesURL)
+        public DCMUpdateTaskStatuses(DatabaseConnectionManager connectionManager, SceneStartManager startManager, string updateTaskStatusesURL)
         {
             this.connectionManager = connectionManager;
             this.startManager = startManager;
-            mono.StartCoroutine(UpdateTaskStatuses(updateTaskStatusesURL));
+            connectionManager.StartCoroutine(UpdateTaskStatuses(updateTaskStatusesURL));
         }
         private IEnumerator UpdateTaskStatuses(string updateTaskStatusesURL)
         {
@@ -25,21 +25,13 @@ namespace U1
             {
                 yield return webRequest.SendWebRequest();
                 if (webRequest.isNetworkError || webRequest.isHttpError)
-                {
                     Debug.Log(": Error: " + webRequest.error);
-                }
                 else if (webRequest.downloadHandler.text == "0")
-                {
                     Debug.Log("Sth went wrong with php: " + webRequest.error);
-                }
                 else if (webRequest.downloadHandler.text == "1")
-                {
                     Debug.Log("Sucessfull Task Update  ");
-                }
                 else
-                {
                     Debug.Log("Error:  " + webRequest.downloadHandler.text);
-                }
             }
         }
         private string CreateNewTaskStatuses()
@@ -54,7 +46,7 @@ namespace U1
                     taskInfoToPass += (i.ToString() + '/' + j.ToString() + '/' + connectionManager.BoolToString(startManager.GetTaskStatuses()[i, j]));
                     if (j == secondDimmLength - 1 && i == firstDimmLength - 1)
                     {
-
+                        continue;
                     }
                     else
                     {

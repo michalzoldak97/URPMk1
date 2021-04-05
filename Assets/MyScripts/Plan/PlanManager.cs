@@ -115,7 +115,7 @@ namespace U1
         }
         public void LoadPreviousLevel()
         {
-            startManager.ChangeScene(2);
+            startManager.ChangeScene(SceneIndex.SHOP);
         }
         public void LoadNextLevel()
         {

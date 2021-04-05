@@ -57,7 +57,7 @@ namespace U1
         void LoadNextLevel(int index)
         {
             startManager.SetCurrentLevel(index);
-            startManager.ChangeScene(1);
+            startManager.ChangeScene(SceneIndex.TASK);
         }
         void SetupLevelsSelection(string dummy)
         {

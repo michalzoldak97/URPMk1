@@ -5,13 +5,13 @@ using UnityEngine.Networking;
 
 namespace U1
 {
-    public class DCMSaveMaxLevel : MonoBehaviour
+    public class DCMSaveMaxLevel
     {
         private DatabaseConnectionManager connectionManager;
-        public DCMSaveMaxLevel(MonoBehaviour mono, DatabaseConnectionManager connectionManager, string[] dataToPass) 
+        public DCMSaveMaxLevel(DatabaseConnectionManager connectionManager, string[] dataToPass) 
         {
             this.connectionManager = connectionManager;
-            mono.StartCoroutine(SaveMaxLevel(dataToPass[0], dataToPass[1]));
+            connectionManager.StartCoroutine(SaveMaxLevel(dataToPass[0], dataToPass[1]));
         }
         private IEnumerator SaveMaxLevel(string maxLevelToSet, string saveMaxLevelURL)
         {
@@ -22,21 +22,13 @@ namespace U1
             {
                 yield return webRequest.SendWebRequest();
                 if (webRequest.isNetworkError || webRequest.isHttpError)
-                {
                     Debug.Log(": Error: " + webRequest.error);
-                }
                 else if (webRequest.downloadHandler.text == "0")
-                {
                     Debug.Log("Sth went wrong with php: " + webRequest.error);
-                }
                 else if (webRequest.downloadHandler.text == "1")
-                {
                     Debug.Log("Sucessfull Level Saved");
-                }
                 else
-                {
                     Debug.Log("Error:  " + webRequest.downloadHandler.text);
-                }
             }
         }
     }

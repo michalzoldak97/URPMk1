@@ -263,11 +263,11 @@ namespace U1
         }
         public void NextLevel()
         {
-            startManager.ChangeScene(3);
+            startManager.ChangeScene(SceneIndex.PLAN);
         }
         public void PreviousLevel()
         {
-            startManager.ChangeScene(1);
+            startManager.ChangeScene(SceneIndex.TASK);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace U1
     public class PauseMenuManager : MonoBehaviour
     {
         [SerializeField] private GameObject menuCanvas, panelConfirm;
-        private int sceneToQuit = 0;
+        private SceneIndex indexToGo;
         private SceneStartManager startManager;
         private void Awake()
         {
@@ -32,12 +32,12 @@ namespace U1
         public void AttemptQuit()
         {
             panelConfirm.SetActive(true);
-            sceneToQuit = 0;
+            indexToGo = SceneIndex.MENU;
         }
         public void AttemptGiveUp()
         {
             panelConfirm.SetActive(true);
-            sceneToQuit = 3;
+            indexToGo = SceneIndex.PLAN;
         }
         public void ResignQuiting()
         {
@@ -45,7 +45,7 @@ namespace U1
         }
         public void QuitGameScene()
         {
-            startManager.ChangeScene(sceneToQuit);
+            startManager.ChangeScene(indexToGo);
         }
         private void OnOffPauseScene(bool shouldPause)
         {
