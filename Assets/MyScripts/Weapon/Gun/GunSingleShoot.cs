@@ -7,7 +7,6 @@ namespace U1
     public class GunSingleShoot : MonoBehaviour
     {
         private float realDamage;
-        private float distance;
         [SerializeField] float[] dmgEquation; // 1 - multiplayer, 2 - constant
         [SerializeField] float[] penetrationCoeff; // 1 - divider, 2 - variance range
         private float penetration;
@@ -41,7 +40,7 @@ namespace U1
         {
             gunMaster.EventShootRequest -= Shoot;
         }
-        void Shoot()
+        public void Shoot()
         {
             if (gunMaster.canShoot)
             {
@@ -49,9 +48,10 @@ namespace U1
                 forwardTransform = myTransform.TransformDirection(Random.Range(-recoil, recoil), Random.Range(-recoil, recoil), 1);
                 if (Physics.Raycast(myTransform.TransformPoint(startPosition), forwardTransform, out hit, range))
                 {
-                    if (layersToShoot == (layersToShoot | (1 << (hit.transform.gameObject.layer))))
+                    //if (layersToShoot == (layersToShoot | (1 << (hit.transform.gameObject.layer))))
+                    if ((layersToShoot.value & (1 << hit.transform.gameObject.layer)) > 0)
                     {
-                        distance = Vector3.Distance(myTransform.position, hit.transform.position);
+                        float distance = Vector3.Distance(myTransform.position, hit.transform.position);
                         if (distance < 0)
                             distance = 1;
                         CalculateDamage(distance);
@@ -64,7 +64,6 @@ namespace U1
                     {
                         gunMaster.CallEventHit(hit, hit.transform, hit.transform.gameObject.layer);
                     }
-
                 }
             }
         }

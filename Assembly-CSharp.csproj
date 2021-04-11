@@ -61,11 +61,14 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebSignUp.cs" />
+    <Compile Include="Assets\MyScripts\Plan\SSMScripts\SSMStartEndEvent.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
     <Compile Include="Assets\MyScripts\Other\PlanPOButton.cs" />
     <Compile Include="Assets\MyScripts\WebTest\TestWeb1.cs" />
+    <Compile Include="Assets\MyScripts\Plan\SSMScripts\SceneIndex.cs" />
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
+    <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMPOBuyUpdate.cs" />
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
     <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
     <Compile Include="Assets\MyScripts\AI\AINavi.cs" />
@@ -146,9 +149,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMPOBuyUpdate.cs" />
-    <Compile Include="Assets\MyScripts\Plan\SSMScripts\SceneIndex.cs" />
-    <Compile Include="Assets\MyScripts\Plan\SSMScripts\SSMStartEndEvent.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Gun\GunControlAimCamera.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

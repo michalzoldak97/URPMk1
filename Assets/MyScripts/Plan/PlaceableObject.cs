@@ -7,7 +7,7 @@ namespace U1
     [System.Serializable]
     public class PlaceableObject
     {
-        public static int numOfObjTypes = 3;
+        public static int numOfObjTypes = 4;
         public GameObject objToSpawn;
         public Sprite objIcon;
         public Sprite objImage;

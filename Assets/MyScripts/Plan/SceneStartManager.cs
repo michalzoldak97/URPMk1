@@ -16,7 +16,6 @@ namespace U1
         {
             placeableObjects = passedObjs;
         }
-        [SerializeField] private List<int> planScenesIndex = new List<int>();
         [SerializeField] private List<int> gameScenesIndex = new List<int>();
         [SerializeField] private GameObject sceneLoadScreen;
         public int playerCoins { get; private set; }

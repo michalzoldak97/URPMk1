@@ -34,7 +34,7 @@ namespace U1
 
         void OnShoot(float damage, float penetration)
         {
-            if(penetration > armor && currHealth > 0)
+            if(penetration > armor && currHealth > 0 && damage > 0)
             {
                 currHealth -= damage;
                 if(currHealth<1)

@@ -9,8 +9,15 @@ public class POSpawner : MonoBehaviour
         private SceneStartManager startManager;
         private void Start()
         {
-            startManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
-            SpawnPoObjects();
+            try
+            {
+                startManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneStartManager>();
+                SpawnPoObjects();
+            }
+            catch
+            {
+
+            }
         }
         private void SpawnPoObjects()
         {
