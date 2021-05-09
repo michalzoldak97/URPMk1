@@ -81,6 +81,7 @@
     <Compile Include="Assets\MyScripts\AI\AIMaster.cs" />
     <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMUpdateTaskStatuses.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemAmmo.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Gun\GunControlAimCamera.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCInput.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemPickUp.cs" />
     <Compile Include="Assets\MyScripts\Plan\ShopManager.cs" />
@@ -149,7 +150,8 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Gun\GunControlAimCamera.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\DamagableGetDamage.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\HealthStatsSO.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

@@ -25,7 +25,7 @@ namespace U1
         {
             dmgMaster.EventLowerHealth -= Stop;
         }
-        void Stop(float howBadly, float dummy)
+        void Stop(float howBadly)
         {
             if(aMaster.canAttack==true)
                 StartCoroutine(StopOnDamage());
