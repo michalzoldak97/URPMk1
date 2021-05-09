@@ -15,9 +15,14 @@ namespace U1
         public event GunDamageEventHandler EventProjectileHit;
         public event GunDamageEventHandler EventLowerHealth;
 
-        void Awake()
+        private void Awake()
         {
             RegisterInMaster();
+        }
+        private void RegisterInMaster()
+        {
+            damagableMaster = GameObject.FindGameObjectWithTag("DamagableMaster").GetComponent<DamagableMaster>();
+            damagableMaster.AddToDictionary(transform, this);
         }
         public void CallEventShootByGun(float damageAmount, float penetration)
         {
@@ -57,11 +62,6 @@ namespace U1
         private void OnDestroy()
         {
             damagableMaster.RemoveFromDictionary(transform);
-        }
-        void RegisterInMaster()
-        {
-            damagableMaster = GameObject.FindGameObjectWithTag("DamagableMaster").GetComponent<DamagableMaster>();
-            damagableMaster.AddToDictionary(transform, this);
         }
     }
 }
