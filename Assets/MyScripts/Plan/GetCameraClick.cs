@@ -9,19 +9,13 @@ namespace U1
         Ray ray;
         RaycastHit hit;
         Camera myCamera;
+        Vector3 emptySpace = new Vector3(-100, -100, -100);
         [SerializeField] LayerMask clickableLayer;
         void Start()
         {
             myCamera = Camera.main;
         }
 
-        /*void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                CheckClick();
-            }
-        }*/
         public Vector3 CheckClick()
         {
             ray = myCamera.ScreenPointToRay(Input.mousePosition);
@@ -29,13 +23,17 @@ namespace U1
             {
                 if (clickableLayer == (clickableLayer | (1 << (hit.transform.gameObject.layer))))
                 {
-                    Debug.Log(hit.point);
+                    //Debug.Log(hit.point);
                     return hit.point;
                 }
                 else
-                    return Vector3.zero;
+                {
+                    return emptySpace;
+                }
             }
-            return Vector3.zero;
+            {
+                return emptySpace;
+            }
         }
     }
 }

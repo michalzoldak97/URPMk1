@@ -1,187 +1,86 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using System;
 namespace U1
 {
     public class DatabaseConnectionManager : MonoBehaviour
     {
-        [SerializeField] string loadDataOnLogInURL;
-        [SerializeField] string updateTaskStatusesURL;
-        [SerializeField] string saveMavLevelURL;
+        [SerializeField] string loadDataOnLogInURL, updateTaskStatusesURL, saveMaxLevelURL, updatePOURL, buyPOURL;
         private int myPlayerID;
-        private SceneStartManager sceneStartManager;
-
-        private void OnEnable()
+        public void SetPlayerID(int toSet)
         {
-            sceneStartManager = GetComponent<SceneStartManager>();
-            sceneStartManager.EventLoggedIn += LaunchLoadDataOnLogIn;
-            sceneStartManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
-            sceneStartManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
+            myPlayerID = toSet;
         }
-        private void OnDisable()
+        public int GetPlayerID()
         {
-            sceneStartManager.EventLoggedIn -= LaunchLoadDataOnLogIn;
-            sceneStartManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
-            sceneStartManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
+            return myPlayerID;
         }
-
-        private void LaunchLoadDataOnLogIn(string usernameToPass)
-        {
-            StartCoroutine(LoadDataOnLogIn(usernameToPass));
-        }
-        IEnumerator LoadDataOnLogIn(string usernameToPass)
-        {
-            WWWForm wFrom = new WWWForm();
-            wFrom.AddField("username", usernameToPass);
-            using (UnityWebRequest webRequest = UnityWebRequest.Post(loadDataOnLogInURL, wFrom))
-            {
-                yield return webRequest.SendWebRequest();
-                if (webRequest.isNetworkError || webRequest.isHttpError)
-                {
-                    Debug.Log(": Error: " + webRequest.error);
-                }
-                else if(webRequest.downloadHandler.text == "0")
-                {
-                    Debug.Log("Sth went wrong with php: " + webRequest.error);
-                }
-                else
-                {
-                    //Debug.Log("Data recieved: " + webRequest.downloadHandler.text);
-                    UpdateDataOnLogIn(webRequest.downloadHandler.text);
-                }
-            }
-        }
-        private void UpdateDataOnLogIn(string webData)
-        {
-            string[] firstDataSplit = webData.Split('^');
-
-            string[] playerIDAndLevel = firstDataSplit[0].Split('/');
-            try
-            {
-                int playerId = Int32.Parse(playerIDAndLevel[0]);
-                int playerMaxLevel = Int32.Parse(playerIDAndLevel[1]);
-                int playerCoins = Int32.Parse(playerIDAndLevel[2]);
-                int playerExperience = Int32.Parse(playerIDAndLevel[3]);
-                myPlayerID = playerId;
-                sceneStartManager.SetMaxAllowLevel(playerMaxLevel);
-                sceneStartManager.SetPlayerCoins(playerCoins);
-                sceneStartManager.SetPlayerExperience(playerExperience);
-                Debug.Log("Id sucessfully converted to: " + playerId);
-            }
-            catch
-            {
-                Debug.Log("Id failed to parse");
-            }
-            string[] allTasksInfo = firstDataSplit[1].Split('|');
-            for (int i = 0; i < allTasksInfo.Length; i++)
-            {
-                string[] oneTaskInfo = allTasksInfo[i].Split('/');
-                Debug.Log("Index I  = " + oneTaskInfo[0] + " index J = " + oneTaskInfo[1] + " value = " + oneTaskInfo[2]);
-                try
-                {
-                    int indexOne = Int32.Parse(oneTaskInfo[0]);
-                    int indexTwo = Int32.Parse(oneTaskInfo[1]);
-                    bool valueToSet = (oneTaskInfo[2]=="1");
-                    sceneStartManager.SetTaskStatuses(indexOne, indexTwo, valueToSet);
-                }
-                catch
-                {
-                    Debug.Log("Failed to parse to int");
-                }
-            }
-        }
-
-        private void LaunchUpdateTaskStatuses(string dummy)
-        {
-            StartCoroutine(UpdateTaskStatuses());
-        }
-        IEnumerator UpdateTaskStatuses()
-        {
-            WWWForm wFrom = new WWWForm();
-            wFrom.AddField("player_id", myPlayerID.ToString());
-            wFrom.AddField("task_status", CreateNewTaskStatuses());
-            using (UnityWebRequest webRequest = UnityWebRequest.Post(updateTaskStatusesURL, wFrom))
-            {
-                yield return webRequest.SendWebRequest();
-                if (webRequest.isNetworkError || webRequest.isHttpError)
-                {
-                    Debug.Log(": Error: " + webRequest.error);
-                }
-                else if (webRequest.downloadHandler.text == "0")
-                {
-                    Debug.Log("Sth went wrong with php: " + webRequest.error);
-                }
-                else if (webRequest.downloadHandler.text == "1")
-                {
-                    Debug.Log("Sucessfull Task Update  ");
-                }
-                else
-                {
-                    Debug.Log("Error:  " + webRequest.downloadHandler.text);
-                }
-            }
-        }
-        private string CreateNewTaskStatuses()
-        {
-            string taskInfoToPass = "";
-            int firstDimmLength = sceneStartManager.GetTaskStatuses().GetLength(0);
-            int secondDimmLength = sceneStartManager.GetTaskStatuses().GetLength(1);
-            for (int i = 0; i < firstDimmLength; i++)
-            {
-                for (int j = 0; j < secondDimmLength; j++)
-                {
-                    taskInfoToPass += (i.ToString() + '/' + j.ToString() + '/' + BoolToString(sceneStartManager.GetTaskStatuses()[i, j]));
-                    if (j == secondDimmLength - 1 && i == firstDimmLength - 1)
-                    {
-                        
-                    }
-                    else
-                    {
-                        taskInfoToPass += '|';
-                    }
-                }
-            }
-            return taskInfoToPass;
-        }
-        private string BoolToString(bool toConvert)
+        private SceneStartManager startManager;
+        public string BoolToString(bool toConvert)
         {
             if (toConvert)
                 return "1";
             else
                 return "0";
         }
+        public bool StringToBool(string toConvert)
+        {
+            if (toConvert == "1")
+                return true;
+            else
+                return false;
+        }
+        private void OnEnable()
+        {
+            startManager = GetComponent<SceneStartManager>();
+            startManager.EventLoggedIn += LaunchLoadDataOnLogIn;
+            startManager.EventTaskUpdate += LaunchUpdateTaskStatuses;
+            startManager.EventSaveMaxLevel += LaunchSaveMaxLevel;
+            startManager.EventPOUpdate += LaunchPOUpdate;
+            startManager.EventPOUBuy += LaunchPOBuy;
+        }
+        private void OnDisable()
+        {
+            startManager.EventLoggedIn -= LaunchLoadDataOnLogIn;
+            startManager.EventTaskUpdate -= LaunchUpdateTaskStatuses;
+            startManager.EventSaveMaxLevel -= LaunchSaveMaxLevel;
+            startManager.EventPOUpdate -= LaunchPOUpdate;
+            startManager.EventPOUBuy += LaunchPOBuy;
+        }
 
+        private void LaunchLoadDataOnLogIn(string usernameToPass)
+        {
+            string[] dataToPass = new string[2];
+            dataToPass[0] = usernameToPass;
+            dataToPass[1] = loadDataOnLogInURL;
+            DCMLoadOnLogin LoadDataOnLogIn = new DCMLoadOnLogin(this, startManager, dataToPass);
+        }
+        private void LaunchUpdateTaskStatuses(string dummy)
+        {
+            DCMUpdateTaskStatuses UpdateTaskStatuses = new DCMUpdateTaskStatuses(this, startManager, updateTaskStatusesURL);
+        }
         private void LaunchSaveMaxLevel(string maxLevelToSet)
         {
-            StartCoroutine(SaveMaxLevel(maxLevelToSet));
+            string[] dataToPass = new string[2];
+            dataToPass[0] = maxLevelToSet;
+            dataToPass[1] = saveMaxLevelURL;
+            DCMSaveMaxLevel SaveMaxLevel = new DCMSaveMaxLevel(this, dataToPass);
         }
-        IEnumerator SaveMaxLevel(string maxLevelToSet)
+        private void LaunchPOUpdate(string dummy)
         {
-            WWWForm wFrom = new WWWForm();
-            wFrom.AddField("player_id", myPlayerID.ToString());
-            wFrom.AddField("player_max_level", maxLevelToSet);
-            using (UnityWebRequest webRequest = UnityWebRequest.Post(saveMavLevelURL, wFrom))
-            {
-                yield return webRequest.SendWebRequest();
-                if (webRequest.isNetworkError || webRequest.isHttpError)
-                {
-                    Debug.Log(": Error: " + webRequest.error);
-                }
-                else if (webRequest.downloadHandler.text == "0")
-                {
-                    Debug.Log("Sth went wrong with php: " + webRequest.error);
-                }
-                else if (webRequest.downloadHandler.text == "1")
-                {
-                    Debug.Log("Sucessfull Level Saved");
-                }
-                else
-                {
-                    Debug.Log("Error:  " + webRequest.downloadHandler.text);
-                }
-            }
+            string[] dataToPass = new string[2];
+            dataToPass[0] = updatePOURL;
+            dataToPass[1] = buyPOURL;
+            DCMPOBuyUpdate POUpdate = new DCMPOBuyUpdate(this, startManager, dataToPass);
+            POUpdate.StartPOUpdate();
+        }
+        private void LaunchPOBuy(string dummy)
+        {
+            string[] dataToPass = new string[2];
+            dataToPass[0] = updatePOURL;
+            dataToPass[1] = buyPOURL;
+            DCMPOBuyUpdate POUpdate = new DCMPOBuyUpdate(this, startManager, dataToPass);
+            POUpdate.StartPOBuy();
         }
     }
 }

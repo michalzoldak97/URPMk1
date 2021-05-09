@@ -18,6 +18,7 @@ namespace U1
         public event HitEventHnadler EventHit;
 
         public bool canShoot { get; set; }
+        public bool isReloading { get; set; }
 
         public void CallEventShootRequest()
         {

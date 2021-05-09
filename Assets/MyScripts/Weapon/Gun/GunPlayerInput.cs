@@ -19,7 +19,6 @@ namespace U1
         public BurstFireSetting myBurtsFire = new BurstFireSetting();
         private float shootDelay, nextCheck, currFPSSpeed;
         private GunMaster gunMaster;
-        private ItemMaster itemMaster;
         private PlayerMaster playerMaster;
         private FPSController fpsController;
         private bool shouldChangeSpeed;
@@ -27,7 +26,6 @@ namespace U1
         void SetInitials()
         {
             gunMaster = GetComponent<GunMaster>();
-            itemMaster = GetComponent<ItemMaster>();
             playerMaster = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMaster>();
             fpsController = GameObject.FindGameObjectWithTag("Player").GetComponent<FPSController>();
             shootDelay = 60 / shootRate;
@@ -41,14 +39,10 @@ namespace U1
         {
             SetInitials();
             SetIsOnPlayer();
-            //itemMaster.EventObjectPickup += SetIsOnPlayer;
-            //itemMaster.EventObjectThrow += SetIsOnPlayer;
         }
         private void OnDisable()
         {
             SetIsOnPlayer();
-            //itemMaster.EventObjectPickup -= SetIsOnPlayer;
-            //itemMaster.EventObjectThrow -= SetIsOnPlayer;
         }
 
         private void Update()
@@ -94,25 +88,25 @@ namespace U1
             if (Input.GetKeyDown(KeyCode.Mouse1) && Time.timeScale > 0)
             {
                 gunMaster.CallEventAimRequest();
-                if (fpsController.GetWalkSpeed()[0]> (fpsController.GetWalkSpeed()[1]-(aimSpeed* fpsController.GetWalkSpeed()[1])))
+                float[] playerWalkSpeed = fpsController.GetWalkSpeed();
+                if (playerWalkSpeed[0] > (playerWalkSpeed[1] - (aimSpeed * playerWalkSpeed[1])))
                 {
                     //Debug.Log("Aim requested");
-                    shouldChangeSpeed = true;
+                    //shouldChangeSpeed = true;
                     currFPSSpeed = fpsController.GetWalkSpeed()[0];
                     fpsController.SetMotionParams(aimSpeed, aimSpeed, aimSpeed);
                 }
-                else
-                    shouldChangeSpeed = false;
-                //Debug.Log("Aim requested");
+                //else
+                    //shouldChangeSpeed = false;
             }
             else if(Input.GetKeyUp(KeyCode.Mouse1) && Time.timeScale > 0)
             {
                 gunMaster.CallEventUnAim();
-                if (shouldChangeSpeed)
-                {
+                //if (shouldChangeSpeed)
+                //{
                     currFPSSpeed = (1 - (currFPSSpeed / fpsController.GetWalkSpeed()[1]));
                     fpsController.SetMotionParams(currFPSSpeed, currFPSSpeed, currFPSSpeed);
-                }
+                //}
                 //Debug.Log("Aim not requested");
             }
         }

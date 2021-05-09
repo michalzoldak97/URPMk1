@@ -90,18 +90,18 @@ namespace U1
                 if (webRequest.isNetworkError || webRequest.isHttpError)
                 {
                     StartCoroutine(InformCantAttempt("Error: " + webRequest.error));
-                    Debug.Log(": Error: " + webRequest.error);
+                    //Debug.Log(": Error: " + webRequest.error);
                 }
                 else if (webRequest.downloadHandler.text == "Incorrect password" || webRequest.downloadHandler.text == "Incorrect username")
                 {
                     logInButton.interactable = false;
-                    StartCoroutine(InformCantAttempt("Error: " + "Incorrect credentials supplied"));
+                    StartCoroutine(InformCantAttempt("Error: " + "Incorrect credentials provided"));
                 }
                 else if (webRequest.downloadHandler.text == "1")
                 {
                     logInButton.interactable = false;
                     StartCoroutine(LogInSuccesInfo());
-                    Debug.Log("User Login SUCESS, dataloader stuff");
+                    //Debug.Log("User Login SUCESS, dataloader stuff");
                 }
                 else
                 {

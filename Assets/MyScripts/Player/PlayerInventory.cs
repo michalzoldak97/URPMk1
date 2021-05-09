@@ -45,7 +45,8 @@ using TMPro;
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Throw();
+                if(Time.timeScale > 0)
+                    Throw();
             }
             if(Input.GetKeyDown(KeyCode.C))
             {

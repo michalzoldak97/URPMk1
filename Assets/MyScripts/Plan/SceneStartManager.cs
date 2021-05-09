@@ -5,20 +5,19 @@ using UnityEngine.SceneManagement;
 
 namespace U1
 {
-    /*[System.Serializable]
-    public class PlaceableObject
-    {
-        public GameObject objToSpawn;
-        public GameObject objButon;
-        public GameObject mapAlias;
-        public int objNum;
-        public Vector3[] worldPositions;
-    }*/
     public class SceneStartManager : MonoBehaviour
     {
-        [SerializeField] PlaceableObject[] placeableObjects;
-        [SerializeField] List<int> planScenesIndex = new List<int>();
-        [SerializeField] List<int> gameScenesIndex = new List<int>();
+        [SerializeField] private PlaceableObject[] placeableObjects;
+        public PlaceableObject[] GetPlaceableObjects()
+        {
+            return placeableObjects;
+        }
+        public void SetPlaceableObjects(PlaceableObject[] passedObjs)
+        {
+            placeableObjects = passedObjs;
+        }
+        [SerializeField] private List<int> gameScenesIndex = new List<int>();
+        [SerializeField] private GameObject sceneLoadScreen;
         public int playerCoins { get; private set; }
         public void SetPlayerCoins(int toSet)
         {
@@ -31,9 +30,25 @@ namespace U1
             if (toSet >= 0)
                 playerExperience = toSet;
         }
+        public int playerMaxSlots { get; private set; }
+        public void SetPlayerMaxSlots(int toSet)
+        {
+            if (toSet >= 3)
+                playerMaxSlots = toSet;
+        }
         public int maxLevel { get; private set; }
         public int maxAllowLevel { get; private set; }
+        public void SetMaxAllowLevel(int toSet)
+        {
+            if (maxAllowLevel < maxLevel)
+                maxAllowLevel = toSet;
+        }
         public int currLevel { get; private set; }
+        public void SetCurrentLevel(int toSet)
+        {
+            if (toSet <= maxAllowLevel) 
+                currLevel = toSet;
+        }
         public int signUpAttempts { get; set; }
         public int logInAttempts { get; set; }
         public bool isLoggedIn { get; set; }
@@ -47,14 +62,13 @@ namespace U1
         {
             taskStatuses[indexA, indexB] = toSet;
         }
-        public enum SceneType
-        {
-            menu, task, shop, plan, game
-        }
         public delegate void DatabaseEventHandler(string username);
         public event DatabaseEventHandler EventLoggedIn;
         public event DatabaseEventHandler EventTaskUpdate;
         public event DatabaseEventHandler EventSaveMaxLevel;
+        public event DatabaseEventHandler EventPOUpdate;
+        public event DatabaseEventHandler EventPOUBuy;
+        public event DatabaseEventHandler EventPOUTransactionResult;
 
         public delegate void SceneEventHandler();
         public event SceneEventHandler EventStartPlan;
@@ -82,6 +96,27 @@ namespace U1
             if (EventSaveMaxLevel != null)
             {
                 EventSaveMaxLevel(dummy);
+            }
+        }
+        public void CallEventPOUpdate(string dummy)
+        {
+            if (EventPOUpdate != null)
+            {
+                EventPOUpdate(dummy);
+            }
+        }
+        public void CallEventPOUBuy(string dummy)
+        {
+            if (EventPOUBuy != null)
+            {
+                EventPOUBuy(dummy);
+            }
+        }
+        public void CallEventPOUTransactionResult(string dummy)
+        {
+            if (EventPOUTransactionResult != null)
+            {
+                EventPOUTransactionResult(dummy);
             }
         }
         public void CallEventStartPlan()
@@ -134,93 +169,44 @@ namespace U1
         {
             SceneManager.sceneLoaded -= OnStart;
         }
-        public void ChangeScene(int index)
+        public void ChangeScene(SceneIndex index)
         {
             OnEnd();
-            SceneManager.LoadScene(index);
+            if(!gameScenesIndex.Contains((int)index))
+                SceneManager.LoadScene((int)index);
+            else
+            {
+                LoadGameScene((int)index);
+            }
+        }
+        private AsyncOperation loadingOperation;
+        private void LoadGameScene(int index)
+        {
+            sceneLoadScreen.SetActive(true);
+            Time.timeScale = 0;
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            loadingOperation = SceneManager.LoadSceneAsync(index);
+            StartCoroutine(GetGameSceneLoadProgress());
+        }
+        IEnumerator GetGameSceneLoadProgress()
+        {
+            while(!loadingOperation.isDone)
+            {
+                yield return null;
+            }
+            Time.timeScale = 1;
+            sceneLoadScreen.SetActive(false);
+            Debug.Log("Finished loading");
         }
         void OnStart(Scene dummy, LoadSceneMode dummyMode)
         {
-            if(planScenesIndex.Contains(SceneManager.GetActiveScene().buildIndex))
-            {
-                OnSceneLoad(SceneType.plan);
-            }
-            else if(gameScenesIndex.Contains(SceneManager.GetActiveScene().buildIndex))
-            {
-                OnSceneLoad(SceneType.game);
-            }
+            SSMStartEndEvent OnStart = new SSMStartEndEvent(this, SceneManager.GetActiveScene().buildIndex);
+            OnStart.OnStart();
         }
         void OnEnd()
         {
-            if (planScenesIndex.Contains(SceneManager.GetActiveScene().buildIndex))
-            {
-                OnSceneUnload(SceneType.plan);
-            }
-            else if (gameScenesIndex.Contains(SceneManager.GetActiveScene().buildIndex))
-            {
-                OnSceneUnload(SceneType.game);
-            }
-        }
-        void OnSceneLoad(SceneType sType)
-        {
-            switch (sType)
-            {
-                case SceneType.plan:
-                    {
-                        CallEventStartPlan();
-                        break;
-                    }
-                case SceneType.game:
-                    {
-                        CallEventStartGame();
-                        break;
-                    }
-            }
-        }
-        void OnSceneUnload(SceneType sType)
-        {
-            switch (sType)
-            {
-                case SceneType.plan:
-                    {
-                        CallEventEndPlan();
-                        break;
-                    }
-                case SceneType.game:
-                    {
-                        CallEventEndGameScene();
-                        break;
-                    }
-            }
-        }
-        public void SetCurrentLevel(int toSet)
-        {
-            if (toSet <= maxAllowLevel) // changed from maxLevel
-                currLevel = toSet;
-            else
-                Debug.LogError("Curr level improper value");
-        }
-        public void IncreaseAllowedLevel()
-        {
-            if(maxAllowLevel < maxLevel)
-                maxAllowLevel++;
-        }
-        public void SetMaxAllowLevel(int toSet)
-        {
-            if (maxAllowLevel < maxLevel)
-                maxAllowLevel = toSet;
-        }
-        public PlaceableObject[] GetPlaceableObjects()
-        {
-            return placeableObjects;
-        }
-        public void SetPlaceablePositions(PlaceableObject[] passedObjs)
-        {
-            placeableObjects = passedObjs;
-        }
-        public void SetObjNum(int index, int num)
-        {
-            placeableObjects[index].numOfOwnedObjects = num;
+            SSMStartEndEvent OnEnd = new SSMStartEndEvent(this, SceneManager.GetActiveScene().buildIndex);
+            OnEnd.OnEnd();
         }
         public void QuitGame()
         {

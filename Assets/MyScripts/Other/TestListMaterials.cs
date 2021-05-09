@@ -9,95 +9,93 @@ namespace U1
     public class TestListMaterials : MonoBehaviour
     {
         // Start is called before the first frame update
-        [SerializeField] private Transform targetTransform;
-        private List<UpdateBehaviour> toUpdate = new List<UpdateBehaviour>();
-        UpdateBehaviour u1 = new UpdateBehaviour();
-        UpdateBehaviour u2 = new UpdateBehaviour();
-        UpdateBehaviour u3 = new UpdateBehaviour();
-        UpdateBehaviour u4 = new UpdateBehaviour();
-        UpdateBehaviour u5 = new UpdateBehaviour();
-        UpdateBehaviour u6 = new UpdateBehaviour();
-        UpdateBehaviour u7 = new UpdateBehaviour();
-        UpdateBehaviour u8 = new UpdateBehaviour();
-        UpdateBehaviour u9 = new UpdateBehaviour();
+        [SerializeField] GameObject testObject, normalObject;
+        private GunSingleShoot singleShoot;
 
         void Start()
         {
-            UpdateBehaviour u1 = new UpdateBehaviour();
-            UpdateBehaviour u2 = new UpdateBehaviour();
-            UpdateBehaviour u3 = new UpdateBehaviour();
-            UpdateBehaviour u4 = new UpdateBehaviour();
-            UpdateBehaviour u5 = new UpdateBehaviour();
-            UpdateBehaviour u6 = new UpdateBehaviour();
-            UpdateBehaviour u7 = new UpdateBehaviour();
-            UpdateBehaviour u8 = new UpdateBehaviour();
-            UpdateBehaviour u9 = new UpdateBehaviour();
-            toUpdate.Add(u1); toUpdate.Add(u2); toUpdate.Add(u3); toUpdate.Add(u4); toUpdate.Add(u5); toUpdate.Add(u6); toUpdate.Add(u7); toUpdate.Add(u8); toUpdate.Add(u9);
+            singleShoot = normalObject.GetComponent<GunSingleShoot>();
             StartCoroutine(StartTest());
         }
 
         IEnumerator StartTest()
         {
-            yield return new WaitForSecondsRealtime(3);
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            stopwatch.Stop();
-            //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
-            double avElapsedMsM = 0;
-            double avElapsedTcsM = 0;
-            for (int i = 0; i < 40; i++)
+            testObject.SetActive(false);
+            for (int i = 0; i < 10; i++)
             {
-                stopwatch.Reset();
-                stopwatch.Start();
-                //if(isMulti)
-                TestSingle(targetTransform);//TestMulti(targetTransform);
+                yield return new WaitForSeconds(1);
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 stopwatch.Stop();
-                //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
-                avElapsedMsM += stopwatch.ElapsedMilliseconds;
-                avElapsedTcsM += stopwatch.ElapsedTicks;
+                //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
+                double avElapsedMsM = 0;
+                double avElapsedTcsM = 0;
+                for (int j = 0; j < 40; j++)
+                {
+                    stopwatch.Reset();
+                    stopwatch.Start();
+                    //if(isMulti)
+                    TestMulti();//TestMulti(targetTransform);
+                    stopwatch.Stop();
+                    //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
+                    avElapsedMsM += stopwatch.ElapsedMilliseconds;
+                    avElapsedTcsM += stopwatch.ElapsedTicks;
+                }
+                UnityEngine.Debug.Log("AVG S :-------Time elapsed TestMulti : " + avElapsedMsM / 40 + "\nTime elapsed TestMulti tics: " + avElapsedTcsM / 40);
             }
-            UnityEngine.Debug.Log("AVG S :-------Time elapsed multi : " + avElapsedMsM / 40 + "\nTime elapsed multi tics: " + avElapsedTcsM / 40);
+            normalObject.SetActive(false);
+            testObject.SetActive(true);
+            for (int i = 0; i < 10; i++)
+            {
+                yield return new WaitForSeconds(1);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                stopwatch.Stop();
+                //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
+                double avElapsedMsM = 0;
+                double avElapsedTcsM = 0;
+                for (int j = 0; j < 40; j++)
+                {
+                    stopwatch.Reset();
+                    stopwatch.Start();
+                    //if(isMulti)
+                    TestSingle();//TestMulti(targetTransform);
+                    stopwatch.Stop();
+                    //UnityEngine.Debug.Log("Time elapsed multi: " + stopwatch.ElapsedMilliseconds + "\nTime elapsed multi tics: " + stopwatch.ElapsedTicks);
+                    avElapsedMsM += stopwatch.ElapsedMilliseconds;
+                    avElapsedTcsM += stopwatch.ElapsedTicks;
+                }
+                UnityEngine.Debug.Log("AVG S :-------Time elapsed TestSingle : " + avElapsedMsM / 40 + "\nTime elapsed TestSingle tics: " + avElapsedTcsM / 40);
+            }
         }
-        void TestMulti(Transform target)
+        void TestMulti()
         {
             for (int i = 0; i < 10; i++)
             {
-                PerformMultiAction(target);
+                PerformMultiAction();
             }
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 100000; i++)
             {
-                PerformMultiAction(target);
+                PerformMultiAction();
             }
         }
-        void TestSingle(Transform target)
+        void TestSingle()
         {
             for (int i = 0; i < 10; i++)
             {
-                PerformSingleAction(target);
+                PerformSingleAction();
             }
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 100000; i++)
             {
-                PerformSingleAction(target);
+                PerformSingleAction();
             }
         }
 
-        void PerformMultiAction(Transform target)
+        void PerformMultiAction()
         {
-            int count = toUpdate.Count;
-            if (count > 0)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    toUpdate[i].GetUpdate();
-                }
-            }
+            singleShoot.Shoot();
         }
-        void PerformSingleAction(Transform target)
+        void PerformSingleAction()
         {
-            int count = 0;// toUpdate.Count;
-            for (int i = 0; i < count; i++)
-            {
-                toUpdate[i].GetUpdate();
-            }
+            //singleShootTest.Shoot();
         }
     }
 }

@@ -208,7 +208,7 @@ namespace U1
             m_AudioSource.Play();
             m_NextStep = m_StepCycle + .5f;
         }
-        void Look()
+        private void Look()
         {
             if (Input.GetAxisRaw("Mouse X") != currentAxisX)
             {

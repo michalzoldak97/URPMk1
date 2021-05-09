@@ -30,7 +30,7 @@ namespace U1
         }
         IEnumerator Explode()
         {
-            yield return new WaitForSecondsRealtime(timeToExplode);
+            yield return new WaitForSeconds(timeToExplode);
             Vector3 myPosition = myTransform.position;
             Collider[] hitColliders = Physics.OverlapSphere(myPosition, radius, layersToAffect);
             for (int i = 0; i < hitColliders.Length; i++)
@@ -38,7 +38,7 @@ namespace U1
                 //add damage
                 if (hitColliders[i].gameObject.GetComponent<Rigidbody>() != null)
                 {
-                    Debug.Log("Found " + hitColliders[i].name + " hit colider length: " + hitColliders.Length);
+                    //Debug.Log("Found " + hitColliders[i].name + " hit colider length: " + hitColliders.Length);
                     CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
                 }
             }
