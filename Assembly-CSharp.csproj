@@ -152,6 +152,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamagableGetDamage.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\HealthStatsSO.cs" />
+    <Compile Include="Assets\MyScripts\Item\ItemSetName.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

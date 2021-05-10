@@ -27,7 +27,7 @@ namespace U1
         }
         void Stop(float howBadly)
         {
-            if(aMaster.canAttack==true)
+            if(aMaster.canAttack==true && gameObject.activeSelf)
                 StartCoroutine(StopOnDamage());
         }
         IEnumerator StopOnDamage()
