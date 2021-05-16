@@ -6,10 +6,11 @@ namespace U1
 {
     public class ItemSetName : MonoBehaviour
     {
-        [SerializeField] private string name;
+        private ItemMaster itemMaster;
        private void Start()
        {
-            gameObject.name = name;
+            itemMaster = GetComponent<ItemMaster>();
+            gameObject.name = itemMaster.GetItemSO().itemName;
        }
     }
 }

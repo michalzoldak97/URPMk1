@@ -7,7 +7,6 @@ namespace U1
     public class ItemThrow : MonoBehaviour
     {
         [SerializeField] private bool shouldNotBeThrown;
-        [SerializeField] private float throwForce = 30;
         private Transform parentTransform;
         private Transform rootTransform;
         private ItemMaster itemMaster;
@@ -29,7 +28,7 @@ namespace U1
                 transform.SetParent(null);
                 itemMaster.CallEventObjectThrow();
                 rootTransform.GetComponent<PlayerMaster>().CallEventInventoryChanged();
-                gameObject.GetComponent<Rigidbody>().AddForce(parentTransform.forward * throwForce, ForceMode.Impulse);
+                gameObject.GetComponent<Rigidbody>().AddForce(parentTransform.forward * itemMaster.GetItemSO().throwForce, ForceMode.Impulse);
             }
         }
     }
