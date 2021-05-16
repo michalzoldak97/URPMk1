@@ -47,21 +47,21 @@ namespace U1
                 quatAngle = Quaternion.LookRotation(hitPosition.normal);
                 //quatAngle = Quaternion.FromToRotation(Vector3.up, hitPosition.normal);
                 //Debug.Log("hitPosition.point equalz:  " + hitPosition.point);
-                objectPooler.SpawnFromPool(stoneTag, hitPosition.point, quatAngle, hitTransform);
+                objectPooler.SpawnFromPoolHitEffect(stoneTag, hitPosition.point, quatAngle, hitTransform, 5);
                 PlayHitSound(0, hitPosition);
             }
             else if (metalLayer == (metalLayer | (1 << (layer))))
             {
                 quatAngle = Quaternion.LookRotation(hitPosition.normal);
                 //Debug.Log("hitPosition.point equalz:  " + hitPosition.point);
-                objectPooler.SpawnFromPool(metalTag, hitPosition.point, quatAngle, hitTransform);
+                objectPooler.SpawnFromPoolHitEffect(metalTag, hitPosition.point, quatAngle, hitTransform, 5);
                 PlayHitSound(1, hitPosition);
             }
             else if (woodLayer == (woodLayer | (1 << (layer))))
             {
                 quatAngle = Quaternion.LookRotation(hitPosition.normal);
                 //Debug.Log("hitPosition.point equalz:  " + hitPosition.point);
-                objectPooler.SpawnFromPool(woodTag, hitPosition.point, quatAngle, hitTransform);
+                objectPooler.SpawnFromPoolHitEffect(woodTag, hitPosition.point, quatAngle, hitTransform, 5);
                 PlayHitSound(2, hitPosition);
             }
         }

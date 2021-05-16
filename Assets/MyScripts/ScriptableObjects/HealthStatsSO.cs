@@ -9,5 +9,6 @@ namespace U1
     {
         public int health;
         public float armor;
+        public string dmgText;
     }
 }

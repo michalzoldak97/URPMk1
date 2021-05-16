@@ -9,10 +9,11 @@ namespace U1
         private ItemMaster itemMaster;
         private int originalLayer;
 
-        void SetInit()
+        private void SetInit()
         {
             itemMaster = GetComponent<ItemMaster>();
             originalLayer = gameObject.layer;
+            Debug.Log("Original layer set to : " + originalLayer);
         }
 
         private void OnEnable()
@@ -38,6 +39,7 @@ namespace U1
         void ChangeOnThrow()
         {
             gameObject.layer = originalLayer;
+            Debug.Log("Changed to layer: " + originalLayer);
             foreach (Transform child in transform)
             {
                 child.gameObject.layer = originalLayer;

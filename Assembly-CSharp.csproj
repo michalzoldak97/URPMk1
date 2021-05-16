@@ -159,6 +159,8 @@
     <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveTimeFuze.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveExplode.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveEffect.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\DamagableDmgText.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\TextDmg.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
