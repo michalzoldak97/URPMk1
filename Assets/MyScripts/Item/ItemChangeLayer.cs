@@ -9,16 +9,13 @@ namespace U1
         private ItemMaster itemMaster;
         private int originalLayer;
 
-        private void SetInit()
+        private void Start()
         {
-            itemMaster = GetComponent<ItemMaster>();
             originalLayer = gameObject.layer;
-            Debug.Log("Original layer set to : " + originalLayer);
         }
-
         private void OnEnable()
         {
-            SetInit();
+            itemMaster = GetComponent<ItemMaster>();
             itemMaster.EventObjectPickup += ChangeOnPickup;
             itemMaster.EventObjectThrow += ChangeOnThrow;
         }

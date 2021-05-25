@@ -42,7 +42,7 @@ namespace U1
             Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
             for (int i = 0; i < hitColliders.Length; i++)
             {
-                Debug.Log("Found collider: " + hitColliders[i].gameObject.name);
+                //Debug.Log("Found collider: " + hitColliders[i].gameObject.name);
                 if (hitColliders[i].gameObject.GetComponent<Rigidbody>() != null)
                     CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
             }
@@ -63,7 +63,7 @@ namespace U1
                     CheckCorners(col.bounds, hit, targetTransform, myPosition);
             }
         }
-        void CheckCorners(Bounds bounds, RaycastHit hit, Transform targetTransform, Vector3 myPosition)
+        private void CheckCorners(Bounds bounds, RaycastHit hit, Transform targetTransform, Vector3 myPosition)
         {
             float x, y, z;
             Vector3 v3Corner = Vector3.zero;

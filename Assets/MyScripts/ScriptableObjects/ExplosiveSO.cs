@@ -8,6 +8,7 @@ namespace U1
     public class ExplosiveSO : ScriptableObject
     {
         public float timeToExplode, expRadius, expDamage, expPenetration, expForce, dmgTreshold, splintRange, splintDmg;
+        public int splintNum;
         public LayerMask layersToDamage, layersToAffect;
     }
 }

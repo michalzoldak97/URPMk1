@@ -25,7 +25,13 @@ namespace U1
         {
             effectTransform.parent = null;
             effectTransform.gameObject.SetActive(true);
-            Destroy(gameObject, 0.1f);
+            StartCoroutine(Deactivate());
+        }
+        private IEnumerator Deactivate()
+        {
+            Destroy(gameObject, 10f);
+            yield return new WaitForSeconds(0.1f);
+            gameObject.SetActive(false);
         }
     }
 }

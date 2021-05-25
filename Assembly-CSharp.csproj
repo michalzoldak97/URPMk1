@@ -60,6 +60,7 @@
     <Compile Include="Assets\MyScripts\Other\UpdateManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\DamagableDmgText.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebSignUp.cs" />
     <Compile Include="Assets\MyScripts\Plan\SSMScripts\SSMStartEndEvent.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
     <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMPOBuyUpdate.cs" />
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveExplode.cs" />
     <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
     <Compile Include="Assets\MyScripts\AI\AINavi.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebLogIn.cs" />
@@ -90,6 +92,8 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunMaster.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerWeight.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemSetPositionRotation.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveTimeFuze.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveMaster.cs" />
     <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeapon.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMaster.cs" />
@@ -115,8 +119,10 @@
     <Compile Include="Assets\MyScripts\Player\FPSController.cs" />
     <Compile Include="Assets\MyScripts\QualityManagement\SceneLoadQualityManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAnimation.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveEffect.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeController.cs" />
     <Compile Include="Assets\MyScripts\AI\AIStopOnDamage.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\TextDmg.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMass.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerDetectItem.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\UnParentObj.cs" />
@@ -126,6 +132,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemChangeLayer.cs" />
     <Compile Include="Assets\MyScripts\Other\DeactivateForPool.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageMaster.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\ExplosiveSO.cs" />
     <Compile Include="Assets\MyScripts\Plan\PlaceableObject.cs" />
     <Compile Include="Assets\MyScripts\Plan\SceneStartManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AINaviAttack.cs" />
@@ -154,13 +161,7 @@
     <Compile Include="Assets\MyScripts\ScriptableObjects\ItemSO.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveMaster.cs" />
-    <Compile Include="Assets\MyScripts\ScriptableObjects\ExplosiveSO.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveTimeFuze.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveExplode.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveEffect.cs" />
-    <Compile Include="Assets\MyScripts\Damagable\DamagableDmgText.cs" />
-    <Compile Include="Assets\MyScripts\Damagable\TextDmg.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveShrads.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />
