@@ -64,7 +64,7 @@ namespace U1
                     cotter.SetActive(false);
                 if(currForce < maxForce)
                 {
-                    currForce++;
+                    currForce+=2;
                     if(progressBar != null)
                     {
                         progressBar.value = Mathf.Clamp(currForce, 0, maxForce - 1);

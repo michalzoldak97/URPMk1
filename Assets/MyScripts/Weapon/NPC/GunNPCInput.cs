@@ -47,7 +47,7 @@ namespace U1
                 {
                     gunMaster.CallEventShootRequest();
                     currAmmo -= 1;
-                    yield return new WaitForSecondsRealtime(gunSettings.shootRate);
+                    yield return new WaitForSeconds(gunSettings.shootRate);
                 }
                 else if(!isReloading)
                 {
@@ -59,7 +59,7 @@ namespace U1
         IEnumerator Reload()
         {
             isReloading = true;
-            yield return new WaitForSecondsRealtime(gunSettings.reloadTime);
+            yield return new WaitForSeconds(gunSettings.reloadTime);
             currAmmo = gunSettings.maxAmmo;
             isReloading = false;
         }

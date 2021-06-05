@@ -70,6 +70,7 @@
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
     <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMPOBuyUpdate.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveShrads.cs" />
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveExplode.cs" />
     <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
@@ -161,7 +162,7 @@
     <Compile Include="Assets\MyScripts\ScriptableObjects\ItemSO.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveShrads.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeBundle.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

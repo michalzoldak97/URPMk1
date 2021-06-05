@@ -41,29 +41,28 @@ namespace U1
             gunMaster.EventHit -= ForceHit;
         }
         void SpawnHitEffect(RaycastHit hitPosition, Transform hitTransform, int layer)
-        {
-            if(stoneLayer == (stoneLayer | (1 << (layer))))
+        {   
+            if ((stoneLayer.value & (1  << layer)) > 0)
             {
                 quatAngle = Quaternion.LookRotation(hitPosition.normal);
-                //quatAngle = Quaternion.FromToRotation(Vector3.up, hitPosition.normal);
                 //Debug.Log("hitPosition.point equalz:  " + hitPosition.point);
                 objectPooler.SpawnFromPoolHitEffect(stoneTag, hitPosition.point, quatAngle, hitTransform, 5);
                 PlayHitSound(0, hitPosition);
             }
-            else if (metalLayer == (metalLayer | (1 << (layer))))
+            else if ((metalLayer.value & (1 << layer)) > 0)
             {
                 quatAngle = Quaternion.LookRotation(hitPosition.normal);
                 //Debug.Log("hitPosition.point equalz:  " + hitPosition.point);
                 objectPooler.SpawnFromPoolHitEffect(metalTag, hitPosition.point, quatAngle, hitTransform, 5);
                 PlayHitSound(1, hitPosition);
-            }
+            }/*
             else if (woodLayer == (woodLayer | (1 << (layer))))
             {
                 quatAngle = Quaternion.LookRotation(hitPosition.normal);
                 //Debug.Log("hitPosition.point equalz:  " + hitPosition.point);
                 objectPooler.SpawnFromPoolHitEffect(woodTag, hitPosition.point, quatAngle, hitTransform, 5);
                 PlayHitSound(2, hitPosition);
-            }
+            }*/
         }
         void ForceHit(RaycastHit hitPosition, Transform hitTransform, int layer)
         {

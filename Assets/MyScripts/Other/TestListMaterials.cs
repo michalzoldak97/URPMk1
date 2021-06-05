@@ -16,6 +16,7 @@ namespace U1
         private Vector3[] randDir;
         private Transform myTransform;
         RaycastHit hit;
+        [SerializeField] Transform targetObject;
 
         void Start()
         {
@@ -117,37 +118,21 @@ namespace U1
         }
         private void ExplodeShrad()
         {
-            Vector3[] directions = randDir;
-            Vector3 myPos = myTransform.position;
-            float range = splintRange;
-            LayerMask toAffect = layersToAffect;
-            LayerMask toDmg = layersToDamage;
-            RaycastHit hit;
-            for (int i = 0; i < splitNum; i++)
+            int dummy = 13;
+            if (layersToAffect == (layersToAffect | (1 << dummy/*targetObject.gameObject.layer*/)))
             {
-                if (Physics.Raycast(myPos, directions[i], out hit, range, toAffect))
-                {
-                    Transform target = hit.transform;
-                    if ((toDmg.value & (1 << target.gameObject.layer)) > 0)
-                        ApplayForceAndDamage1(target, myPos);
-                }
+
+                myTransform.rotation = transform.rotation;
+                dummy = 13;
             }
         }
         private void ExplodeShrad1()
         {
-            Vector3[] directions = randDir;
-            Vector3 myPos = myTransform.position;
-            float range = splintRange;
-            LayerMask toAffect = layersToAffect;
-            LayerMask toDmg = layersToDamage;
-            for (int i = 0; i < splitNum; i++)
+            int dummy = 13;
+            if ((layersToAffect.value & (1 << dummy/*targetObject.gameObject.layer*/)) > 0)
             {
-                if (Physics.Raycast(myPos, directions[i], out hit, range, toAffect))
-                {
-                    Transform target = hit.transform;
-                    if ((toDmg.value & (1 << target.gameObject.layer)) > 0)
-                        ApplayForceAndDamage1(target, myPos);
-                }
+                myTransform.rotation = transform.rotation;
+                dummy = 13;
             }
         }
         private void ApplayForceAndDamage(Transform TTform, Vector3 myPosition)
