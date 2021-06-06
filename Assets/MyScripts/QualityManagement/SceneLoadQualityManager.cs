@@ -25,16 +25,12 @@ namespace U1
         private void SetPlanQuality()
         {
             if(!isVSync)
-            {
                 Application.targetFrameRate = numOfFramesMenu;
-            }
         }
         private void SetGameQuality()
         {
             if (!isVSync)
-            {
                 Application.targetFrameRate = numOfFramesGame;
-            }
         }
         public void LoadGameScene()
         {

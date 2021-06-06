@@ -48,11 +48,8 @@ namespace U1
                 poolDictionary.Add(pool.tag, objectPool);
             }
         }
-
-        public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform hitTransform)
+        public GameObject SpawnFromPoolHitEffect(string tag, Vector3 position, Quaternion rotation, Transform hitTransform, float time)
         {
-            //Debug.Log("------------------- pool recieves with activates object");
-
             if (!poolDictionary.ContainsKey(tag))
             {
                 Debug.Log("Pool with tag " + tag + " doesn't exist");
@@ -61,23 +58,11 @@ namespace U1
 
             GameObject objectToSpawn = poolDictionary[tag].Dequeue();
 
-            //objectToSpawn.SetActive(true);
             objectToSpawn.transform.position = position;
             objectToSpawn.transform.rotation = rotation;
             objectToSpawn.SetActive(true);
             objectToSpawn.transform.SetParent(hitTransform);
 
-            /* if (objectToSpawn.GetComponent<NPC_StatePattern>().waypoints != null)
-             {
-                 objectToSpawn.GetComponent<NPC_StatePattern>().waypoints = wayPoints;
-             }*/
-
-            /*IPolledObject pooledObj = objectToSpawn.GetComponent<IPolledObject>();
-
-            if (pooledObj != null)
-            {
-                pooledObj.OnObjectSpawn();
-            }*/
             if(objectToSpawn.GetComponent<DeactivateForPool>()!=null)
             {
                 objectToSpawn.GetComponent<DeactivateForPool>().OnObjectSpwan();
@@ -85,14 +70,13 @@ namespace U1
 
             poolDictionary[tag].Enqueue(objectToSpawn);
 
-            StartCoroutine(Deactivatevoi(objectToSpawn));
+            StartCoroutine(Deactivatevoi(objectToSpawn, time));
             return objectToSpawn;
-
         }
 
-        IEnumerator Deactivatevoi(GameObject obj)
+        IEnumerator Deactivatevoi(GameObject obj, float time)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(time);
             obj.SetActive(true);
             yield return new WaitForFixedUpdate();
             obj.transform.SetParent(null);

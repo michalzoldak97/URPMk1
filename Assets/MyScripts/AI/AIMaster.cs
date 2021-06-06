@@ -7,8 +7,8 @@ namespace U1
     public class AIMaster : MonoBehaviour
     {
         public bool canAttack = true;
-        [SerializeField] Transform[] wayPoints;
-        [SerializeField] AIEnemy_1 aSettings;
+        [SerializeField] private Transform[] wayPoints;
+        [SerializeField] private AIEnemy_1 aSettings;
         public Transform enemyTransform { get; private set; }
         //private float distanceToClosest;
         private int stateCounter;

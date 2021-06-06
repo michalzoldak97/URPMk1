@@ -17,7 +17,7 @@ namespace U1
         {
             switch (currScene)
             {
-                case (SceneIndex.PLAN):
+                case (SceneIndex.MENU):
                     {
                         startManager.CallEventStartPlan();
                         break;

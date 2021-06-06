@@ -25,9 +25,9 @@ namespace U1
         {
             dmgMaster.EventLowerHealth -= Stop;
         }
-        void Stop(float howBadly, float dummy)
+        void Stop(float howBadly)
         {
-            if(aMaster.canAttack==true)
+            if(aMaster.canAttack==true && gameObject.activeSelf)
                 StartCoroutine(StopOnDamage());
         }
         IEnumerator StopOnDamage()

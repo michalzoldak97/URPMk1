@@ -33,6 +33,7 @@ public class POSpawner : MonoBehaviour
                         {
                             if (objTovalid[i].worldPositions[j] != zeroVector)
                             {
+                                objTovalid[i].worldPositions[j].y += 1;
                                 GameObject spawnedPO = Instantiate(objTovalid[i].objToSpawn, objTovalid[i].worldPositions[j], Quaternion.Euler(90f, 0f, 0f));
                                 spawnedPO.GetComponent<SpawnPOOnStart>().SpawnObject();
                             }

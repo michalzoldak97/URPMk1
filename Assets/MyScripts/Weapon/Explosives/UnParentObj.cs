@@ -12,9 +12,11 @@ namespace U1
         }
         IEnumerator UnParent()
         {
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSeconds(0.5f);
             gameObject.transform.SetParent(null);
-            Destroy(gameObject, 3);
+            yield return new WaitForSeconds(3f);
+            gameObject.SetActive(false);
+            Destroy(gameObject, 10);
         }
     }
 }

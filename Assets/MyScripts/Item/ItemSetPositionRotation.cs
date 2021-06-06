@@ -6,8 +6,6 @@ namespace U1
 {
     public class ItemSetPositionRotation : MonoBehaviour
     {
-        [SerializeField] private Vector3 positionToSet;
-        [SerializeField] private Vector3 rotationToSet;
         private ItemMaster itemMaster;
         void Start()
         {
@@ -35,11 +33,11 @@ namespace U1
         }
         void SetPosition()
         {
-            transform.localPosition = positionToSet;
+            transform.localPosition = itemMaster.GetItemSO().posToSet;
         }
         void SetRotation()
         {
-            transform.localRotation = Quaternion.Euler(rotationToSet);
+            transform.localRotation = Quaternion.Euler(itemMaster.GetItemSO().rotToSet);
         }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Assets\MyScripts\Other\UpdateManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunPlayerInput.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\AIEnemy_1.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\DamagableDmgText.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebSignUp.cs" />
     <Compile Include="Assets\MyScripts\Plan\SSMScripts\SSMStartEndEvent.cs" />
     <Compile Include="Assets\MyScripts\AI\AILook.cs" />
@@ -69,18 +70,22 @@
     <Compile Include="Assets\MyScripts\Plan\MenuManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AIShootGun.cs" />
     <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMPOBuyUpdate.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveShrads.cs" />
     <Compile Include="Assets\MyScripts\AI\GlobalEnemyChecker.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveExplode.cs" />
     <Compile Include="Assets\MyScripts\Other\ShopInfoPanel.cs" />
     <Compile Include="Assets\MyScripts\AI\AINavi.cs" />
     <Compile Include="Assets\MyScripts\Plan\WebLogIn.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerCursorManager.cs" />
     <Compile Include="Assets\MyScripts\Plan\Task.cs" />
     <Compile Include="Assets\MyScripts\Other\POSelectedButton.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\DamagableGetDamage.cs" />
     <Compile Include="Assets\MyScripts\Plan\PlanCameraMover.cs" />
     <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMLoadOnLogin.cs" />
     <Compile Include="Assets\MyScripts\AI\AIMaster.cs" />
     <Compile Include="Assets\MyScripts\Plan\DCMScripts\DCMUpdateTaskStatuses.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemAmmo.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Gun\GunControlAimCamera.cs" />
     <Compile Include="Assets\MyScripts\Weapon\NPC\GunNPCInput.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemPickUp.cs" />
     <Compile Include="Assets\MyScripts\Plan\ShopManager.cs" />
@@ -88,6 +93,8 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunMaster.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerWeight.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemSetPositionRotation.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveTimeFuze.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveMaster.cs" />
     <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeapon.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerMaster.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMaster.cs" />
@@ -95,6 +102,7 @@
     <Compile Include="Assets\MyScripts\ScriptableObjects\SoundsContainerSO.cs" />
     <Compile Include="Assets\MyScripts\Other\SpawnPOOnStart.cs" />
     <Compile Include="Assets\MyScripts\Other\TestListMaterials.cs" />
+    <Compile Include="Assets\MyScripts\Item\ItemSetName.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\NPCGunSO.cs" />
     <Compile Include="Assets\MyScripts\AI\TestRotation.cs" />
     <Compile Include="Assets\MyScripts\Damagable\ColorDamagable.cs" />
@@ -112,8 +120,10 @@
     <Compile Include="Assets\MyScripts\Player\FPSController.cs" />
     <Compile Include="Assets\MyScripts\QualityManagement\SceneLoadQualityManager.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAnimation.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveEffect.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeController.cs" />
     <Compile Include="Assets\MyScripts\AI\AIStopOnDamage.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\TextDmg.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemMass.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerDetectItem.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\UnParentObj.cs" />
@@ -123,6 +133,7 @@
     <Compile Include="Assets\MyScripts\Item\ItemChangeLayer.cs" />
     <Compile Include="Assets\MyScripts\Other\DeactivateForPool.cs" />
     <Compile Include="Assets\MyScripts\Damagable\DamageMaster.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\ExplosiveSO.cs" />
     <Compile Include="Assets\MyScripts\Plan\PlaceableObject.cs" />
     <Compile Include="Assets\MyScripts\Plan\SceneStartManager.cs" />
     <Compile Include="Assets\MyScripts\AI\AINaviAttack.cs" />
@@ -145,11 +156,13 @@
     <Compile Include="Assets\MyScripts\Item\ItemCameraManipulation.cs" />
     <Compile Include="Assets\MyScripts\Plan\POSpawner.cs" />
     <Compile Include="Assets\MyScripts\ScriptableObjects\ObjectsContainer.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\HealthStatsSO.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunSingleShoot.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\ItemSO.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Gun\GunControlAimCamera.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeBundle.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

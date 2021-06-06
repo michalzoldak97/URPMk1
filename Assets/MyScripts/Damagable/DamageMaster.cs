@@ -6,14 +6,21 @@ namespace U1
 {
     public class DamageMaster : MonoBehaviour
     {
+        [SerializeField] private HealthStatsSO myHealthStats;
         private DamagableMaster damagableMaster;
         public delegate void DestructionEventHandler();
         public event DestructionEventHandler EventDestruction;
-        public delegate void GunDamageEventHandler(float damageAmount, float penetration);
-        public event GunDamageEventHandler EventShootByGun;
-        public event GunDamageEventHandler HitByExplosion;
-        public event GunDamageEventHandler EventProjectileHit;
-        public event GunDamageEventHandler EventLowerHealth;
+        public delegate void GetDamageEventHandler(float damageAmount, float penetration);
+        public event GetDamageEventHandler EventShootByGun;
+        public event GetDamageEventHandler EventHitByExplosion;
+        public delegate void DamageEventHandler(float damageAmount);
+        public event DamageEventHandler EventProjectileHit;
+        public event DamageEventHandler EventLowerHealth;
+
+        public HealthStatsSO GetHealthStatsSO()
+        {
+            return myHealthStats;
+        }
 
         private void Awake()
         {
@@ -33,23 +40,23 @@ namespace U1
         }
         public void CallHitByExplosion(float damageAmount, float penetration)
         {
-            if (HitByExplosion != null)
+            if (EventHitByExplosion != null)
             {
-                HitByExplosion(damageAmount, penetration);
+                EventHitByExplosion(damageAmount, penetration);
             }
         }
-        public void CallEventProjectileHit(float damageAmount, float penetration)
+        public void CallEventProjectileHit(float damageAmount)
         {
             if (EventProjectileHit != null)
             {
-                EventProjectileHit(damageAmount, penetration);
+                EventProjectileHit(damageAmount);
             }
         }
-        public void CallEventLowerHealth(float howBadly, float dummy)
+        public void CallEventLowerHealth(float damage)
         {
             if (EventLowerHealth != null)
             {
-                EventLowerHealth(howBadly, dummy);
+                EventLowerHealth(damage);
             }
         }
         public void CallEventDestruction()

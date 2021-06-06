@@ -7,22 +7,15 @@ namespace U1
     public class ItemChangeLayer : MonoBehaviour
     {
         private ItemMaster itemMaster;
-        [SerializeField] byte changeToLayer;
-        private byte originalLayer;
+        private int originalLayer;
 
-        void Start()
+        private void Start()
         {
-            originalLayer = (byte)gameObject.layer;
+            originalLayer = gameObject.layer;
         }
-
-        void SetInit()
-        {
-            itemMaster = GetComponent<ItemMaster>();
-        }
-
         private void OnEnable()
         {
-            SetInit();
+            itemMaster = GetComponent<ItemMaster>();
             itemMaster.EventObjectPickup += ChangeOnPickup;
             itemMaster.EventObjectThrow += ChangeOnThrow;
         }
@@ -34,15 +27,16 @@ namespace U1
 
         void ChangeOnPickup()
         {
-            gameObject.layer = changeToLayer;
+            gameObject.layer = itemMaster.GetItemSO().toLayer;
             foreach(Transform child in transform)
             {
-                child.gameObject.layer = changeToLayer;
+                child.gameObject.layer = itemMaster.GetItemSO().toLayer;
             }
         }
         void ChangeOnThrow()
         {
             gameObject.layer = originalLayer;
+            Debug.Log("Changed to layer: " + originalLayer);
             foreach (Transform child in transform)
             {
                 child.gameObject.layer = originalLayer;

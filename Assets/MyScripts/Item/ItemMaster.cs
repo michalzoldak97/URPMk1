@@ -6,6 +6,7 @@ namespace U1
 {
     public class ItemMaster : MonoBehaviour
     {
+        [SerializeField] private ItemSO itemSO;
         public delegate void GeneralEventHandler();
         public event GeneralEventHandler EventObjectThrowRequest;
         public event GeneralEventHandler EventObjectThrow;
@@ -16,6 +17,11 @@ namespace U1
 
         public bool shouldStayActive;
         public string displayOnGui = "Press 'E' to pickup";
+
+        public ItemSO GetItemSO()
+        {
+            return itemSO;
+        }
         public void CallEventPickupRequested(Transform playerTransform)
         {
             //Debug.Log("Pickup requested" + playerTransform);
