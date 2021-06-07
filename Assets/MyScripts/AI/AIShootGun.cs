@@ -7,12 +7,12 @@ namespace U1
     public class AIShootGun : MonoBehaviour
     {
         [SerializeField] private Transform gunTransform;
+        private float step = 0.1f, move = 0.5f;
+        private Vector3 rotationMaskY = new Vector3(0f, 1f, 0f);
         private Transform myTransform;
         private AIMaster aMaster;
         private AIEnemy_1 aSettings;
-        private float step = 0.1f, move = 0.5f;
-        private Vector3 rotationMaskY = new Vector3(0f, 1f, 0f);
-        void SetInit()
+        private void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
             aSettings = aMaster.GetMasterSettings();
@@ -31,7 +31,7 @@ namespace U1
             aMaster.EventAttackTarget -= Shoot;
         }
 
-        void Shoot(Transform target)
+        private void Shoot(Transform target)
         {
             if(CheckRotationTowards(target))
             {
@@ -42,7 +42,7 @@ namespace U1
             else
                 StartCoroutine(RotateTowardsObj(target));
         }
-        bool CheckRotationTowards(Transform target)
+        private bool CheckRotationTowards(Transform target)
         {
             Vector3 targetPosition = target.position;
             Vector3 myPosition = gunTransform.position;//myTransform.position;
@@ -70,7 +70,7 @@ namespace U1
             move = 0.5f;
             return false;
         }
-        IEnumerator RotateTowardsObj(Transform target)
+        private IEnumerator RotateTowardsObj(Transform target)
         {
             for (int i = 0; i < 15; i++)
             {
@@ -80,7 +80,7 @@ namespace U1
             }
             move = 0.5f;
         }
-        IEnumerator SetStep()
+        private IEnumerator SetStep()
         {
             yield return new WaitForSeconds(1);
             if (GetComponent<AILook>() != null)

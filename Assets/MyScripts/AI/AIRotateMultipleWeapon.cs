@@ -13,7 +13,7 @@ namespace U1
         private Quaternion lookAtRotation;
         private AIMaster aMaster;
 
-        void SetInit()
+        private void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
             myTransform = transform;
@@ -28,7 +28,7 @@ namespace U1
         {
             aMaster.EventShootTarget -= RotateWeaponTowards;
         }
-        void RotateWeaponTowards(Transform target)
+        private void RotateWeaponTowards(Transform target)
         {
             Vector3 targetPos = target.position;
             for (int i = 0; i < weaponTransforms.Length; i++)
@@ -41,7 +41,7 @@ namespace U1
                 baseAimPosition[a] = baseAimPosition[i * 2];
             }
         }
-        void AssignWeaponPositions()
+        private void AssignWeaponPositions()
         {
             baseAimPosition = new Vector3[weaponTransforms.Length * 2];
             for (int i = 0; i < weaponTransforms.Length; i++)

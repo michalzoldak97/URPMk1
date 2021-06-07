@@ -7,9 +7,9 @@ namespace U1
     public class DamagableDmgText : MonoBehaviour
     {
         private string dmgTextTag;
+        private Transform myTransform;
         private DamageMaster damageMaster;
         private ObjectPooler objectPooler;
-        private Transform myTransform;
         private void Start()
         {
             objectPooler = ObjectPooler.Instance;

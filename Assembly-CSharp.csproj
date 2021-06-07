@@ -94,6 +94,7 @@
     <Compile Include="Assets\MyScripts\Player\PlayerWeight.cs" />
     <Compile Include="Assets\MyScripts\Item\ItemSetPositionRotation.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveTimeFuze.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeBundle.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveMaster.cs" />
     <Compile Include="Assets\MyScripts\AI\AIRotateSingleWeapon.cs" />
     <Compile Include="Assets\MyScripts\Player\PlayerMaster.cs" />
@@ -162,7 +163,9 @@
     <Compile Include="Assets\MyScripts\ScriptableObjects\ItemSO.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
-    <Compile Include="Assets\MyScripts\Weapon\Explosives\GrenadeBundle.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Gun\GunGrenadeLauncher.cs" />
+    <Compile Include="Assets\MyScripts\Weapon\Explosives\ExplosiveCollisionTimeFuse.cs" />
+    <Compile Include="Assets\MyScripts\Item\ItemDeactivateAfterUsage.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\git_commands.txt" />

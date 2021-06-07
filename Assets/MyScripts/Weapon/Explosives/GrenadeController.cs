@@ -54,8 +54,7 @@ namespace U1
                 }
             }
         }
-
-        void IncreaseForce()
+        private void IncreaseForce()
         {
             if(Time.timeScale > 0 && Time.time > nextCheck)
             {
@@ -64,7 +63,7 @@ namespace U1
                     cotter.SetActive(false);
                 if(currForce < maxForce)
                 {
-                    currForce+=2;
+                    currForce+=(maxForce/10);
                     if(progressBar != null)
                     {
                         progressBar.value = Mathf.Clamp(currForce, 0, maxForce - 1);
@@ -83,7 +82,7 @@ namespace U1
             }
 
         }*/
-        void Throw()
+        private void Throw()
         {
             if (Time.timeScale > 0)
             {
@@ -93,13 +92,13 @@ namespace U1
             }
         }
 
-        IEnumerator RemoveObject()
+        private IEnumerator RemoveObject()
         {
             itemMaster.CallEventObjectThrowRequest();
             yield return new WaitForEndOfFrame();
             Destroy(gameObject);
         }
-        void SetIsOnPlayer()
+        private void SetIsOnPlayer()
         {
             if (gameObject.transform.root.CompareTag("Player"))
                 isOnPlayer = true;

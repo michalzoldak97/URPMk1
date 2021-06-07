@@ -68,6 +68,7 @@ namespace U1
                 {
                     nextCheck = Time.time + shootDelay;
                     gunMaster.CallEventShootRequest();
+                    Debug.Log("Shoot requested");
                 }
                 else if(Input.GetKeyDown(KeyCode.Mouse0) && Time.timeScale > 0 && Time.time > nextCheck && myBurtsFire.hasABurstMode && !myBurtsFire.isShootingBurst)
                 {

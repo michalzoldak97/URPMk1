@@ -7,20 +7,17 @@ namespace U1
     public class AILook : UpdateBehaviour
     {
         private AIEnemy_1 aSettings;
-        private float nextCheck;
-        private float checkRate;
-        private float minDistance;
-        private Transform myTransform;
-        private Transform currTarget;
-        private Transform targetToCheck;
+        private float nextCheck, checkRate, minDistance;
         private Vector3 betweenMeAndEnemy;
+        private Transform myTransform, currTarget, targetToCheck;
         private AIMaster aMaster;
         private GlobalEnemyChecker GEC;
-        void Start()
+        public float GetCheckRate() { return checkRate; }
+        private void Start()
         {
             SetInit();
         }
-        void SetInit()
+        private void SetInit()
         {
             GEC = GameObject.FindGameObjectWithTag("GEC").GetComponent<GlobalEnemyChecker>();
             myTransform = transform;
@@ -28,7 +25,6 @@ namespace U1
             aSettings = aMaster.GetMasterSettings();
             checkRate = Random.Range(aSettings.baseCheckRate - 0.2f, aSettings.baseCheckRate + 0.2f);
         }
-
         public override void GetUpdate()
         {
             if(Time.time>nextCheck)
@@ -37,7 +33,7 @@ namespace U1
                 CheckByDistance();
             }
         }
-        void CheckByDistance()
+        private void CheckByDistance()
         {
             for (int i = 0; i < aSettings.myEnemyIDs.Length; i++)
             {
@@ -78,7 +74,7 @@ namespace U1
             else
                 aMaster.CallEventNoTargetVisible();
         }
-        bool CheckVisibility(float distanceToCheck)
+        private bool CheckVisibility(float distanceToCheck)
         {
             RaycastHit hit;
             float myAttackRange = aSettings.attackRange;
@@ -96,7 +92,7 @@ namespace U1
             else
                 return false;
         }
-        bool CheckCorners(Bounds bounds, float sightRange, LayerMask sightlayers, RaycastHit hit)
+        private bool CheckCorners(Bounds bounds, float sightRange, LayerMask sightlayers, RaycastHit hit)
         {
             float x, y, z;
 
@@ -138,11 +134,6 @@ namespace U1
                    return true;
             }
             return false;
-        }
-
-        public float GetCheckRate()
-        {
-            return checkRate;
         }
     }
 }

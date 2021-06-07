@@ -7,46 +7,34 @@ namespace U1
     public class AIDestroy : MonoBehaviour
     {
         [SerializeField] ObjectsContainer myObjectContainer;
-        private DamageMaster dmgMaster;
         private GameObject effect;
+        private DamageMaster dmgMaster;
 
-        void SetInit()
+        private void Start()
         {
             dmgMaster = GetComponent<DamageMaster>();
-        }
-        void Start()
-        {
-            SetInit();
             ChooseDestroyScenario();
         }
         private void OnEnable()
         {
-            SetInit();
+            dmgMaster = GetComponent<DamageMaster>();
             dmgMaster.EventDestruction += Explode;
         }
         private void OnDisable()
         {
             dmgMaster.EventDestruction -= Explode;
         }
-        void ChooseDestroyScenario()
+        private void ChooseDestroyScenario()
         {
             int num = Random.Range(0, myObjectContainer.combinationNum);
-            switch (num)
-            {
-                case 0:
-                    PrepareExplode(num);
-                    break;
-                case 1:
-                    PrepareExplode(num);
-                    break;
-            }
+            PrepareExplode(num);
         }
-        void PrepareExplode(int num)
+        private void PrepareExplode(int num)
         {
             effect = Instantiate(myObjectContainer.objecsSet1[num], transform.position, transform.rotation, transform);
             effect.SetActive(false);
         }
-        void Explode()
+        private void Explode()
         {
             effect.SetActive(true);
             effect.transform.SetParent(null);

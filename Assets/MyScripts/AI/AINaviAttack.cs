@@ -7,18 +7,15 @@ namespace U1
 {
     public class AINaviAttack : MonoBehaviour
     {
-        private AIEnemy_1 aSettings;
-        private Transform[] wayPoints;
-        private Transform myTransform;
-        private Transform targetTransform;
-        private Vector3 myDestination;
-        private int waypointCount;
-        private int randomCount;
-        private int waypointFailCount, targetFailCount;
         private bool attack;
+        private int waypointFailCount, targetFailCount, randomCount, waypointCount;
+        private Vector3 myDestination;
+        private Transform myTransform, targetTransform;
+        private Transform[] wayPoints;
         private NavMeshAgent myNevMesh;
+        private AIEnemy_1 aSettings;
         private AIMaster aMaster;
-        void SetInit()
+        private void SetInit()
         {
             myNevMesh = GetComponent<NavMeshAgent>();
             aMaster = GetComponent<AIMaster>();
@@ -39,40 +36,29 @@ namespace U1
             aMaster.EventNoTargetVisible -= MoveAIAgent;
             aMaster.EventFollowTarget -= SetFollowTarget;
         }
-        void MoveAIAgent()
+        private void MoveAIAgent()
         {
-            if ((!attack && wayPoints.Length == 0))
+            if (!attack && wayPoints.Length == 0)
             {
                 //Debug.Log("Move Random " + myDestination + " random count " + randomCount);
                 MoveRandom();
                 randomCount++;
             }
             else if (!attack)
-            {
-                //Debug.Log("Move Waypoint " + myDestination + " waypoints length: " + wayPoints.Length);
                 MoveWaypoint();
-            }
             else if(attack)
-            {
                 MoveTarget();
-            }
         }
-        void MoveRandom()
+        private void MoveRandom()
         {
             if (myDestination == Vector3.zero)
-            {
                 SetRandomDestination();
-            }
             else if(DistanceToDestination() <= myNevMesh.stoppingDistance* myNevMesh.stoppingDistance)
-            {
                 SetRandomDestination();
-            }
             else if(randomCount > 30)
-            {
                 SetRandomDestination();
-            }
         }
-        void MoveWaypoint()
+        private void MoveWaypoint()
         {
             if (myDestination == Vector3.zero)
             {
@@ -89,7 +75,8 @@ namespace U1
                 SetWaypointDestination();
             }
         }
-        void SetWaypointDestination()
+        private float DistanceToDestination() { return (myDestination - myTransform.position).sqrMagnitude; }
+        private void SetWaypointDestination()
         {
             if(wayPoints[waypointCount] != null)
             {
@@ -111,14 +98,14 @@ namespace U1
                 }
             }
         }
-        void SetRandomDestination()
+        private void SetRandomDestination()
         {
             myDestination = RandomNavSphere(myTransform.position, aSettings.sightRange, aSettings.sightLayers);
             myNevMesh.SetDestination(myDestination);
             randomCount = 0;
         }
 
-        void SetFollowTarget(Transform toFollow)
+        private void SetFollowTarget(Transform toFollow)
         {
             attack = true;
             targetFailCount = 0;
@@ -126,7 +113,7 @@ namespace U1
             myDestination = toFollow.position;
             myNevMesh.SetDestination(myDestination);
         }
-        void MoveTarget()
+        private void MoveTarget()
         {
             targetFailCount++;
             //Debug.Log("Move Target " + myDestination);
@@ -140,21 +127,13 @@ namespace U1
                 myDestination = targetTransform.position;
             myNevMesh.SetDestination(myDestination);
         }
-        Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+        private Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
         {
             Vector3 randDirection = Random.insideUnitSphere * dist;
-
             randDirection += origin;
-
             NavMeshHit navHit;
-
             NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
-
             return navHit.position;
-        }
-        float DistanceToDestination()
-        {
-            return (myDestination - myTransform.position).sqrMagnitude;
         }
     }
 }
