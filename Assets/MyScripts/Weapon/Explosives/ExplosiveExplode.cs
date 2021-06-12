@@ -42,7 +42,7 @@ namespace U1
             Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
             for (int i = 0; i < hitColliders.Length; i++)
             {
-                //Debug.Log("Found collider: " + hitColliders[i].gameObject.name);
+                Debug.Log("Found collider: " + hitColliders[i].gameObject.name);
                 if (hitColliders[i].gameObject.GetComponent<Rigidbody>() != null)
                     CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
             }

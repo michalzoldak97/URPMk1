@@ -25,7 +25,8 @@ namespace U1
         {
             yield return new WaitForSeconds(explosiveMaster.GetExplosiveSO().timeToExplode);
             isExp = true;
-            Destroy(gameObject, 12);
+            yield return new WaitForSeconds(6);
+            explosiveMaster.CallEventIgniteExplosion();
         }
         private void OnCollisionEnter(Collision collision)
         {

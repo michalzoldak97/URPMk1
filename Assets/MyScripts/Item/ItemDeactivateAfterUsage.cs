@@ -28,7 +28,7 @@ namespace U1
             yield return new WaitForSeconds(0.5f);
             itemMaster.CallEventObjectThrowRequest();
             gameObject.layer = 0;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
             Destroy(gameObject, 12);
             gameObject.SetActive(false);
         }
