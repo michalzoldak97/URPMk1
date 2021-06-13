@@ -8,7 +8,6 @@ namespace U1
     {
         private AIEnemy_1 aSettings;
         private float nextCheck, checkRate, minDistance;
-        private Vector3 betweenMeAndEnemy;
         private Transform myTransform, currTarget, targetToCheck;
         private AIMaster aMaster;
         private GlobalEnemyChecker GEC;
@@ -43,7 +42,7 @@ namespace U1
                     int enemyListCount = enemyList.Count;
                     for (int j = 0; j < enemyListCount; j++)
                     {
-                        betweenMeAndEnemy = enemyList[j].position - myTransform.position;
+                        Vector3 betweenMeAndEnemy = enemyList[j].position - myTransform.position;
                         if (betweenMeAndEnemy.sqrMagnitude < aSettings.sightRange * aSettings.sightRange)
                         {
                             float distanceToCheck = betweenMeAndEnemy.sqrMagnitude;

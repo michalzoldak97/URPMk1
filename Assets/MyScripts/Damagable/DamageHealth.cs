@@ -25,6 +25,7 @@ namespace U1
         private void LowerHealth(float damage)
         {
             currHealth -= damage;
+            Debug.Log(gameObject.name + "  was damaged by: " + damage);
             if(currHealth <= 0)
             {
                 currHealth = 0;

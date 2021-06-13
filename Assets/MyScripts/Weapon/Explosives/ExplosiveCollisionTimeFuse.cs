@@ -31,7 +31,10 @@ namespace U1
         private void OnCollisionEnter(Collision collision)
         {
             if (isExp)
+            {
                 explosiveMaster.CallEventIgniteExplosion();
+                isExp = false;
+            }
         }
     }
 }
