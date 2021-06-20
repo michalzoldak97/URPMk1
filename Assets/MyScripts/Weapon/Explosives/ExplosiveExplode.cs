@@ -36,18 +36,6 @@ namespace U1
             dmgTreshold = dmgTreshold * dmgTreshold;
             myTransform = transform;
         }
-        /*private void Explode()
-        {
-            Vector3 myPosition = myTransform.position;
-            Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
-            
-            for (int i = 0; i < hitColliders.Length; i++)
-            {
-                if (hitColliders[i].gameObject.GetComponent<Rigidbody>() != null)
-                    CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
-            }
-            explosiveMaster.CallEventExplode();
-        }*/
         private void Explode()
         {
             Debug.Log("Explosion called");
@@ -151,7 +139,6 @@ namespace U1
             float realForce = 0;
             Vector3 closestPoint = col.ClosestPointOnBounds(myPosition);
             float distanceToTarget = (closestPoint - myPosition).sqrMagnitude;
-            Debug.Log("Distance to target  " + distanceToTarget);
             if (distanceToTarget <= dmgTreshold)
             {
                 realForce = expForce;
