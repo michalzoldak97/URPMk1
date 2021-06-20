@@ -6,11 +6,11 @@ namespace U1
 {
     public class AINavi : UpdateBehaviour
     {
+        private int counter = 0;
+        private float nextCheck;
         private AIEnemy_1 aSettings;
         private NavMeshAgent myNevMesh;
         private AIMaster aMaster;
-        private int counter = 0;
-        private float nextCheck;
         void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
@@ -31,7 +31,7 @@ namespace U1
                 CheckByDistance();
             }
         }
-        void CheckByDistance()
+        private void CheckByDistance()
         {
             if(myNevMesh.remainingDistance < aSettings.sightRange)
             {

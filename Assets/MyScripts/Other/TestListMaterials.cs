@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
+using System;
+using Random = UnityEngine.Random;
 
 namespace U1
 {
@@ -10,8 +13,9 @@ namespace U1
     {
         // Start is called before the first frame update
         private DamagableMaster damagableMaster;
+        private ExplosiveMaster explosiveMaster;
         private int splitNum;
-        private float splintRange, splintDmg, expPenetration, expForce;
+        private float expRadius, splintDmg, expPenetration, expForce, dmgThreshold, expDamage;
         [SerializeField] private LayerMask layersToAffect, layersToDamage;
         private Vector3[] randDir;
         private Transform myTransform;
@@ -21,12 +25,15 @@ namespace U1
         void Start()
         {
             damagableMaster = GameObject.FindGameObjectWithTag("DamagableMaster").GetComponent<DamagableMaster>();
+            explosiveMaster = GetComponent<ExplosiveMaster>();
             myTransform = transform;
             splitNum = 50;
-            splintRange = 100;
+            expRadius = 100;
             splintDmg = 100;
             expPenetration = 1;
             expForce = 10;
+            dmgThreshold = 9;
+            expDamage = 350;
             randDir = new Vector3[splitNum];
             for (int i = 0; i < splitNum; i++)
             {
@@ -41,7 +48,7 @@ namespace U1
             double singleRes = 0;
             for (int i = 0; i < 10; i++)
             {
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(5);
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 stopwatch.Stop();
                 //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
@@ -108,50 +115,145 @@ namespace U1
             }
         }
 
+
         void PerformMultiAction()
         {
-            ExplodeShrad();
+            Explode();
         }
         void PerformSingleAction()
         {
-            ExplodeShrad1();
+            Explode1();
         }
-        private void ExplodeShrad()
+        private void Explode()
         {
-            int dummy = 13;
-            if (layersToAffect == (layersToAffect | (1 << dummy/*targetObject.gameObject.layer*/)))
+            Vector3 myPosition = myTransform.position;
+            Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
+            List<GameObject> dmgTransforms = new List<GameObject>(hitColliders.Length);
+            int colLen = hitColliders.Length;
+            for (int i = 0; i < colLen; i++)
             {
-
-                myTransform.rotation = transform.rotation;
-                dummy = 13;
+                GameObject objToDmg = hitColliders[i].gameObject;
+                if (objToDmg.GetComponent<Rigidbody>() != null && !dmgTransforms.Contains(objToDmg))
+                {
+                    CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
+                    dmgTransforms.Add(objToDmg);
+                }
+            }
+            explosiveMaster.CallEventExplode();
+        }
+        private void Explode1()
+        {
+            Vector3 myPosition = myTransform.position;
+            Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
+            int colLen = hitColliders.Length;
+            for (int i = 0; i < colLen; i++)
+            {
+                GameObject objToDmg = hitColliders[i].gameObject;
+                if (objToDmg.GetComponent<Rigidbody>() != null)
+                {
+                    CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
+                }
+            }
+            explosiveMaster.CallEventExplode();
+        }
+        private void CalculateVisibilityForce(Collider col, LayerMask maskToCheck, Vector3 myPosition)
+        {
+            RaycastHit hit;
+            Transform targetTransform = col.transform;
+            if (Physics.Linecast(myPosition, targetTransform.position, out hit, maskToCheck))
+            {
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
+                else
+                    CheckCorners(col.bounds, hit, targetTransform, myPosition);
             }
         }
-        private void ExplodeShrad1()
+        private void CheckCorners(Bounds bounds, RaycastHit hit, Transform targetTransform, Vector3 myPosition)
         {
-            int dummy = 13;
-            if ((layersToAffect.value & (1 << dummy/*targetObject.gameObject.layer*/)) > 0)
+            float x, y, z;
+            Vector3 v3Corner = Vector3.zero;
+            Vector3 v3Center = bounds.center;
+            Vector3 v3Extents = bounds.extents;
+
+            x = v3Extents.x; y = v3Extents.y; z = v3Extents.z;
+            v3Corner.x = v3Center.x; v3Corner.y = v3Center.y + y; v3Corner.z = v3Center.z;  // top middle 
+            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
             {
-                myTransform.rotation = transform.rotation;
-                dummy = 13;
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
+            }
+            v3Corner.x = v3Center.x + x; v3Corner.y = v3Center.y; // right middle x
+            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
+            {
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
+            }
+            v3Corner.x = v3Center.x - x;  // left middle x
+            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
+            {
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
+            }
+            v3Corner.x = v3Center.x; v3Corner.z = v3Center.z - z;  // right middle z
+            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
+            {
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
+            }
+            v3Corner.z = v3Center.z + z;  // left middle z
+            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
+            {
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
+            }
+            v3Corner.y = v3Center.y - y; v3Corner.z = v3Center.z;  // bottom middle
+            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
+            {
+                if (hit.transform == targetTransform)
+                {
+                    ApplayForceAndDamage(targetTransform, myPosition);
+                    return;
+                }
             }
         }
         private void ApplayForceAndDamage(Transform TTform, Vector3 myPosition)
         {
-            damagableMaster.DamageObjGun(TTform, splintDmg, expPenetration);
-            try
+            float realDmg = 0;
+            float realForce = 0;
+            float distanceToTarget = (TTform.position - myPosition).sqrMagnitude;
+            distanceToTarget = Mathf.Abs(distanceToTarget);
+            if (distanceToTarget <= dmgThreshold)
             {
-                TTform.GetComponent<Rigidbody>().AddExplosionForce((expForce / 10), myPosition, 10, 1, ForceMode.Impulse);
+                realForce = expForce;
+                if ((layersToDamage.value & (1 << TTform.gameObject.layer)) > 0)
+                    realDmg = expDamage;
             }
-            catch
+            else
             {
-                return;
+                realForce = (expForce / (distanceToTarget / dmgThreshold));
+                if ((layersToDamage.value & (1 << TTform.gameObject.layer)) > 0)
+                    realDmg = (expDamage / (distanceToTarget / dmgThreshold));
             }
-        }
-        private void ApplayForceAndDamage1(Transform TTform, Vector3 myPosition)
-        {
-            damagableMaster.DamageObjGun(TTform, splintDmg, expPenetration);
-            if(TTform.GetComponent<Rigidbody>() != null)
-                TTform.GetComponent<Rigidbody>().AddExplosionForce((expForce / 10), myPosition, 10, 1, ForceMode.Impulse);
+            damagableMaster.DamageObjExplosion(TTform, realDmg, expPenetration);
+            TTform.GetComponent<Rigidbody>().AddExplosionForce((realForce), myPosition, expRadius, 1, ForceMode.Impulse);
         }
     }
 }

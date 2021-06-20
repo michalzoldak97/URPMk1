@@ -14,20 +14,17 @@ namespace U1
            {
                 enemyTransforms[myID].Add(myTransform);
                 //Debug.Log("GEC Add id: " + myID + " transform " + myTransform.name);
-            }
+           }
            else
            {
                 enemyTransforms.Add(myID, new List<Transform>());
                 enemyTransforms[myID].Add(myTransform);
-            }
+           }
         }
         public void RemoveFromEnemyTransforms(int myID, Transform myTransform)
         {
             if (enemyTransforms.ContainsKey(myID) && enemyTransforms[myID].Contains(myTransform))
-            {
                 enemyTransforms[myID].Remove(myTransform);
-                //Debug.Log("GEC Add id: " + myID + " transform " + myTransform.name);
-            }
         }
         public List<Transform> GetEnemyList(int enemyID)
         {

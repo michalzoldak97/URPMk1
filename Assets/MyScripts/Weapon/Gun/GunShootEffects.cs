@@ -8,10 +8,10 @@ namespace U1
     {
         private GunMaster gunMaster;
         private AudioSource myAudio;
-        [SerializeField] ParticleSystem muzzleFlash;
-        [SerializeField] AudioClip shootingSound;
-        [SerializeField] AudioClip reloadSound;
-        void SetInitials()
+        [SerializeField] private ParticleSystem muzzleFlash;
+        [SerializeField] private AudioClip shootingSound;
+        [SerializeField] private AudioClip reloadSound;
+        private void SetInitials()
         {
             gunMaster = GetComponent<GunMaster>();
             myAudio = GetComponent<AudioSource>();
@@ -29,17 +29,17 @@ namespace U1
             gunMaster.EventGunShoot -= PlayShootSound;
             gunMaster.EventReload -= PlayReloadSound;
         }
-        void PlayMuzzleFlash()
+        private void PlayMuzzleFlash()
         {
             if (muzzleFlash != null)
                 muzzleFlash.Play();
         }
-        void PlayShootSound()
+        private void PlayShootSound()
         {
             if(myAudio!=null)
                 myAudio.PlayOneShot(shootingSound, 1f);
         }
-        void PlayReloadSound()
+        private void PlayReloadSound()
         {
             if (myAudio != null)
                 myAudio.PlayOneShot(reloadSound, 1f);

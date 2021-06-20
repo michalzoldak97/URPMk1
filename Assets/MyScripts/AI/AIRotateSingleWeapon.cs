@@ -9,7 +9,7 @@ namespace U1
         [SerializeField] protected Transform weaponTransform;
         private AIMaster aMaster;
 
-        void SetInit()
+        private void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
         }

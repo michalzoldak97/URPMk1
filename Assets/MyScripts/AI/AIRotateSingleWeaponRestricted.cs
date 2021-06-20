@@ -17,7 +17,7 @@ namespace U1
                 vRotation.x = -maxDown;
             }
             weaponTransform.rotation = Quaternion.Euler(vRotation.x, vRotation.y, vRotation.z);
-            Debug.Log("TestRotationX: " + weaponTransform.eulerAngles.x + " max down: " + -maxDown + " max up: " + -maxUp);
+            //Debug.Log("TestRotationX: " + weaponTransform.eulerAngles.x + " max down: " + -maxDown + " max up: " + -maxUp);
         }
     }
 }

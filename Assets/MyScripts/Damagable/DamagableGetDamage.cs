@@ -35,7 +35,7 @@ namespace U1
             if(penetration > armor)
                 dmgMaster.CallEventLowerHealth(damage);
             else 
-                dmgMaster.CallEventLowerHealth((penetration / (armor + penetration)) * damage);
+                dmgMaster.CallEventLowerHealth((penetration / armor) * damage);
         }
     }
 }

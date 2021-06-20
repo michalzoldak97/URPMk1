@@ -36,15 +36,34 @@ namespace U1
             dmgTreshold = dmgTreshold * dmgTreshold;
             myTransform = transform;
         }
-        private void Explode()
+        /*private void Explode()
         {
             Vector3 myPosition = myTransform.position;
             Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
+            
             for (int i = 0; i < hitColliders.Length; i++)
             {
-                //Debug.Log("Found collider: " + hitColliders[i].gameObject.name);
                 if (hitColliders[i].gameObject.GetComponent<Rigidbody>() != null)
                     CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
+            }
+            explosiveMaster.CallEventExplode();
+        }*/
+        private void Explode()
+        {
+            Debug.Log("Explosion called");
+            Vector3 myPosition = myTransform.position;
+            Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
+            List<GameObject> dmgTransforms = new List<GameObject>(hitColliders.Length);
+            int colLen = hitColliders.Length;
+            for (int i = 0; i < colLen; i++)
+            {
+                GameObject objToDmg = hitColliders[i].gameObject;
+                if (objToDmg.GetComponent<Rigidbody>() != null && !dmgTransforms.Contains(objToDmg))
+                {
+                    CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
+                    dmgTransforms.Add(objToDmg);
+                    Debug.Log("Calc called for: " + hitColliders[i].gameObject);
+                }
             }
             explosiveMaster.CallEventExplode();
         }
@@ -56,19 +75,19 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
                 else
-                    CheckCorners(col.bounds, hit, targetTransform, myPosition);
+                    CheckCorners(col, hit, targetTransform, myPosition);
             }
         }
-        private void CheckCorners(Bounds bounds, RaycastHit hit, Transform targetTransform, Vector3 myPosition)
+        private void CheckCorners(Collider col, RaycastHit hit, Transform targetTransform, Vector3 myPosition)
         {
             float x, y, z;
             Vector3 v3Corner = Vector3.zero;
-            Vector3 v3Center = bounds.center;
-            Vector3 v3Extents = bounds.extents;
+            Vector3 v3Center = col.bounds.center;
+            Vector3 v3Extents = col.bounds.extents;
 
             x = v3Extents.x; y = v3Extents.y; z = v3Extents.z;
             v3Corner.x = v3Center.x; v3Corner.y = v3Center.y + y; v3Corner.z = v3Center.z;  // top middle 
@@ -76,7 +95,7 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
             }
@@ -85,7 +104,7 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
             }
@@ -94,7 +113,7 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
             }
@@ -103,7 +122,7 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
             }
@@ -112,7 +131,7 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
             }
@@ -121,17 +140,18 @@ namespace U1
             {
                 if (hit.transform == targetTransform)
                 {
-                    ApplayForceAndDamage(targetTransform, myPosition);
+                    ApplayForceAndDamage(targetTransform, myPosition, col);
                     return;
                 }
             }
         }
-        private void ApplayForceAndDamage(Transform TTform, Vector3 myPosition)
+        private void ApplayForceAndDamage(Transform TTform, Vector3 myPosition, Collider col)
         {
             float realDmg = 0;
             float realForce = 0;
-            float distanceToTarget = (TTform.position - myPosition).sqrMagnitude;
-            distanceToTarget = Mathf.Abs(distanceToTarget);
+            Vector3 closestPoint = col.ClosestPointOnBounds(myPosition);
+            float distanceToTarget = (closestPoint - myPosition).sqrMagnitude;
+            Debug.Log("Distance to target  " + distanceToTarget);
             if (distanceToTarget <= dmgTreshold)
             {
                 realForce = expForce;
@@ -142,7 +162,7 @@ namespace U1
             {
                 realForce = (expForce / (distanceToTarget / dmgTreshold));
                 if ((layersToDamage.value & (1 << TTform.gameObject.layer)) > 0)
-                    realDmg = (expDamage / (distanceToTarget / dmgTreshold));
+                    realDmg = Mathf.Abs((1 - (distanceToTarget / (expRadius*expRadius))) * expDamage);
             }
             damagableMaster.DamageObjExplosion(TTform, realDmg, expPenetration);
             Debug.Log(TTform.name + " Damaged with: " + realDmg);

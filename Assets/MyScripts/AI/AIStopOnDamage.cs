@@ -10,7 +10,7 @@ namespace U1
         private NavMeshAgent myAgent;
         private DamageMaster dmgMaster;
         private AIMaster aMaster;
-        void SetInit()
+        private void SetInit()
         {
             dmgMaster = GetComponent<DamageMaster>();
             aMaster = GetComponent<AIMaster>();
@@ -25,12 +25,12 @@ namespace U1
         {
             dmgMaster.EventLowerHealth -= Stop;
         }
-        void Stop(float howBadly)
+        private void Stop(float howBadly)
         {
             if(aMaster.canAttack==true && gameObject.activeSelf)
                 StartCoroutine(StopOnDamage());
         }
-        IEnumerator StopOnDamage()
+        private IEnumerator StopOnDamage()
         {
             aMaster.canAttack = false;
             myAgent.speed = 0;
