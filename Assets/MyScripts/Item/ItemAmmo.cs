@@ -24,7 +24,6 @@ namespace U1
             playerMaster = cameraTransform.root.GetComponent<PlayerMaster>();
             playerMaster.CallEventPickedUpAmmo(ammoName, ammoQuantity);
             Destroy(gameObject);
-        }
-        
+        } 
     }
 }

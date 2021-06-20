@@ -10,7 +10,7 @@ namespace U1
     {
         private Transform myTransform, cameraTransform;
         private TMP_Text myText;
-        private Color32 startColor, endColor;
+        private Color32 startColor;
         public void SetText(string toSet)
         {
             myText.text = toSet;
@@ -28,9 +28,6 @@ namespace U1
             myTransform = transform;
             myText = GetComponent<TMP_Text>();
             cameraTransform = Camera.main.transform;
-            //startColor = myText.color;
-            //endColor = startColor;
-            //endColor.a = 0;
         }
         private IEnumerator TextLifespan()
         {
