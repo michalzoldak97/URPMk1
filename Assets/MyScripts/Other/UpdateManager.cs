@@ -27,19 +27,20 @@ namespace U1
             int count = toUpdate.Count;
             for (int i = 0; i < count; i++)
             {
+                //Debug.Log("To Update: " + toUpdate[i]);
                 toUpdate[i].GetUpdate();
             }
         }
         private void Update()
         {
-            try
-            {
+            //try
+            //{
                 UpdateList();
-            }
-            catch
-            {
-                Debug.Log("Sth wrong with update");
-            }
+            //}
+            //catch
+            //{
+               // Debug.Log("Sth wrong with update");
+            //}
         }
     }
 }

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51cc097795cbacb4ba63bc92bdc9126b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cbcf50fea2376c4fbf6d477d880ece7, type: 3}
   m_Name: Enforcer1
   m_EditorClassIdentifier: 
   numOfShoots: 15
@@ -20,7 +20,7 @@ MonoBehaviour:
   recoil: 0.045
   layersToShoot:
     serializedVersion: 2
-    m_Bits: 17153
+    m_Bits: 21249
   dmgEquation:
   - -0.108
   - 30.8

@@ -41,8 +41,13 @@ namespace U1
                     myNevMesh.SetDestination(aMaster.GetWaypoints()[counter].position);
                 }
                 else
-                    this.enabled = false;
+                    StartCoroutine(DisableThis());
             }
+        }
+        private IEnumerator DisableThis()
+        {
+            yield return new WaitForEndOfFrame();
+            this.enabled = false;
         }
     }
 }

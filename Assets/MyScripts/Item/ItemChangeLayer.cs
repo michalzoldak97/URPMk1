@@ -36,7 +36,6 @@ namespace U1
         void ChangeOnThrow()
         {
             gameObject.layer = originalLayer;
-            Debug.Log("Changed to layer: " + originalLayer);
             foreach (Transform child in transform)
             {
                 child.gameObject.layer = originalLayer;

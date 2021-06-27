@@ -9,36 +9,16 @@ using Random = UnityEngine.Random;
 
 namespace U1
 {
+    public struct TestListMaterialState
+    {
+        public bool bOne, bTwo, bThree, bFour;
+    }
     public class TestListMaterials : MonoBehaviour
     {
-        // Start is called before the first frame update
-        private DamagableMaster damagableMaster;
-        private ExplosiveMaster explosiveMaster;
-        private int splitNum;
-        private float expRadius, splintDmg, expPenetration, expForce, dmgThreshold, expDamage;
-        [SerializeField] private LayerMask layersToAffect, layersToDamage;
-        private Vector3[] randDir;
-        private Transform myTransform;
-        RaycastHit hit;
-        [SerializeField] Transform targetObject;
-
+        private TestListMaterialState myState;
         void Start()
         {
-            damagableMaster = GameObject.FindGameObjectWithTag("DamagableMaster").GetComponent<DamagableMaster>();
-            explosiveMaster = GetComponent<ExplosiveMaster>();
-            myTransform = transform;
-            splitNum = 50;
-            expRadius = 100;
-            splintDmg = 100;
-            expPenetration = 1;
-            expForce = 10;
-            dmgThreshold = 9;
-            expDamage = 350;
-            randDir = new Vector3[splitNum];
-            for (int i = 0; i < splitNum; i++)
-            {
-                randDir[i] = Random.insideUnitSphere.normalized;
-            }
+            myState = new TestListMaterialState();
             StartCoroutine(StartTest());
         }
 
@@ -48,7 +28,7 @@ namespace U1
             double singleRes = 0;
             for (int i = 0; i < 10; i++)
             {
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(1);
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 stopwatch.Stop();
                 //UnityEngine.Debug.Log("Is high resolution: " + Stopwatch.IsHighResolution);
@@ -98,7 +78,7 @@ namespace U1
             {
                 PerformMultiAction();
             }
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 PerformMultiAction();
             }
@@ -109,151 +89,86 @@ namespace U1
             {
                 PerformSingleAction();
             }
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 PerformSingleAction();
             }
         }
 
+        //bools
+        bool bOne, bTwo, bThree, bFour;
 
         void PerformMultiAction()
         {
-            Explode();
+            CheckClass();
         }
         void PerformSingleAction()
         {
-            Explode1();
+            CheckStruct();
         }
-        private void Explode()
+        private void CheckClass()
         {
-            Vector3 myPosition = myTransform.position;
-            Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
-            List<GameObject> dmgTransforms = new List<GameObject>(hitColliders.Length);
-            int colLen = hitColliders.Length;
-            for (int i = 0; i < colLen; i++)
+            if(!bOne)
             {
-                GameObject objToDmg = hitColliders[i].gameObject;
-                if (objToDmg.GetComponent<Rigidbody>() != null && !dmgTransforms.Contains(objToDmg))
-                {
-                    CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
-                    dmgTransforms.Add(objToDmg);
-                }
+                DoThings();
+                bOne = true;
             }
-            explosiveMaster.CallEventExplode();
-        }
-        private void Explode1()
-        {
-            Vector3 myPosition = myTransform.position;
-            Collider[] hitColliders = Physics.OverlapSphere(myPosition, expRadius, layersToAffect);
-            int colLen = hitColliders.Length;
-            for (int i = 0; i < colLen; i++)
+            else if (!bTwo)
             {
-                GameObject objToDmg = hitColliders[i].gameObject;
-                if (objToDmg.GetComponent<Rigidbody>() != null)
-                {
-                    CalculateVisibilityForce(hitColliders[i], layersToAffect, myPosition);
-                }
+                DoThings();
+                bTwo = true;
             }
-            explosiveMaster.CallEventExplode();
-        }
-        private void CalculateVisibilityForce(Collider col, LayerMask maskToCheck, Vector3 myPosition)
-        {
-            RaycastHit hit;
-            Transform targetTransform = col.transform;
-            if (Physics.Linecast(myPosition, targetTransform.position, out hit, maskToCheck))
+            else if(!bThree)
             {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-                else
-                    CheckCorners(col.bounds, hit, targetTransform, myPosition);
+                DoThings();
+                bThree = true;
             }
-        }
-        private void CheckCorners(Bounds bounds, RaycastHit hit, Transform targetTransform, Vector3 myPosition)
-        {
-            float x, y, z;
-            Vector3 v3Corner = Vector3.zero;
-            Vector3 v3Center = bounds.center;
-            Vector3 v3Extents = bounds.extents;
-
-            x = v3Extents.x; y = v3Extents.y; z = v3Extents.z;
-            v3Corner.x = v3Center.x; v3Corner.y = v3Center.y + y; v3Corner.z = v3Center.z;  // top middle 
-            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
+            else if (!bFour)
             {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-            }
-            v3Corner.x = v3Center.x + x; v3Corner.y = v3Center.y; // right middle x
-            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
-            {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-            }
-            v3Corner.x = v3Center.x - x;  // left middle x
-            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
-            {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-            }
-            v3Corner.x = v3Center.x; v3Corner.z = v3Center.z - z;  // right middle z
-            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
-            {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-            }
-            v3Corner.z = v3Center.z + z;  // left middle z
-            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
-            {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-            }
-            v3Corner.y = v3Center.y - y; v3Corner.z = v3Center.z;  // bottom middle
-            if (Physics.Raycast(myPosition, v3Corner - myPosition, out hit, expRadius, layersToAffect))
-            {
-                if (hit.transform == targetTransform)
-                {
-                    ApplayForceAndDamage(targetTransform, myPosition);
-                    return;
-                }
-            }
-        }
-        private void ApplayForceAndDamage(Transform TTform, Vector3 myPosition)
-        {
-            float realDmg = 0;
-            float realForce = 0;
-            float distanceToTarget = (TTform.position - myPosition).sqrMagnitude;
-            distanceToTarget = Mathf.Abs(distanceToTarget);
-            if (distanceToTarget <= dmgThreshold)
-            {
-                realForce = expForce;
-                if ((layersToDamage.value & (1 << TTform.gameObject.layer)) > 0)
-                    realDmg = expDamage;
+                DoThings();
+                bFour = true;
             }
             else
             {
-                realForce = (expForce / (distanceToTarget / dmgThreshold));
-                if ((layersToDamage.value & (1 << TTform.gameObject.layer)) > 0)
-                    realDmg = (expDamage / (distanceToTarget / dmgThreshold));
+                DoThings();
+                bOne = false; bTwo = false; bThree = false; bFour = false;
             }
-            damagableMaster.DamageObjExplosion(TTform, realDmg, expPenetration);
-            TTform.GetComponent<Rigidbody>().AddExplosionForce((realForce), myPosition, expRadius, 1, ForceMode.Impulse);
+        }
+        private void CheckStruct()
+        {
+            if (!myState.bOne)
+            {
+                DoThings();
+                myState.bOne = true;
+            }
+            else if (!myState.bTwo)
+            {
+                DoThings();
+                myState.bTwo = true;
+            }
+            else if (!myState.bThree)
+            {
+                DoThings();
+                myState.bThree = true;
+            }
+            else if (!myState.bFour)
+            {
+                DoThings();
+                myState.bFour = true;
+            }
+            else
+            {
+                DoThings();
+                myState.bOne = false; myState.bTwo = false; myState.bThree = false; myState.bFour = false;
+            }
+        }
+        private void DoThings()
+        {
+            Vector3 oneVector = new Vector3(3, 3, 3);
+            Vector3 twoVector = new Vector3(5, 5, 5);
+            float res1 = Mathf.Sqrt(oneVector.y * twoVector.x);
+            float res2 = res1 * Mathf.Atan(res1);
+            float dist = Vector3.Distance(oneVector, twoVector);
         }
     }
 }

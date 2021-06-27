@@ -39,6 +39,11 @@ namespace U1
             effect.SetActive(true);
             effect.transform.SetParent(null);
             Destroy(gameObject, Random.Range(6, 10));
+            StartCoroutine(DeactivateThis());
+        }
+        private IEnumerator DeactivateThis()
+        {
+            yield return new WaitForEndOfFrame();
             gameObject.SetActive(false);
         }
     }
