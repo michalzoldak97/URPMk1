@@ -25,7 +25,7 @@ namespace U1
             itemMaster.EventObjectThrow -= ChangeOnThrow;
         }
 
-        void ChangeOnPickup()
+        private void ChangeOnPickup()
         {
             gameObject.layer = itemMaster.GetItemSO().toLayer;
             foreach(Transform child in transform)
@@ -33,7 +33,7 @@ namespace U1
                 child.gameObject.layer = itemMaster.GetItemSO().toLayer;
             }
         }
-        void ChangeOnThrow()
+        private void ChangeOnThrow()
         {
             gameObject.layer = originalLayer;
             foreach (Transform child in transform)

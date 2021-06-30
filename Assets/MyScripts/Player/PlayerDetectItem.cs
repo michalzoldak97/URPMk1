@@ -6,58 +6,64 @@ namespace U1
 {
     public class PlayerDetectItem : MonoBehaviour
     {
-        [SerializeField] LayerMask layerToDetect;
-        public Transform requestTransform;
-        [Tooltip("Input button to pick up")]
-        private Transform itemInRange;
-        private RaycastHit hit;
-        public float detectRange { get; set; }
-        public float rayRadius { get; set; }
-        private bool IsInRange;
-
-        [SerializeField]private float labelWidth = 200f;
-        [SerializeField]private float labelHeight = 50f;
+        //private float baseCheckRate = 0.1f; 
+        [SerializeField] private LayerMask itemLayer;
+        private Transform fpsCameraTransform, itemInRange;
+        private float nextCheck;
+        private bool isItemInRange;
+        private PlayerInventoryMaster inventoryMaster;
 
         private void Start()
         {
-            detectRange = 3;
-            rayRadius = 0.7f;
+            fpsCameraTransform = Camera.main.transform;
+            inventoryMaster = GetComponent<PlayerInventoryMaster>();
         }
-
         private void Update()
         {
-            CastRayForDetectingItems();
+            ManageItemSearch();
             CheckForItemPickUpAttempt();
         }
-        void CastRayForDetectingItems()
+        private void ManageItemSearch()
         {
-            if (Physics.SphereCast(requestTransform.position, rayRadius, requestTransform.forward, out hit, detectRange, layerToDetect))
+            if(!isItemInRange && Time.time > nextCheck)
+            {
+                CheckForItemInRange();
+                nextCheck = Time.time + 0.1f;
+            }
+            else if(isItemInRange)
+            {
+                CheckForItemInRange();
+            }
+        }
+        private void CheckForItemInRange()
+        {
+            RaycastHit hit;
+            if(Physics.SphereCast(fpsCameraTransform.position, 0.5f, fpsCameraTransform.forward, out hit, 3, itemLayer))
             {
                 itemInRange = hit.transform;
-                IsInRange = true;
+                isItemInRange = true;
             }
             else
             {
-                IsInRange = false;
+                isItemInRange = false;
+                itemInRange = null;
             }
         }
-        void CheckForItemPickUpAttempt()
+        private void CheckForItemPickUpAttempt()
         {
-            if (Input.GetKeyDown(KeyCode.E) && Time.timeScale > 0 && IsInRange && !itemInRange.root.CompareTag("Player"))
+            if(isItemInRange && Input.GetKeyDown(KeyCode.E) && Time.timeScale > 0 && !inventoryMaster.CheckIfItemOnPlayer(itemInRange) 
+                && itemInRange.GetComponent<ItemMaster>() != null)
             {
-                //Debug.Log("Pickup attempted");
-                if (requestTransform != null)
-                {
-                    itemInRange.GetComponent<ItemMaster>().CallEventPickupRequested(requestTransform);
-                }
+                    itemInRange.GetComponent<ItemMaster>().CallEventPickupRequested(fpsCameraTransform);
+                Debug.Log("Input called pickup");
             }
         }
-
-        void OnGUI()
+        private void OnGUI()
         {
-            if (IsInRange && itemInRange != null)
+            if (itemInRange && itemInRange != null)
             {
-                GUI.Label(new Rect(Screen.width / 2 - labelWidth, Screen.height / 2, labelWidth, labelHeight), itemInRange.name + " " + itemInRange.GetComponent<ItemMaster>().displayOnGui);
+                GUI.Label(new Rect(Screen.width / 2 - 200, Screen.height / 2, 200, 50), itemInRange.name + " " + 
+                    itemInRange.GetComponent<ItemMaster>().GetTextToDisplayOnGUI());
             }
         }
     }

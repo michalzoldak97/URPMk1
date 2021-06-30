@@ -6,18 +6,16 @@ namespace U1
 {
     public class GunAim : MonoBehaviour
     {
+        [SerializeField] Vector3 aimPosition;
         private GunMaster gunMaster;
-        private PlayerInventory playerInventory;
-        //private GunPlayerInput gunPlayerInput;
+        private ItemMaster itemMaster;
         private Vector3 startPosition;
         private Transform myTransform;
-        [SerializeField] Vector3 aimPosition;
         private void SetInitials()
         {
             gunMaster = GetComponent<GunMaster>();
-            //gunPlayerInput = GetComponent<GunPlayerInput>();
+            itemMaster = GetComponent<ItemMaster>();
             myTransform = transform;
-            playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
             startPosition = myTransform.localPosition;
         }
         private void OnEnable()
@@ -31,21 +29,19 @@ namespace U1
             gunMaster.EventAimRequest -= AimOn;
             gunMaster.EventUnAim -= UnAim;
         }
-        void AimOn()
+        private void AimOn()
         {
             if (!gunMaster.isReloading)
             {
                 myTransform.localPosition = aimPosition;
-                playerInventory.shouldCheckCamera = false;
-                playerInventory.CameraOnOff(true, false);
+                itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().ItemCameraChangeState(true);
             }
         }
-        void UnAim()
+        private void UnAim()
         {
             myTransform.localPosition = startPosition;
-            playerInventory.CameraOnOff(false, false);
-            playerInventory.shouldCheckCamera = true;
+            itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().ItemCameraChangeState(false);
+            itemMaster.SetShouldInformCamera(true);
         }
-
     }
 }

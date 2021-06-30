@@ -22,20 +22,20 @@ namespace U1
             itemMaster.EventObjectPickup -= SetPosition;
             itemMaster.EventObjectPickup -= SetRotation;
         }
-        void Initialize()
+        private void Initialize()
         {
             itemMaster = GetComponent<ItemMaster>();
-            if(transform.root.CompareTag("Player"))
+            if(itemMaster.isOnPlayer)
             {
                 SetPosition();
                 SetRotation();
             }
         }
-        void SetPosition()
+        private void SetPosition()
         {
             transform.localPosition = itemMaster.GetItemSO().posToSet;
         }
-        void SetRotation()
+        private void SetRotation()
         {
             transform.localRotation = Quaternion.Euler(itemMaster.GetItemSO().rotToSet);
         }

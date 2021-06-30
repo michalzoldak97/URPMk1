@@ -6,9 +6,6 @@ namespace U1
 {
     public class ItemThrow : MonoBehaviour
     {
-        [SerializeField] private bool shouldNotBeThrown;
-        private Transform parentTransform;
-        private Transform rootTransform;
         private ItemMaster itemMaster;
         private void OnEnable()
         {
@@ -19,16 +16,17 @@ namespace U1
         {
             itemMaster.EventObjectThrowRequest -= Throw;
         }
-        void Throw()
+        private void Throw()
         {
-            if (!shouldNotBeThrown)
+            if (!itemMaster.isInTransitionState)
             {
-                rootTransform = transform.root.transform;
-                parentTransform = transform.parent.transform;
-                transform.SetParent(null);
+                itemMaster.SetIsInTransitionState(true);
+                Transform itemParent = transform.parent;
+                transform.parent = null;
+                itemMaster.SetItemPhysics(true);
+                itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().CallEventRemoveItem(transform);
+                gameObject.GetComponent<Rigidbody>().AddForce(itemParent.forward * itemMaster.GetItemSO().throwForce, ForceMode.Impulse);
                 itemMaster.CallEventObjectThrow();
-                rootTransform.GetComponent<PlayerMaster>().CallEventInventoryChanged();
-                gameObject.GetComponent<Rigidbody>().AddForce(parentTransform.forward * itemMaster.GetItemSO().throwForce, ForceMode.Impulse);
             }
         }
     }

@@ -8,8 +8,6 @@ namespace U1
     {
         [SerializeField] AudioClip[] hitSounds;
         [SerializeField] AudioClip throwSound;
-        private Collider myCollider;
-        private Transform myTransform;
         private ItemMaster itemMaster;
         private int soundNum;
         private bool isItem;
@@ -32,11 +30,7 @@ namespace U1
             if(isItem)
                 itemMaster.EventObjectThrow -= PlayThrowSound;
         }
-        private void Start()
-        {
-            myTransform = transform;
-            myCollider = GetComponent<Collider>();
-        }
+       
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.layer != 8)

@@ -6,41 +6,48 @@ namespace U1
 {
     public class ItemMaster : MonoBehaviour
     {
+        [SerializeField] private string displayOnGui;
+        public string GetTextToDisplayOnGUI() { return displayOnGui; }
         [SerializeField] private ItemSO itemSO;
-        public delegate void GeneralEventHandler();
-        public event GeneralEventHandler EventObjectThrowRequest;
-        public event GeneralEventHandler EventObjectThrow;
-        public event GeneralEventHandler EventObjectPickup;
-
-        public delegate void PickupRequestEventHandler(Transform playerTransform);
-        public event PickupRequestEventHandler EventPickupRequested;
-
-        public bool shouldStayActive;
-        public string displayOnGui = "Press 'E' to pickup";
-
-        public ItemSO GetItemSO()
+        public ItemSO GetItemSO() { return itemSO; }
+        public Transform playerTransform { get; private set; }
+        private void SetPlayerTransform(Transform toSet){ playerTransform = toSet; }
+        public bool shouldStayActive { get; private set; }
+        public void SetShouldStayActive(bool toSet) { shouldStayActive = toSet; }
+        public bool isInTransitionState { get; private set; }
+        public void SetIsInTransitionState(bool toSet) { isInTransitionState = toSet; }
+        public bool isOnPlayer { get; private set; }
+        public float GetMass() 
         {
-            return itemSO;
+            if (GetComponent<Rigidbody>() != null)
+                return GetComponent<Rigidbody>().mass;
+            else
+                return 0;
         }
-        public void CallEventPickupRequested(Transform playerTransform)
+        public delegate void ItemEventHandler();
+        public event ItemEventHandler EventObjectThrowRequest;
+        public event ItemEventHandler EventObjectThrow;
+        public event ItemEventHandler EventObjectPickup;
+
+        public delegate void PickupRequestEventHandler(Transform fpsCameraTransform);
+        public event PickupRequestEventHandler EventPickupRequested;
+        public void CallEventPickupRequested(Transform fpsCameraTransform)
         {
-            //Debug.Log("Pickup requested" + playerTransform);
             if (EventPickupRequested != null)
             {
-                //Debug.Log("Pickup requested and not null 1");
-                EventPickupRequested(playerTransform);
-                //Debug.Log("Pickup requested and not null 2");
+                SetPlayerTransform(fpsCameraTransform.root);
+                EventPickupRequested(fpsCameraTransform);
             }
-            //else if(EventPickupRequested == null)
-            //Debug.Log("NULL!!!");
         }
         public void CallEventObjectPickup()
         {
             if (EventObjectPickup != null)
             {
-                //Debug.Log("Pickup going and not null 1");
                 EventObjectPickup();
-                //Debug.Log("Pickup going and not null 2");
+                isInTransitionState = false;
+                isOnPlayer = true;
+                if (!shouldStayActive)
+                    gameObject.SetActive(false);
             }
         }
         public void CallEventObjectThrow()
@@ -48,15 +55,30 @@ namespace U1
             if (EventObjectThrow != null)
             {
                 EventObjectThrow();
+                isInTransitionState = false;
+                isOnPlayer = false;
             }
         }
         public void CallEventObjectThrowRequest()
         {
             if (EventObjectThrowRequest != null)
-            {
                 EventObjectThrowRequest();
+        }
+        public void SetItemPhysics(bool toState)
+        {
+            if(GetComponent<ItemPhysics>() != null)
+            {
+                ItemPhysics myPhysics = GetComponent<ItemPhysics>();
+                myPhysics.RigidbodiesActivateDeactivate(toState);
+                myPhysics.CollidersActivateDeactivate(toState);
             }
         }
-
+        public void SetShouldInformCamera(bool toState)
+        {
+            if(GetComponent<ItemCameraManipulation>() != null)
+            {
+                GetComponent<ItemCameraManipulation>().SetShouldInformCamera(toState);
+            }
+        }
     }
 }

@@ -108,31 +108,8 @@ namespace U1
         }
         private void CheckClass()
         {
-            if(!bOne)
-            {
+            if(!bOne && !bTwo && !bThree && !bFour)
                 DoThings();
-                bOne = true;
-            }
-            else if (!bTwo)
-            {
-                DoThings();
-                bTwo = true;
-            }
-            else if(!bThree)
-            {
-                DoThings();
-                bThree = true;
-            }
-            else if (!bFour)
-            {
-                DoThings();
-                bFour = true;
-            }
-            else
-            {
-                DoThings();
-                bOne = false; bTwo = false; bThree = false; bFour = false;
-            }
         }
         private void CheckStruct()
         {

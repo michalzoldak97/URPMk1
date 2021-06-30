@@ -6,15 +6,13 @@ namespace U1
 {
     public class ItemCameraManipulation : MonoBehaviour
     {
+        private bool shouldInformCamera;
+        public void SetShouldInformCamera(bool toSet) { shouldInformCamera = toSet; }
         private ItemMaster itemMaster;
-        private PlayerInventory playerInventory;
-        private Collider myCollider;
-        private bool isPickedUp;
+        
         void SetInit()
         {
             itemMaster = GetComponent<ItemMaster>();
-            playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
-            myCollider = GetComponent<Collider>();
         }
         private void Start()
         {
@@ -23,51 +21,35 @@ namespace U1
         private void OnEnable()
         {
             SetInit();
-            itemMaster.EventObjectPickup += StartCheck;
-            if (isPickedUp)
-            {
-                StartCoroutine(IEStartCheck());
-                playerInventory.CameraOnOff(false, false);
-            }
-            //Debug.Log("IsPicked UP " + isPickedUp);
-            itemMaster.EventObjectThrow += FinishCheck;
+            if (itemMaster.isOnPlayer)
+                shouldInformCamera = true;
+            itemMaster.EventObjectThrow += OnThrow;
         }
         private void OnDisable()
         {
-            itemMaster.EventObjectPickup -= StartCheck;
-            itemMaster.EventObjectThrow -= FinishCheck;
-        }
-        void StartCheck()
-        {
-            isPickedUp = true;
-            //Debug.Log("Pickup");
-        }
-        IEnumerator IEStartCheck()
-        {
-            yield return new WaitForEndOfFrame();
-            myCollider.enabled = true;
-            myCollider.isTrigger = true;
-        }
-        void FinishCheck()
-        {
-            myCollider.isTrigger = false;
-            isPickedUp = false;
+            if (itemMaster.isOnPlayer)
+                itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().ItemCameraChangeState(false);
+            shouldInformCamera = false;
+            itemMaster.EventObjectThrow -= OnThrow;
         }
         private void OnTriggerStay(Collider other)
         {
-            if (playerInventory.shouldCheckCamera)
+            if (shouldInformCamera)
             {
-                //Debug.Log("Entered other  " + other);
-                playerInventory.CameraOnOff(true, false);
+                itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().ItemCameraChangeState(true);
+                shouldInformCamera = false;
             }
         }
         private void OnTriggerExit(Collider other)
         {
-            if (playerInventory.shouldCheckCamera)
-            {
-                //Debug.Log("Exit other  " + other);
-                playerInventory.CameraOnOff(false, false);
-            }
+            if(itemMaster.playerTransform != null)
+                itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().ItemCameraChangeState(false);
+            shouldInformCamera = true;
+        }
+        private void OnThrow()
+        {
+            itemMaster.playerTransform.GetComponent<PlayerInventoryMaster>().ItemCameraChangeState(false);
+            shouldInformCamera = false;
         }
     }
 }

@@ -9,7 +9,6 @@ namespace U1
         [SerializeField] string ammoName;
         [SerializeField] int ammoQuantity;
         private ItemMaster itemMaster;
-        private PlayerMaster playerMaster;
         private void OnEnable()
         {
             itemMaster = GetComponent<ItemMaster>();
@@ -21,10 +20,8 @@ namespace U1
         }
         void AddAmmoToPlayer(Transform cameraTransform)
         {
-            playerMaster = cameraTransform.root.GetComponent<PlayerMaster>();
-            playerMaster.CallEventPickedUpAmmo(ammoName, ammoQuantity);
+            itemMaster.playerTransform.GetComponent<PlayerMaster>().CallEventPickedUpAmmo(ammoName, ammoQuantity);
             Destroy(gameObject);
         }
-        
     }
 }
