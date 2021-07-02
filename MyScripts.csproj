@@ -168,6 +168,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
+    <Compile Include="Assets\MyScripts\ScriptableObjects\GlobalReferencesSO.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\MyScripts.asmdef" />

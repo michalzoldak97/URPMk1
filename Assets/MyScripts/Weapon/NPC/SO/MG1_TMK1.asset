@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cbcf50fea2376c4fbf6d477d880ece7, type: 3}
+  m_Name: MG1_TMK1
+  m_EditorClassIdentifier: 
+  numOfShoots: 20
+  maxAmmo: 80
+  maxRange: 200
+  reloadTime: 3
+  shootRate: 0.1
+  recoil: 0.02
+  layersToShoot:
+    serializedVersion: 2
+    m_Bits: 18945
+  dmgEquation:
+  - -0.0819
+  - 37
+  penetrationCoeff:
+  - 0.1
+  - 0.35

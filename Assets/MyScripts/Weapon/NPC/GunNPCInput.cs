@@ -29,11 +29,11 @@ namespace U1
         }
         void CallShoot(Transform dummy)
         {
-            if(currAmmo > 0 && !isShooting && Time.timeScale > 0)
+            if(currAmmo > 0 && !isShooting && aMaster.canShoot && Time.timeScale > 0)
             {
                 StartCoroutine(ShootSerie());
             }
-            else if (!isReloading && !isShooting && Time.timeScale > 0)
+            else if (!isReloading && !isShooting && aMaster.canShoot && Time.timeScale > 0)
             {
                 StartCoroutine(Reload());
             }

@@ -7,11 +7,12 @@ namespace U1
     public class AIRotateSingleWeapon : MonoBehaviour
     {
         [SerializeField] protected Transform weaponTransform;
-        private AIMaster aMaster;
+        protected AIMaster aMaster;
 
         private void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
+            aMaster.canShoot = true;
         }
         private void OnEnable()
         {

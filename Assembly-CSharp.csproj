@@ -671,21 +671,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="NavMeshComponentsEditor.csproj">
-      <Project>{AE73DB0F-6492-8F07-652A-48D3920887AB}</Project>
-      <Name>NavMeshComponentsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="NavMeshComponents.csproj">
-      <Project>{CF29AD5A-3102-9EB9-27C8-D837FEF49518}</Project>
-      <Name>NavMeshComponents</Name>
-    </ProjectReference>
     <ProjectReference Include="MyScripts.csproj">
       <Project>{A1886000-B677-546F-6232-DAC406C50484}</Project>
       <Name>MyScripts</Name>
     </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsEditor.csproj">
+      <Project>{AE73DB0F-6492-8F07-652A-48D3920887AB}</Project>
+      <Name>NavMeshComponentsEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="StandardAssets.csproj">
       <Project>{6F665D9C-158D-5CC6-AC86-45C957201594}</Project>
       <Name>StandardAssets</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{CF29AD5A-3102-9EB9-27C8-D837FEF49518}</Project>
+      <Name>NavMeshComponents</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

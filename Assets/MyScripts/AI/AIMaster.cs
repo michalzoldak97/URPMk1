@@ -10,6 +10,7 @@ namespace U1
         [SerializeField] private AIEnemy_1 aSettings;
 
         public bool canAttack = true;
+        public bool canShoot { get; set; }
         private int stateCounter;
         public Transform enemyTransform { get; private set; }
 
