@@ -55,10 +55,10 @@ namespace U1
                     //" at distance: " + distance.ToString());
                     //hit.transform.SendMessage("CallEventShootByGun", 10, SendMessageOptions.DontRequireReceiver);
                 }
-                else
+                /*else
                 {
                     gunMaster.CallEventHit(hit, hit.transform, hit.transform.gameObject.layer);
-                }
+                }*/
             }
 
         }

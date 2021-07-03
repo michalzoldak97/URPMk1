@@ -55,7 +55,6 @@ namespace U1
                 && itemInRange.GetComponent<ItemMaster>() != null)
             {
                     itemInRange.GetComponent<ItemMaster>().CallEventPickupRequested(fpsCameraTransform);
-                Debug.Log("Input called pickup");
             }
         }
         private void OnGUI()
