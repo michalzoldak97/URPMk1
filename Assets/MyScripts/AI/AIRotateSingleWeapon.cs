@@ -12,7 +12,6 @@ namespace U1
         private void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
-            aMaster.canShoot = true;
         }
         private void OnEnable()
         {

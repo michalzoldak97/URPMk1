@@ -7,6 +7,7 @@ namespace U1
     public class DamageMaster : MonoBehaviour
     {
         [SerializeField] private HealthStatsSO myHealthStats;
+
         private DamagableMaster damagableMaster;
         public delegate void DestructionEventHandler();
         public event DestructionEventHandler EventDestruction;
@@ -21,7 +22,6 @@ namespace U1
         {
             return myHealthStats;
         }
-
         private void Awake()
         {
             RegisterInMaster();

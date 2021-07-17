@@ -74,8 +74,7 @@ namespace U1
                 waypointCount = 0;
                 SetWaypointDestination();
             }
-            else
-                Debug.Log(gameObject.name + "Move waypoint, no condition");
+           
         }
         private float DistanceToDestination() { return (myDestination - myTransform.position).sqrMagnitude; }
         private void SetWaypointDestination()
@@ -85,11 +84,9 @@ namespace U1
                 myDestination = wayPoints[waypointCount].position;
                 myNevMesh.SetDestination(myDestination);
                 waypointFailCount = 0;
-                Debug.Log(gameObject.name + "SetWaypointDestination");
             }
             else
             {
-                Debug.Log(gameObject.name + "SetWaypointDestination => waypoint null");
                 if (waypointCount < wayPoints.Length - 1)
                     waypointCount++;
                 else

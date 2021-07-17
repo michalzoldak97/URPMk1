@@ -27,6 +27,7 @@ namespace U1
         }
         private void ApplyDamageGun(float damage, float penetration)
         {
+            Debug.Log("Shooted with: " + damage + " penetration: " + penetration);
             if(penetration > armor)
                 dmgMaster.CallEventLowerHealth(damage);
         }

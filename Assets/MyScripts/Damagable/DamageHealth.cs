@@ -7,6 +7,7 @@ namespace U1
     public class DamageHealth : MonoBehaviour
     {
         private float currHealth;
+        public float GetCurrHealth() { return currHealth; }
         private DamageMaster dmgMaster;
         void SetInit()
         {

@@ -10,6 +10,7 @@ namespace U1
         private NavMeshAgent myAgent;
         private DamageMaster dmgMaster;
         private AIMaster aMaster;
+        private WaitForSeconds dmgDelay = new WaitForSeconds(5f);
         private void SetInit()
         {
             dmgMaster = GetComponent<DamageMaster>();
@@ -34,7 +35,7 @@ namespace U1
         {
             aMaster.canAttack = false;
             myAgent.speed = 0;
-            yield return new WaitForSecondsRealtime(5);
+            yield return dmgDelay;
             aMaster.canAttack = true;
             myAgent.speed = aMaster.GetMasterSettings().navMeshAgentSpeed;
         }

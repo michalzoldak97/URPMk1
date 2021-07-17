@@ -15,6 +15,7 @@ namespace U1
         private void SetInit()
         {
             aMaster = GetComponent<AIMaster>();
+            aMaster.canShoot = true;
             aSettings = aMaster.GetMasterSettings();
             myTransform = transform;
             step = aSettings.baseCheckRate / 15;
