@@ -26,6 +26,8 @@ namespace U1
         #endregion
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
+        private WaitForSeconds standardDelay = new WaitForSeconds(5f);
+        private WaitForFixedUpdate waitForFixed = new WaitForFixedUpdate();
         void Start()
         {
             poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -76,9 +78,12 @@ namespace U1
 
         IEnumerator Deactivatevoi(GameObject obj, float time)
         {
-            yield return new WaitForSeconds(time);
+            if(time == 5)
+                yield return standardDelay;
+            else
+                yield return new WaitForSeconds(time);
             obj.SetActive(true);
-            yield return new WaitForFixedUpdate();
+            yield return waitForFixed;
             obj.transform.SetParent(null);
             obj.SetActive(false);
         }

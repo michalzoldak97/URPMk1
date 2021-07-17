@@ -22,8 +22,9 @@ namespace U1
         {
             dmgMaster.EventDestruction -= DestroyMe;
         }
-        void DestroyMe()
+        private void DestroyMe()
         {
+            dmgMaster.CallEventDestroyEffects();
             Destroy(gameObject, destrTime);
             gameObject.SetActive(false);
         }

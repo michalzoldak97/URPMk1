@@ -171,6 +171,7 @@
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunUI.cs" />
     <Compile Include="Assets\MyScripts\Other\IPolledObject.cs" />
     <Compile Include="Assets\MyScripts\Weapon\Gun\GunAim.cs" />
+    <Compile Include="Assets\MyScripts\Damagable\DamageDestroyEffects.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\MyScripts\MyScripts.asmdef" />

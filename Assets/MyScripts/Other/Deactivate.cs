@@ -6,9 +6,8 @@ namespace U1
 {
     public class Deactivate : MonoBehaviour
     {
+        public bool randomTime, toDeactivate;
         public float waitingTime = 5;
-        public bool randomTime;
-        public bool toDeactivate;
         // Start is called before the first frame update
         public void OnObjectSpawn()
         {

@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace U1
 {
-    public class AIDestroy : MonoBehaviour
+    public class DamageDestroyEffects : MonoBehaviour
     {
         [SerializeField] ObjectsContainer myObjectContainer;
         private GameObject effect;
         private DamageMaster dmgMaster;
-
         private void Start()
         {
             dmgMaster = GetComponent<DamageMaster>();
@@ -18,11 +17,11 @@ namespace U1
         private void OnEnable()
         {
             dmgMaster = GetComponent<DamageMaster>();
-            dmgMaster.EventDestruction += Explode;
+            dmgMaster.EventDestroyEffects += Explode;
         }
         private void OnDisable()
         {
-            dmgMaster.EventDestruction -= Explode;
+            dmgMaster.EventDestroyEffects -= Explode;
         }
         private void ChooseDestroyScenario()
         {
@@ -36,16 +35,8 @@ namespace U1
         }
         private void Explode()
         {
-            Debug.Log("Explode called");
             effect.SetActive(true);
             effect.transform.SetParent(null);
-            Destroy(gameObject, Random.Range(6, 10));
-            StartCoroutine(DeactivateThis());
-        }
-        private IEnumerator DeactivateThis()
-        {
-            yield return new WaitForEndOfFrame();
-            gameObject.SetActive(false);
         }
     }
 }

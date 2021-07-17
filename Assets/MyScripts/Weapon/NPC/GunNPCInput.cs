@@ -7,9 +7,9 @@ namespace U1
     public class GunNPCInput : MonoBehaviour
     {
         [SerializeField] NPCGunSO gunSettings;
+        private bool isShooting, isReloading;
         private int currAmmo;
-        private bool isShooting;
-        private bool isReloading;
+        private WaitForSeconds shootDelay; 
         private AIMaster aMaster;
         private GunMaster gunMaster;
         void SetInit()
@@ -17,6 +17,7 @@ namespace U1
             aMaster = GetComponentInParent<AIMaster>();
             gunMaster = GetComponent<GunMaster>();
             currAmmo = gunSettings.maxAmmo;
+            shootDelay = new WaitForSeconds(gunSettings.shootRate);
         }
         private void OnEnable()
         {
@@ -29,7 +30,7 @@ namespace U1
         }
         void CallShoot(Transform dummy)
         {
-            if(currAmmo > 0 && !isShooting && aMaster.canShoot && Time.timeScale > 0)
+            if(!isShooting && aMaster.canShoot && currAmmo > 0 && Time.timeScale > 0)
             {
                 StartCoroutine(ShootSerie());
             }
@@ -47,7 +48,7 @@ namespace U1
                 {
                     gunMaster.CallEventShootRequest();
                     currAmmo -= 1;
-                    yield return new WaitForSeconds(gunSettings.shootRate);
+                    yield return shootDelay;
                 }
                 else if(!isReloading)
                 {

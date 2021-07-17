@@ -7,9 +7,10 @@ namespace U1
     public class AIShootGun : MonoBehaviour
     {
         [SerializeField] private Transform gunTransform;
-        private float step = 0.1f, move = 0.5f;
+        private float move = 0.5f;
         private Vector3 rotationMaskY = new Vector3(0f, 1f, 0f);
         private Transform myTransform;
+        private WaitForSeconds rotationDelay;
         private AIMaster aMaster;
         private AIEnemy_1 aSettings;
         private void SetInit()
@@ -18,7 +19,6 @@ namespace U1
             aMaster.canShoot = true;
             aSettings = aMaster.GetMasterSettings();
             myTransform = transform;
-            step = aSettings.baseCheckRate / 15;
             StartCoroutine(SetStep());
         }
 
@@ -75,7 +75,7 @@ namespace U1
         {
             for (int i = 0; i < 15; i++)
             {
-                yield return new WaitForSecondsRealtime(step);
+                yield return rotationDelay;
                 //Debug.Log("Move: " + move + " ii " + i);
                 myTransform.rotation = Quaternion.Slerp(gunTransform.rotation, Quaternion.Euler(Vector3.Scale(Quaternion.LookRotation(target.position - gunTransform.position).eulerAngles, rotationMaskY)), move);
             }
@@ -85,7 +85,9 @@ namespace U1
         {
             yield return new WaitForSeconds(1);
             if (GetComponent<AILook>() != null)
-                step = GetComponent<AILook>().GetCheckRate() / 15;
+                rotationDelay = new WaitForSeconds((GetComponent<AILook>().GetCheckRate() / 15));
+            else
+                rotationDelay = new WaitForSeconds(aSettings.baseCheckRate / 15);
         }
     }
 }

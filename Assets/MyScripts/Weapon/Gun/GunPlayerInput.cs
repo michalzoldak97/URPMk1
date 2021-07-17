@@ -17,12 +17,11 @@ namespace U1
         [SerializeField] float shootRate;
         [SerializeField] float aimSpeed;
         public BurstFireSetting myBurtsFire = new BurstFireSetting();
+        private bool isOnPlayer;
         private float shootDelay, nextCheck, currFPSSpeed;
         private GunMaster gunMaster;
         private PlayerMaster playerMaster;
         private FPSController fpsController;
-        private bool shouldChangeSpeed;
-        private bool isOnPlayer;
         void SetInitials()
         {
             gunMaster = GetComponent<GunMaster>();
@@ -59,12 +58,12 @@ namespace U1
         {
             if (!playerMaster.isInventoryOn)
             {
-                if (Input.GetKey(KeyCode.Mouse0) && isAutomatic && Time.timeScale > 0 && Time.time > nextCheck && !myBurtsFire.hasABurstMode)
+                if (isAutomatic && Input.GetKey(KeyCode.Mouse0) && Time.timeScale > 0 && Time.time > nextCheck && !myBurtsFire.hasABurstMode)
                 {
                     nextCheck = Time.time + shootDelay;
                     gunMaster.CallEventShootRequest();
                 }
-                else if (Input.GetKeyDown(KeyCode.Mouse0) && !isAutomatic && Time.timeScale > 0 && Time.time > nextCheck && !myBurtsFire.hasABurstMode)
+                else if (!isAutomatic &&Input.GetKeyDown(KeyCode.Mouse0) && Time.timeScale > 0 && Time.time > nextCheck && !myBurtsFire.hasABurstMode)
                 {
                     nextCheck = Time.time + shootDelay;
                     gunMaster.CallEventShootRequest();
@@ -121,6 +120,7 @@ namespace U1
         IEnumerator ShootBurstFire()
         {
             myBurtsFire.isShootingBurst = true;
+            WaitForSeconds burstDelay = new WaitForSeconds(myBurtsFire.burstFireRate);
             for (int i = 0; i < myBurtsFire.shootsInBurst; i++)
             {
                 nextCheck = Time.time + myBurtsFire.burstFireRate;
@@ -131,7 +131,7 @@ namespace U1
                     myBurtsFire.isShootingBurst = false;
                     break;
                 }
-                yield return new WaitForSecondsRealtime(myBurtsFire.burstFireRate);
+                yield return burstDelay;
             }
             myBurtsFire.isShootingBurst = false;
         }

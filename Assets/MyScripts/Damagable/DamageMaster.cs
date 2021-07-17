@@ -11,6 +11,7 @@ namespace U1
         private DamagableMaster damagableMaster;
         public delegate void DestructionEventHandler();
         public event DestructionEventHandler EventDestruction;
+        public event DestructionEventHandler EventDestroyEffects;
         public delegate void GetDamageEventHandler(float damageAmount, float penetration);
         public event GetDamageEventHandler EventShootByGun;
         public event GetDamageEventHandler EventHitByExplosion;
@@ -64,6 +65,13 @@ namespace U1
             if (EventDestruction != null)
             {
                 EventDestruction();
+            }
+        }
+        public void CallEventDestroyEffects()
+        {
+            if (EventDestroyEffects != null)
+            {
+                EventDestroyEffects();
             }
         }
         private void OnDestroy()
